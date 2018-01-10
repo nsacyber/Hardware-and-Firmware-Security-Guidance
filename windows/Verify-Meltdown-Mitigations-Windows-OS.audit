@@ -1,0 +1,151 @@
+<check_type : "Windows" version : "2">
+    <group_policy : "Detects if Meltdown mitigations are enabled on Windows systems">
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the Get-SpeculationControl PowerShell module is installed. The module is required for checking that system has Meltdown mitigations configured correctly"
+            info: "
+                For internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl 
+
+                The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                or
+
+                For internet disconnected systems or or systems running older version of PowerShell:
+
+                1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                3. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                The detection logic looks for either C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                  "
+            value_type: POLICY_TEXT
+            value_data: ""
+            check_type: CHECK_NOT_EQUAL
+            powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the firmware/BIOS has a Win32_BIOS.ReleaseDate is newer than 12/01/2017. If the ReleaseDate is older than that date, then a firmware update is needed for Meltdown"
+            info: "
+                See 
+                  "
+            value_type: POLICY_TEXT
+            value_data: 20171201
+            check_type: CHECK_GREATER_THAN_EQUAL
+            powershell_args: "([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8))"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        <custom_item>
+            type: REGISTRY_SETTING
+            description: "Detects if the cadca5fe-87d3-4b96-b7fb-a231484277cc registry value, that denotes if the system antivirus product is compatible with the Meltdown operating system patches, is set."
+            info: "
+                If this value is not set, then the January 2018 patches, as well as all future updates for Windows, will not be applied via Windows Update. If using WSUS or SCCM or some other manual update mechanism, then this value does not need to be set.
+
+                This result can be ignored if patches are delivered via WSUS, SCCM, or some other patch management and deployment software.
+
+                Key: HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat
+                Value Name: cadca5fe-87d3-4b96-b7fb-a231484277cc
+                Value Data: 0
+                Value Type: DWORD
+                  "
+            value_type: POLICY_DWORD
+            value_data: 0
+            reg_key: "HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat"
+            reg_item: "cadca5fe-87d3-4b96-b7fb-a231484277cc"
+            severity: HIGH
+        </custom_item>
+
+        <custom_item>
+            type: REGISTRY_SETTING
+            description: "Detects if the FeatureSettingsOverride registry value, that denotes if the system is configured to enable the mitigations delivered with the Meltdown operating system patches, is set."
+            info: "
+                If this value is not set, then the mitigations for the Meltdown patches are not fully enabled.
+
+                Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+                Value Name: FeatureSettingsOverride
+                Value Data: 0
+                Value Type: DWORD
+                  "
+            value_type: POLICY_DWORD
+            value_data: 0
+            reg_key: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+            reg_item: "FeatureSettingsOverride"
+            severity: HIGH
+        </custom_item>
+
+        <custom_item>
+            type: REGISTRY_SETTING
+            description: "Detects if the FeatureSettingsOverrideMask registry value, that denotes if the system is configured to enable the mitigations delivered with the Meltdown operating system patches, is set."
+            info: "
+                If this value is not set, then the mitigations for the Meltdown patches are not fully enabled.
+
+                Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+                Value Name: FeatureSettingsOverrideMask
+                Value Data: 0
+                Value Type: DWORD
+                  "
+            value_type: POLICY_DWORD
+            value_data: 3
+            reg_key: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+            reg_item: "FeatureSettingsOverrideMask"
+            severity: HIGH
+        </custom_item>
+
+        <if>
+            <condition type: "and">
+               <custom_item>
+                   type: AUDIT_POWERSHELL
+                   description: "Detects if the Get-SpeculationControl PowerShell module is installed. The module is required for checking that system has Meltdown mitigations configured correctly"
+                   info: "
+                        See 
+                      "
+                   value_type: POLICY_TEXT
+                   value_data: ""
+                   check_type: CHECK_NOT_EQUAL
+                   powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1)"
+                   ps_encoded_args: NO
+                   only_show_cmd_output: NO
+                   severity: HIGH
+               </custom_item>
+               <custom_item>
+                   type: AUDIT_POWERSHELL
+                   description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present using the Get-SpeculationControl PowerShell module"
+                   info: "
+                        Executes (Get-SpeculationControlSettings).BTIHardwarePresent
+
+                        If this check fails, then install a firmware update.
+                      "
+                   value_type: POLICY_TEXT
+                   value_data: "True"
+                   check_type: CHECK_NOT_EQUAL
+                   powershell_args: "(Get-SpeculationControlSettings).BTIHardwarePresent"
+                   ps_encoded_args: NO
+                   only_show_cmd_output: NO
+                   severity: HIGH
+               </custom_item>
+            </condition>
+            <then>
+                <report type : "PASSED">
+                    description: "Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present"
+                    info : "Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present"
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "SpeculationControl module must be installed"
+                    info : "SpeculationControl module must be installed"
+                </report>
+            </else>
+        </if>      
+    </group_policy>
+</check_type>
