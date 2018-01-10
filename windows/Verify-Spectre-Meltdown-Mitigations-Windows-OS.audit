@@ -1,0 +1,318 @@
+<check_type: "Windows" version: "2">
+    <group_policy: "Detects if Spectre and Meltdown Windows operating system patches are installed, if the Windows operating system mitigations are enabled, and if firmware patches are installed">
+	    <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the operating system patch for Spectre and Meltdown is installed."
+            info: "
+                Detects if the operating system patch for Spectre and Meltdown are installed. The operating system patch must be installed in order to verify if the firmware and operating system mitigations are enabled.
+				
+				
+				Currently this check looks for at least one of the following patches installed on a system after 01/01/2018:
+				
+				January 2018 patches:
+				* KB4056893 - Windows 10 1507
+				* KB4056888 - Windows 10 1511
+				* KB4056890 - Windows 10 1607 / Windows Server 2016
+				* KB4056891 - Windows 10 1704
+				* KB4056892 - Windows 10 1709 / Windows Server 1709
+				* KB4056894 - Windows 7 SP1 (Monthly Roll Up)
+				* KB4056897 - Windows 7 SP1 (Security Only)
+				* KB4056898 - Windows 8.1 / Windows Server 2012 R2 
+				* TBD - Windows Server 2008 R2
+				* TBD - Windows Server 2008 SP1
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "([string[]]@(Compare-Object -ReferenceObject ([string[]]@(Get-WMIObject -Class Win32_QuickFixEngineering | Where-Object { $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent)).Count -gt 0)"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+            info: "
+                Detects if the required Get-SpeculationControl PowerShell module is installed. The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+            
+                
+				For internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl 
+
+                The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                
+				or
+
+                
+				For internet disconnected systems or systems running an older version (v2-v4) of PowerShell:
+
+                1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the system firmware/BIOS has been updated"
+            info: "
+                Detects if the firmware/BIOS has a Win32_BIOS WMI class ReleaseDate property value is newer than 12/01/2017. If the ReleaseDate is older than 12/01/2017, then a firmware update is needed for Spectre.
+                
+                ([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8))
+                
+                ReleaseDate full example: 20171227000000.000000+000
+                ReleaseDate test example: 20171227
+                ReleaseDate test verification value: 20171201
+                  "
+            value_type: POLICY_DWORD
+            value_data: 20171201
+            check_type: CHECK_GREATER_THAN_OR_EQUAL
+            powershell_args: "([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8))"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: REG_CHECK
+                    description: "Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists."
+                    info: "
+                        Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists. The registry value name must exist, and its data must be set to 0, in order for the operating system patches to download and apply via Windows Update.						
+                        
+                        Key: HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat
+                        Value Name: cadca5fe-87d3-4b96-b7fb-a231484277cc
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat"
+                    key_item: "cadca5fe-87d3-4b96-b7fb-a231484277cc"
+                    reg_option: MUST_EXIST                    
+                </custom_item>
+                <custom_item>
+                    type: REGISTRY_SETTING
+                    description: "Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc data is set to 0"
+                    info: "
+                        Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc data is set to 0. The registry value data must be set to 0 in order for the operating system patches to download and apply via Windows Update.
+                        
+						The registry value data, when set to 0, denotes if the system antivirus product is compatible with the Spectre and Meltdown operating system patches. 
+            
+                        If the registry value name does not exist or its data is not set to 0, then the January 2018 patches, as well as ALL future updates, will not be applied when using Windows Update as the delivery mechanism. 
+                        
+                        If performing manual patch installation or using WSUS, SCCM, or other patch deployment mechanisma to install the patch, then this registry value name does not need to exist and be set to 0. This warning can be ignored.
+
+                        Key: HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat
+                        Value Name: cadca5fe-87d3-4b96-b7fb-a231484277cc
+                        Value Data: 0
+                        Value Type: DWORD
+                          "
+                    value_type: POLICY_DWORD
+                    value_data: 0
+                    reg_key: "HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat"
+                    reg_item: "cadca5fe-87d3-4b96-b7fb-a231484277cc"
+                    severity: HIGH
+                </custom_item>            
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Registry key path exists, registry value name exists, and registry value data is set to 0."
+                    info: "Registry key path HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat exists, registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists, and registry value data is set to 0."
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Registry key path does not exist, or registry value name does not exist, or registry value data is not set to 0."
+                    info: "Registry key path HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat does not exist, or registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc does not exist, or registry value data is not set to 0."
+                </report>
+            </else>
+        </if>
+        
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: REG_CHECK
+                    description: "Detects if the registry value name FeatureSettingsOverride exists."
+                    info: "
+                        Detects if the registry value name FeatureSettingsOverride exists. The registry value name must exist, and its data must be set to 0, in order for the mitigation to be enabled.
+
+                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+                        Value Name: FeatureSettingsOverride               
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+                    key_item: "FeatureSettingsOverride"
+                    reg_option: MUST_EXIST                    
+                </custom_item>
+                <custom_item>
+                    type: REGISTRY_SETTING
+                    description: "Detects if the registry value name FeatureSettingsOverride data is set to 0."
+                    info: "
+					    Detects if the registry value name FeatureSettingsOverride data is set to 0. The registry value data must be set to 0 in order for the mitigation to be enabled.
+
+						The registry value data, when set to 0, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
+						
+						If the value data is not set to 0, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
+					
+                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+                        Value Name: FeatureSettingsOverride
+                        Value Data: 0
+                        Value Type: DWORD                 
+                          "
+                    value_type: POLICY_DWORD
+                    value_data: 0
+                    reg_key: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+                    reg_item: "FeatureSettingsOverride"
+                    severity: HIGH
+                </custom_item>
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Registry key path exists, registry value name exists, and registry value data is set to 0."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, registry value name FeatureSettingsOverride exists, and registry value data is set to 0."
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Registry key path does not exist, or registry value name does not exist, or registry value data is not set to 0."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or registry value name FeatureSettingsOverride does not exist, or registry value data is not set to 0."
+                </report>
+            </else>
+        </if>
+
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: REG_CHECK
+                    description: "Detects if the registry value name FeatureSettingsOverrideMask exists."
+                    info: "
+                        Detects if the registry value name FeatureSettingsOverrideMask exists. The registry value name must exist, and its data must be set to 3, in order for the mitigation to be enabled.
+
+                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+                        Value Name: FeatureSettingsOverrideMask                    
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+                    key_item: "FeatureSettingsOverrideMask"
+                    reg_option: MUST_EXIST                    
+                </custom_item>
+                <custom_item>
+                    type: REGISTRY_SETTING
+                    description: "Detects if the registry value name FeatureSettingsOverrideMask data is set to 3."
+                    info: "
+					    Detects if the registry value name FeatureSettingsOverrideMask data is set to 3. The registry value data must be set to 3 in order for the mitigation to be enabled.
+
+						The registry value data, when set to 3, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
+						
+						If the value data is not set to 3, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
+					
+                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
+                        Value Name: FeatureSettingsOverrideMask
+                        Value Data: 3
+                        Value Type: DWORD                 
+                          "
+                    value_type: POLICY_DWORD
+                    value_data: 3
+                    reg_key: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
+                    reg_item: "FeatureSettingsOverrideMask"
+                    severity: HIGH
+                </custom_item>
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Registry key path exists, registry value name exists, and registry value data is set to 3."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, registry value name FeatureSettingsOverride exists, and registry value data is set to 3."
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Registry key path does not exist, or registry value name does not exist, or registry value data is not set to 3."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or registry value name FeatureSettingsOverride does not exist, or registry value data is not set to 3."
+                </report>
+            </else>
+        </if>
+
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+                    info: "
+                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
+						
+						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+						
+						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+
+						
+                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl 
+
+                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                        or
+
+                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
+
+                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+               </custom_item>
+               <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent
+
+                        If this check fails, then install a firmware update.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_NOT_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is present"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is present"
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected due to the SpeculationControl module not being installed"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected due to the SpeculationControl module not being installed"
+                </report>
+            </else>
+        </if>      
+    </group_policy>
+</check_type>
