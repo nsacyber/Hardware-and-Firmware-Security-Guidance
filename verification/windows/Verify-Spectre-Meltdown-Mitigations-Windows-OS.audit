@@ -1,25 +1,28 @@
 <check_type: "Windows" version: "2">
     <group_policy: "Detects if Spectre and Meltdown Windows operating system patches are installed, if the Windows operating system mitigations are enabled, and if firmware patches are installed">
-	    <custom_item>
+    
+        # OS patches
+
+        <custom_item>
             type: AUDIT_POWERSHELL
             description: "Detects if the operating system patch for Spectre and Meltdown is installed."
             info: "
                 Detects if the operating system patch for Spectre and Meltdown are installed. The operating system patch must be installed in order to verify if the firmware and operating system mitigations are enabled.
-				
-				
-				Currently this check looks for at least one of the following patches installed on a system after 01/01/2018:
-				
-				January 2018 patches:
-				* KB4056893 - Windows 10 1507
-				* KB4056888 - Windows 10 1511
-				* KB4056890 - Windows 10 1607 / Windows Server 2016
-				* KB4056891 - Windows 10 1703
-				* KB4056892 - Windows 10 1709 / Windows Server 1709
-				* KB4056894 - Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup)
-				* KB4056897 - Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only)
-				* KB4056898 - Windows 8.1 / Windows Server 2012 R2 
-				* TBD - Windows Server 2012
-				* TBD - Windows Server 2008 SP2
+                
+                
+                Currently this check looks for at least one of the following patches installed on a system after 01/01/2018:
+                
+                January 2018 patches:
+                * KB4056893 - Windows 10 1507
+                * KB4056888 - Windows 10 1511
+                * KB4056890 - Windows 10 1607 / Windows Server 2016
+                * KB4056891 - Windows 10 1703
+                * KB4056892 - Windows 10 1709 / Windows Server 1709
+                * KB4056894 - Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup)
+                * KB4056897 - Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only)
+                * KB4056898 - Windows 8.1 / Windows Server 2012 R2 
+                * TBD - Windows Server 2012
+                * TBD - Windows Server 2008 SP2
                   "
             value_type: POLICY_TEXT
             value_data: "True"
@@ -30,6 +33,8 @@
             severity: HIGH
         </custom_item>
 
+        # SpeculationControl module
+
         <custom_item>
             type: AUDIT_POWERSHELL
             description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
@@ -37,17 +42,17 @@
                 Detects if the required Get-SpeculationControl PowerShell module is installed. The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
             
                 
-				For internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+                For internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
 
                 1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl 
 
                 The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
 
                 
-				or
+                or
 
                 
-				For internet disconnected systems or systems running an older version (v2-v4) of PowerShell:
+                For internet disconnected systems or systems running an older version (v2-v4) of PowerShell:
 
                 1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
                 2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
@@ -66,6 +71,8 @@
             severity: HIGH
         </custom_item>
 
+        # Win32BIOS.ReleaseDate
+    
         <custom_item>
             type: AUDIT_POWERSHELL
             description: "Detects if the system firmware/BIOS has been updated"
@@ -87,13 +94,15 @@
             severity: HIGH
         </custom_item>
 
+        # QualityCompat cadca5fe-87d3-4b96-b7fb-a231484277cc
+
         <if>
             <condition type: "and">
                 <custom_item>
                     type: REG_CHECK
                     description: "Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists."
                     info: "
-                        Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists. The registry value name must exist, and its data must be set to 0, in order for the operating system patches to download and apply via Windows Update.						
+                        Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists. The registry value name must exist, and its data must be set to 0, in order for the operating system patches to download and apply via Windows Update.                        
                         
                         Key: HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat
                         Value Name: cadca5fe-87d3-4b96-b7fb-a231484277cc
@@ -109,7 +118,7 @@
                     info: "
                         Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc data is set to 0. The registry value data must be set to 0 in order for the operating system patches to download and apply via Windows Update.
                         
-						The registry value data, when set to 0, denotes if the system antivirus product is compatible with the Spectre and Meltdown operating system patches. 
+                        The registry value data, when set to 0, denotes if the system antivirus product is compatible with the Spectre and Meltdown operating system patches. 
             
                         If the registry value name does not exist or its data is not set to 0, then the January 2018 patches, as well as ALL future updates, will not be applied when using Windows Update as the delivery mechanism. 
                         
@@ -140,7 +149,9 @@
                 </report>
             </else>
         </if>
-        
+
+        # FeatureSettingsOverride
+
         <if>
             <condition type: "and">
                 <custom_item>
@@ -161,12 +172,12 @@
                     type: REGISTRY_SETTING
                     description: "Detects if the registry value name FeatureSettingsOverride data is set to 0."
                     info: "
-					    Detects if the registry value name FeatureSettingsOverride data is set to 0. The registry value data must be set to 0 in order for the mitigation to be enabled.
+                        Detects if the registry value name FeatureSettingsOverride data is set to 0. The registry value data must be set to 0 in order for the mitigation to be enabled.
 
-						The registry value data, when set to 0, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
-						
-						If the value data is not set to 0, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
-					
+                        The registry value data, when set to 0, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
+                        
+                        If the value data is not set to 0, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
+                    
                         Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
                         Value Name: FeatureSettingsOverride
                         Value Data: 0
@@ -193,6 +204,8 @@
             </else>
         </if>
 
+        # FeatureSettingsOverrideMask
+
         <if>
             <condition type: "and">
                 <custom_item>
@@ -213,12 +226,12 @@
                     type: REGISTRY_SETTING
                     description: "Detects if the registry value name FeatureSettingsOverrideMask data is set to 3."
                     info: "
-					    Detects if the registry value name FeatureSettingsOverrideMask data is set to 3. The registry value data must be set to 3 in order for the mitigation to be enabled.
+                        Detects if the registry value name FeatureSettingsOverrideMask data is set to 3. The registry value data must be set to 3 in order for the mitigation to be enabled.
 
-						The registry value data, when set to 3, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
-						
-						If the value data is not set to 3, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
-					
+                        The registry value data, when set to 3, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
+                        
+                        If the value data is not set to 3, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
+                    
                         Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
                         Value Name: FeatureSettingsOverrideMask
                         Value Data: 3
@@ -245,6 +258,8 @@
             </else>
         </if>
 
+        # BTIHardwarePresent
+        
         <if>
             <condition type: "and">
                 <custom_item>
@@ -252,12 +267,12 @@
                     description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
                     info: "
                         Detects if the required Get-SpeculationControl PowerShell module is installed. 
-						
-						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-						
-						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+                        
+                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+                        
+                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
 
-						
+                        
                         Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
 
                         1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
@@ -291,8 +306,8 @@
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent
 
                         If this check fails, then install a firmware update.
-						
-						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
@@ -317,6 +332,8 @@
             </else>
         </if>
 
+        # BTIWindowsSupportPresent        
+        
         <if>
             <condition type: "and">
                 <custom_item>
@@ -324,12 +341,12 @@
                     description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
                     info: "
                         Detects if the required Get-SpeculationControl PowerShell module is installed. 
-						
-						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-						
-						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+                        
+                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+                        
+                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
 
-						
+                        
                         Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
 
                         1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
@@ -363,8 +380,8 @@
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent
 
                         If this check fails, then install the January 2018 Windows operating system patches.
-						
-						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
@@ -388,7 +405,9 @@
                 </report>
             </else>
         </if>
-		
+
+        # BTIWindowsSupportEnabled
+        
         <if>
             <condition type: "and">
                 <custom_item>
@@ -396,12 +415,12 @@
                     description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
                     info: "
                         Detects if the required Get-SpeculationControl PowerShell module is installed. 
-						
-						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-						
-						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+                        
+                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+                        
+                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
 
-						
+                        
                         Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
 
                         1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
@@ -435,8 +454,8 @@
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled
 
                         If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
-						
-						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
@@ -461,6 +480,8 @@
             </else>
         </if>
 
+        # KVAShadowWindowsSupportPresent
+        
         <if>
             <condition type: "and">
                 <custom_item>
@@ -468,12 +489,12 @@
                     description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
                     info: "
                         Detects if the required Get-SpeculationControl PowerShell module is installed. 
-						
-						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-						
-						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+                        
+                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+                        
+                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
 
-						
+                        
                         Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
 
                         1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
@@ -507,8 +528,8 @@
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
 
                         If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
-						
-						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
@@ -525,8 +546,8 @@
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
 
                         If this check fails, then install the January 2018 Windows operating system patches.
-						
-						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
@@ -535,7 +556,7 @@
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
-                </custom_item>				
+                </custom_item>                
             </condition>
             <then>
                 <report type: "PASSED">
@@ -549,6 +570,116 @@
                     info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
                 </report>
             </else>
-        </if>		
+        </if>
+        
+        # KVAShadowWindowsSupportEnabled
+        
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+                    info: "
+                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
+                        
+                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+                        
+                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+
+                        
+                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
+
+                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                        or
+
+                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
+
+                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+               </custom_item>
+               <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) vulnerability is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
+
+                        If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
+
+                        If this check fails, then install the January 2018 Windows operating system patches.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
+
+                        If this check fails, then install the January 2018 Windows operating system patches.
+                        
+                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportEnabled"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>                    
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
+                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                </report>
+            </else>
+        </if>
     </group_policy>
 </check_type>
