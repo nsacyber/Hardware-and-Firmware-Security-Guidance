@@ -9,12 +9,12 @@ The main files of interest in the repository include:
 
 ## Guidance
 
-Three vulnerabilities affecting modern Intel, AMD, Arm, and IBM processors have been disclosed.
+Three vulnerabilities affecting modern [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://www.amd.com/en/corporate/speculative-execution), and [IBM](https://access.redhat.com/security/vulnerabilities/speculativeexecution) processors have been [disclosed](https://googleprojectzero.blogspot.com/2018/01/reading-privileged-memory-with-side.html).
 * CVE-2017-5753 (Bounds Check Bypass), aka variant 1, commonly referred to as Spectre.
 * CVE-2017-5715 (Branch Target Inject), aka variant 2, commonly referred to as Spectre.
 * CVE-2016-5754 (Rogue Data Cache Load, aka variant 3, commonly referred to as Meltdown.
 
-Spectre has been confirmed to affect Intel, AMD, and Arm processors. Meltdown has been confirmed to affect Intel and IBM processors.
+Spectre has been confirmed to affect Intel, AMD, and Arm processors. Meltdown has been confirmed to affect Intel and Arm processors.
 
 Mitigations fall under a common number of themes:
 * Installing firmware patches that contain processor microcode updates.
@@ -44,6 +44,7 @@ Mitigations fall under a common number of themes:
 | HPe | Server | [1](http://h22208.www2.hpe.com/eginfolib/securityalerts/SCAM/Side_Channel_Analysis_Method.html),[2](https://support.hpe.com/hpsc/doc/public/display?sp4ts.oid=null&docLocale=en_US&docId=emr_na-a00039267en_us),[3](https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-hpesbhf03805en_us) | 
 | Huawei | Server | [1](http://www.huawei.com/au/psirt/security-notices/huawei-sn-20180104-01-intel-en) |
 | Lenovo | Client / Server | [1](https://support.lenovo.com/us/en/solutions/len-18282) |
+| IBM | Server | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/),[2](https://www-945.ibm.com/support/fixcentral/)
 | LG | Client | [1](https://www.lg.com/us/support) |
 | Panasonic | Client | [1](https://pc-dl.panasonic.co.jp/itn/vuln/g18-001.html) |
 | Samsung | Client | [1](http://www.samsung.com/uk/support/intel_update/) |
@@ -54,8 +55,10 @@ Mitigations fall under a common number of themes:
 ### Operating Systems
 | Product | Patch / Version | Release Date | Links |
 | --- | --- | --- | --- |
+| Aix | | ~01/15/2018 | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | Android | 2018-01-05 | 01/02/2018 | [1](https://support.google.com/faqs/answer/7622138#android),[2](https://source.android.com/security/bulletin/2018-01-01) |
 | Chrome OS | 63+ | 12/25/2017 | [1](https://support.google.com/faqs/answer/7622138#chromeos) |
+| IBM i | | ~01/15/2018 | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | iOS | 11.2.2+ | 01/08/2018 | [1](https://support.apple.com/en-us/HT208401) |
 | Linux kernel | 4.15.0+ | ~01/21/2018| |
 | Linux kernel | 4.14.11+ | 01/03/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.14.11) |
