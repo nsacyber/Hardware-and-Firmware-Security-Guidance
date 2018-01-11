@@ -15,11 +15,11 @@
 				* KB4056890 - Windows 10 1607 / Windows Server 2016
 				* KB4056891 - Windows 10 1704
 				* KB4056892 - Windows 10 1709 / Windows Server 1709
-				* KB4056894 - Windows 7 SP1 (Monthly Roll Up)
-				* KB4056897 - Windows 7 SP1 (Security Only)
+				* KB4056894 - Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup)
+				* KB4056897 - Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only)
 				* KB4056898 - Windows 8.1 / Windows Server 2012 R2 
-				* TBD - Windows Server 2008 R2
-				* TBD - Windows Server 2008 SP1
+				* TBD - Windows Server 2012
+				* TBD - Windows Server 2008 SP2
                   "
             value_type: POLICY_TEXT
             value_data: "True"
@@ -260,7 +260,7 @@
 						
                         Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
 
-                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl 
+                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
 
                         The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
 
@@ -291,10 +291,12 @@
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent
 
                         If this check fails, then install a firmware update.
+						
+						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
-                    check_type: CHECK_NOT_EQUAL
+                    check_type: CHECK_EQUAL
                     powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
@@ -309,10 +311,244 @@
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected due to the SpeculationControl module not being installed"
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected due to the SpeculationControl module not being installed"
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected. Install firmware update."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected. Install firmware update."
                 </report>
             </else>
-        </if>      
+        </if>
+
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+                    info: "
+                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
+						
+						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+						
+						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+
+						
+                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
+
+                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                        or
+
+                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
+
+                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+               </custom_item>
+               <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent
+
+                        If this check fails, then install the January 2018 Windows operating system patches.
+						
+						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is present"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is present"
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT present or cannot be detected. Install operating system patches."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT present or cannot be detected. Install operating system patches."
+                </report>
+            </else>
+        </if>
+		
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+                    info: "
+                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
+						
+						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+						
+						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+
+						
+                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
+
+                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                        or
+
+                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
+
+                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+               </custom_item>
+               <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled
+
+                        If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
+						
+						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is enabled"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is enabled"
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                </report>
+            </else>
+        </if>
+
+        <if>
+            <condition type: "and">
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+                    info: "
+                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
+						
+						The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
+						
+						The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
+
+						
+                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+
+                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
+
+                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
+
+                        or
+
+                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
+
+                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
+                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
+
+
+                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+               </custom_item>
+               <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) vulnerability is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
+
+                        If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
+						
+						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    info: "
+                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
+
+                        If this check fails, then install the January 2018 Windows operating system patches.
+						
+						The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>				
+            </condition>
+            <then>
+                <report type: "PASSED">
+                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
+                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
+                </report>
+            </then>
+            <else>
+                <report type: "FAILED">
+                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                </report>
+            </else>
+        </if>		
     </group_policy>
 </check_type>
