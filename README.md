@@ -49,7 +49,7 @@ Mitigations fall under a common number of themes:
 | Samsung | Client | [1](http://www.samsung.com/uk/support/intel_update/) |
 | Microsoft | Client | [1](https://support.microsoft.com/en-us/help/4073065) |
 | Toshiba | Client | [1](http://go.toshiba.com/intel-side-channel) |
-| Vaio | Client | [1](https://solutions.vaio.com/3316)) |
+| Vaio | Client | [1](https://solutions.vaio.com/3316) |
 
 ### Operating Systems
 | Product | Patch / Version | Release Date | Links |
@@ -82,8 +82,8 @@ Mitigations fall under a common number of themes:
 | --- | --- | --- | --- |
 | Chrome | 64+ | ~01/23/2018 | [1](https://support.google.com/faqs/answer/7622138#chrome) |
 | Edge | Windows 10 OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
-| Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/), [2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
-| Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/), [2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
+| Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
+| Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
 | Internet Explorer | Windows OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
 | Safari on macOS High Sierra 10.13.2 | 11.0.2+ / 11.0.2 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
 | Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2+ / 11.0.2 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.0.2 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
