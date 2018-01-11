@@ -138,14 +138,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Registry key path exists, registry value name exists, and registry value data is set to 0."
-                    info: "Registry key path HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat exists, registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists, and registry value data is set to 0."
+                    description: "Registry key path exists, registry value name exists, and cadca5fe-87d3-4b96-b7fb-a231484277cc registry value data is set to 0."
+                    info: "Registry key path HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat exists, cadca5fe-87d3-4b96-b7fb-a231484277cc registry value name exists, and cadca5fe-87d3-4b96-b7fb-a231484277cc registry value data is set to 0."
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Registry key path does not exist, or registry value name does not exist, or registry value data is not set to 0."
-                    info: "Registry key path HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat does not exist, or registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc does not exist, or registry value data is not set to 0."
+                    description: "Registry key path does not exist, or registry value name does not exist, or cadca5fe-87d3-4b96-b7fb-a231484277cc registry value data is not set to 0."
+                    info: "Registry key path HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat does not exist, or cadca5fe-87d3-4b96-b7fb-a231484277cc registry value name  does not exist, or cadca5fe-87d3-4b96-b7fb-a231484277cc registry value data is not set to 0."
                 </report>
             </else>
         </if>
@@ -192,14 +192,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Registry key path exists, registry value name exists, and registry value data is set to 0."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, registry value name FeatureSettingsOverride exists, and registry value data is set to 0."
+                    description: "Registry key path exists, registry value name exists, and FeatureSettingsOverride registry value data is set to 0."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, FeatureSettingsOverride registry value name exists, and FeatureSettingsOverride registry value data is set to 0."
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Registry key path does not exist, or registry value name does not exist, or registry value data is not set to 0."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or registry value name FeatureSettingsOverride does not exist, or registry value data is not set to 0."
+                    description: "Registry key path does not exist, or registry value name does not exist, or FeatureSettingsOverride registry value data is not set to 0."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or FeatureSettingsOverride registry value name does not exist, or FeatureSettingsOverride registry value data is not set to 0."
                 </report>
             </else>
         </if>
@@ -246,14 +246,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Registry key path exists, registry value name exists, and registry value data is set to 3."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, registry value name FeatureSettingsOverride exists, and registry value data is set to 3."
+                    description: "Registry key path exists, registry value name exists, and FeatureSettingsOverrideMask registry value data is set to 3."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, FeatureSettingsOverrideMask registry value name exists, and FeatureSettingsOverrideMask registry value data is set to 3."
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Registry key path does not exist, or registry value name does not exist, or registry value data is not set to 3."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or registry value name FeatureSettingsOverride does not exist, or registry value data is not set to 3."
+                    description: "Registry key path does not exist, or registry value name does not exist, or FeatureSettingsOverrideMask registry value data is not set to 3."
+                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or FeatureSettingsOverrideMask registry value name FeatureSettingsOverrideMask does not exist, or FeatureSettingsOverrideMask registry value data is not set to 3."
                 </report>
             </else>
         </if>
@@ -320,14 +320,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is present"
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is present"
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is present"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is present"
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected. Install firmware update."
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support is NOT present or cannot be detected. Install firmware update."
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is NOT present or cannot be detected. Install firmware update."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is NOT present or cannot be detected. Install firmware update."
                 </report>
             </else>
         </if>
@@ -394,14 +394,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is present"
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is present"
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is present"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is present"
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT present or cannot be detected. Install operating system patches."
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT present or cannot be detected. Install operating system patches."
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is NOT present or cannot be detected. Install operating system patches."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is NOT present or cannot be detected. Install operating system patches."
                 </report>
             </else>
         </if>
@@ -468,14 +468,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is enabled"
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is enabled"
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportEnabled) is enabled"
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportEnabled) is enabled"
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportEnabled) is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportEnabled) is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
                 </report>
             </else>
         </if>
@@ -523,7 +523,7 @@
                </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) vulnerability is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowRequired is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
 
@@ -541,7 +541,7 @@
                 </custom_item>
                 <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
 
@@ -560,14 +560,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
-                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
+                    description: "KVAShadowWindowsSupportPresent is enabled."
+                    info: "KVAShadowWindowsSupportPresent is enabled."
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
-                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    description: "KVAShadowWindowsSupportPresent is NOT enabled."
+                    info: "KVAShadowWindowsSupportPresent is NOT enabled."
                 </report>
             </else>
         </if>
@@ -615,7 +615,7 @@
                </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) vulnerability is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowRequired is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
 
@@ -633,7 +633,7 @@
                 </custom_item>
                 <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
 
@@ -651,7 +651,7 @@
                 </custom_item>
                 <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Rogue Data Cache Load (CVE-2017-5754) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportEnabled is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
 
@@ -670,14 +670,14 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
-                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is enabled"
+                    description: "KVAShadowWindowsSupportEnabled is enabled."
+                    info: "KVAShadowWindowsSupportEnabled is enabled."
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
-                    info: "Branch Target Invocation (CVE-2017-5754) Spectre mitigation Windows operating system support is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    description: "KVAShadowWindowsSupportEnabled is NOT enabled."
+                    info: "KVAShadowWindowsSupportEnabled is NOT enabled."
                 </report>
             </else>
         </if>
