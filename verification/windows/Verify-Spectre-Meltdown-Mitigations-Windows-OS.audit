@@ -262,43 +262,6 @@
         
         <if>
             <condition type: "and">
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
-                    info: "
-                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
-                        
-                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-                        
-                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
-
-                        
-                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
-
-                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
-
-                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
-
-                        or
-
-                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
-
-                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
-                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
-                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
-                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
-
-
-                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-               </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present using the Get-SpeculationControl PowerShell module"
@@ -312,7 +275,7 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent } else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -335,44 +298,7 @@
         # BTIWindowsSupportPresent        
         
         <if>
-            <condition type: "and">
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
-                    info: "
-                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
-                        
-                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-                        
-                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
-
-                        
-                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
-
-                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
-
-                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
-
-                        or
-
-                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
-
-                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
-                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
-                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
-                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
-
-
-                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-               </custom_item>
+            <condition type: "and"> 
                <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
@@ -386,7 +312,7 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent } else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -410,43 +336,6 @@
         
         <if>
             <condition type: "and">
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
-                    info: "
-                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
-                        
-                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-                        
-                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
-
-                        
-                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
-
-                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
-
-                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
-
-                        or
-
-                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
-
-                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
-                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
-                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
-                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
-
-
-                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-               </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
@@ -460,7 +349,7 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled }} else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -484,43 +373,6 @@
         
         <if>
             <condition type: "and">
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
-                    info: "
-                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
-                        
-                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-                        
-                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
-
-                        
-                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
-
-                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
-
-                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
-
-                        or
-
-                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
-
-                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
-                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
-                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
-                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
-
-
-                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-               </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
@@ -534,7 +386,7 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportPresent } else { $true }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportPresent } else { $true }} else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -558,43 +410,6 @@
         
         <if>
             <condition type: "and">
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
-                    info: "
-                        Detects if the required Get-SpeculationControl PowerShell module is installed. 
-                        
-                        The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-                        
-                        The module will not return correct results if the operating system patches for Spectre and Meltdown are not installed.
-
-                        
-                        Installation instructions for internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
-
-                        1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl -Confirm:$false
-
-                        The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
-
-                        or
-
-                        Installation instructions for internet disconnected systems or systems running older versions (v2-v4) of PowerShell:
-
-                        1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
-                        2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
-                        3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
-                        4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
-
-
-                        The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-               </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if KVAShadowWindowsSupportEnabled is true using the Get-SpeculationControl PowerShell module"
@@ -608,7 +423,7 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportEnabled } else { $true }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) {Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportEnabled } else { $true }} else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
