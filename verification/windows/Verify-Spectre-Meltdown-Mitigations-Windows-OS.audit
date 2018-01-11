@@ -523,7 +523,7 @@
                </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowRequired is true using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
 
@@ -534,29 +534,11 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired"
+                    powershell_args: "Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportPresent } else { $true }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
-                </custom_item>
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
-                    info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
-
-                        If this check fails, then install the January 2018 Windows operating system patches.
-                        
-                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-                </custom_item>                
+                </custom_item>              
             </condition>
             <then>
                 <report type: "PASSED">
@@ -615,7 +597,7 @@
                </custom_item>
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowRequired is true using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportEnabled is true using the Get-SpeculationControl PowerShell module"
                     info: "
                         Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
 
@@ -626,47 +608,11 @@
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired"
+                    powershell_args: "Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportEnabled } else { $true }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
-                </custom_item>
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
-                    info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
-
-                        If this check fails, then install the January 2018 Windows operating system patches.
-                        
-                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-                </custom_item>
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowWindowsSupportEnabled is true using the Get-SpeculationControl PowerShell module"
-                    info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportPresent
-
-                        If this check fails, then install the January 2018 Windows operating system patches.
-                        
-                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowWindowsSupportEnabled"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-                </custom_item>                    
+                </custom_item>                  
             </condition>
             <then>
                 <report type: "PASSED">
