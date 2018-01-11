@@ -64,7 +64,7 @@ https://support.apple.com/en-us/HT208394
 * *NOTE: Because microbenchmarks like netperf/uperf, iozone, and fio are designed to stress a specific hardware component or operation, their results are not generally representative of customer workload. Some microbenchmarks have shown a larger performance impact, related to the specific area they stress.*
 
 
-## The Role of Process-Context Identifiers in Performance
+## The Effect of Process-Context Identifiers on Performance
 Processors that support Process-Context Identifiers (PCID) and Invalid Process-Context Identifiers (INVPCID) reduce the performance impact of the mitigations. PCID support was introduced in Intel processors in 2010 with the Westmere chipset. INVPCID support was introduced in Intel processors in 2013 with the Haswell chipset. PCID and INVPCID are only supported by 64-bit processors. [PCID and INVPCID](https://patchwork.kernel.org/patch/10078991/) both need to be supported by the processor and the operating system to reduce the performance impacts of the mitigations. Operating system and hypervisor support for PCID/INVPCID varies, but using modern hardware, operating system, and software running on 64-bit platforms results in the lowest performance impact.
 
 Microsoft Sysinternals [Coreinfo tool](https://docs.microsoft.com/en-us/sysinternals/downloads/coreinfo) can display if the processor supports PCID and INVPCID by running **coreinfo.exe | findstr "PCID"**. If there is an asterisk instead of a dash/minus symbol, then the processor supports the feature. The example output from the Coreinfo page shows a processor that does not support PCID.
