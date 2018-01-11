@@ -23,6 +23,69 @@ Spectre has been confirmed to affect Intel, AMD, and Arm processors. Meltdown ha
 * CVE-2017-5715 (Branch Target Inject), aka variant 2, commonly referred to as Spectre
 * CVE-2016-5754 (Rogue Data Cache Load, aka variant 3, commonly referred to as Meltdown
 
+Mitigations fall under a common number of themes:
+* Installing firmware patches that contain processor microcode updates
+* Installing operating system patches that change how the kernel memory is separated from application memory and in some cases configuring the operating system
+* Application specific patches such as browser patches that make attacks more difficult to execute (disabled SharedArrayBuffer support and reduce timer precision) and in some cases configuring the application
+
+## Patches and Software Updates
+
+### Firmware
+
+### Operating Systems
+| Product | Patch / Version | Release Date | Links |
+| --- | --- | --- | --- |
+| Android | 2018-01-05 | 01/02/2018 | [1](https://support.google.com/faqs/answer/7622138#android),[2](https://source.android.com/security/bulletin/2018-01-01) |
+| Chrome OS | 63+ | 12/25/2017 | [1](https://support.google.com/faqs/answer/7622138#chromeos) |
+| iOS | 11.2.2+ | 01/08/2018 | [1](https://support.apple.com/en-us/HT208401) |
+| Linux kernel | 4.15.0+ | ~01/21/2018| |
+| Linux kernel | 4.14.11+ | 01/03/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.14.11) |
+| Linux kernel | 4.9.75+ | 01/05/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.9.75) |
+| Linux kernel | 4.4.110+ | 01/05/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.4.110)|
+| macOS High Sierra | 10.13.2+ | 12/06/2017 | [1](https://support.apple.com/en-us/HT208331)|
+| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) |
+| Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
+| Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
+| Windows 10 1511 | KB4056888 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
+| Windows 10 1507 | KB4056893 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
+| Windows 8.1 / Windows Server 2012 R2 | KB4056898 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
+| Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup) | KB4056894 | 01/04/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
+| Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only) | KB4056897 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) |
+| Windows Server 2012 | TBD | TBD | |
+| Windows Server 2008 SP2 | TBD | TBD | |
+
+
+#### Application Software
+
+###### Browsers
+
+| Product | Version | Release Date | Links |
+| --- | --- | --- | --- |
+| Chrome | 64+ | ~01/23/2018 | [1](https://support.google.com/faqs/answer/7622138#chrome) |
+| Edge | Windows 10 OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
+| Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/), [2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
+| Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/), [2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
+| Internet Explorer | Windows OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
+| Safari on macOS High Sierra 10.13.2 | 11.0.2+ / 11.02 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
+| Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2+ / 11.02 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.02 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
+
+###### Virtualization
+
+| Product | Version | Release Date | Links |
+| --- | --- | --- | --- |
+| Citrix XenServer | | | [1](https://support.citrix.com/article/CTX231390) |
+| QEMU | 2.11.1 | | [1](https://www.qemu.org/2018/01/04/spectre/) |
+| VMware ESXi 6.5 | ESXi650-201712101-SG | 12/19/2017 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151102),[3](https://kb.vmware.com/s/article/2151099) |
+| VMware ESXi 6.0 | ESXi600-201711101-SG | 11/09/2017 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151126),[3](http://kb.vmware.com/kb/2151132) |
+| VMware ESXi 5.5 | ESXi550-201709101-SG | 09/14/2017| [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2150882),[3](https://kb.vmware.com/s/article/2150876) |
+| VMware Fusion 8 / Fusion Pro 8 | 8.5.9+ | 01/03/2018 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware Workstation Pro 12 / Workstation Player 12 | 12.5.8+ | 01/03/2018 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html) |
+| Xen Project | | | [1](https://xenbits.xen.org/xsa/advisory-254.html) |
+
+###### Other
+
+### Devices
+
 ## References
 *
 
