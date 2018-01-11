@@ -43,14 +43,14 @@ Mitigations fall under a common number of themes:
 | Linux kernel | 4.9.75+ | 01/05/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.9.75) |
 | Linux kernel | 4.4.110+ | 01/05/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.4.110)|
 | macOS High Sierra | 10.13.2+ | 12/06/2017 | [1](https://support.apple.com/en-us/HT208331)|
-| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) |
-| Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
-| Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
-| Windows 10 1511 | KB4056888 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
-| Windows 10 1507 | KB4056893 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
-| Windows 8.1 / Windows Server 2012 R2 | KB4056898 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
-| Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup) | KB4056894 | 01/04/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)  |
-| Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only) | KB4056897 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) |
+| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056892) |
+| Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056891) |
+| Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056890) |
+| Windows 10 1511 | KB4056888 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056888) |
+| Windows 10 1507 | KB4056893 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056893) |
+| Windows 8.1 / Windows Server 2012 R2 | KB4056898 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056898) |
+| Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup) | KB4056894 | 01/04/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056894) |
+| Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only) | KB4056897 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056897) |
 | Windows Server 2012 | TBD | TBD | |
 | Windows Server 2008 SP2 | TBD | TBD | |
 
@@ -66,8 +66,8 @@ Mitigations fall under a common number of themes:
 | Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/), [2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
 | Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/), [2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
 | Internet Explorer | Windows OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
-| Safari on macOS High Sierra 10.13.2 | 11.0.2+ / 11.02 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
-| Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2+ / 11.02 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.02 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
+| Safari on macOS High Sierra 10.13.2 | 11.0.2+ / 11.0.2 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
+| Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2+ / 11.0.2 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.0.2 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
 
 ###### Virtualization
 
