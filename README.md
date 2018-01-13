@@ -33,6 +33,8 @@ Mitigations fall under a common number of themes:
 
 ### Firmware
 
+Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after apply firmware updates. Apply firmware updates on production systems after new firmware updates have been published by the affected vendors.
+
 | OEM | Type | Link |
 | --- | ---- | ---- |
 | Acer | Client | [1](https://us.answers.acer.com/app/answers/detail/a_id/53104) |

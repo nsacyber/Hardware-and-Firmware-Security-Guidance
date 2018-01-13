@@ -1,17 +1,20 @@
+# Last Updated:
+
 <check_type: "Windows" version: "2">
-    <group_policy: "Detects if Spectre and Meltdown Windows operating system patches are installed, if the Windows operating system mitigations are enabled, and if firmware patches are installed">
-    
-        # OS patches
+    <group_policy: "Verifies Spectre and Meltdown patches are installed and mitigations are enabled on Windows operating systems">
+
+        # 1. Check that the OS patches are installed
 
         <custom_item>
             type: AUDIT_POWERSHELL
             description: "Detects if the operating system patch for Spectre and Meltdown is installed."
             info: "
-                Detects if the operating system patch for Spectre and Meltdown are installed. The operating system patch must be installed in order to verify if the firmware and operating system mitigations are enabled.
-                
-                
+                Detects if the operating system patch for Spectre and Meltdown are installed.
+				
+				The operating system patch must be installed in order to verify if the firmware and operating system mitigations are enabled.
+
                 Currently this check looks for at least one of the following patches installed on a system after 01/01/2018:
-                
+
                 January 2018 patches:
                 * KB4056893 - Windows 10 1507
                 * KB4056888 - Windows 10 1511
@@ -20,47 +23,51 @@
                 * KB4056892 - Windows 10 1709 / Windows Server 1709
                 * KB4056894 - Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup)
                 * KB4056897 - Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only)
-                * KB4056898 - Windows 8.1 / Windows Server 2012 R2 
+                * KB4056898 - Windows 8.1 / Windows Server 2012 R2
                 * TBD - Windows Server 2012
                 * TBD - Windows Server 2008 SP2
+				
+				Executes PowerShell code:
+				
+				([string[]]@(Compare-Object -ReferenceObject ([string[]]@(Get-WMIObject -Class Win32_QuickFixEngineering | Where-Object {$_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent)).Count -gt 0)
                   "
             value_type: POLICY_TEXT
             value_data: "True"
             check_type: CHECK_EQUAL
-            powershell_args: "([string[]]@(Compare-Object -ReferenceObject ([string[]]@(Get-WMIObject -Class Win32_QuickFixEngineering | Where-Object { $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent)).Count -gt 0)"
+            powershell_args: "([string[]]@(Compare-Object -ReferenceObject ([string[]]@(Get-WMIObject -Class Win32_QuickFixEngineering | Where-Object {$_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent)).Count -gt 0)"
             ps_encoded_args: NO
             only_show_cmd_output: NO
             severity: HIGH
         </custom_item>
 
-        # SpeculationControl module
+        # 2. Check that the SpeculationControl module is installed
 
         <custom_item>
             type: AUDIT_POWERSHELL
-            description: "Detects if the required Get-SpeculationControl PowerShell module is installed."
+            description: "Detects if the SpeculationControl PowerShell module is installed."
             info: "
-                Detects if the required Get-SpeculationControl PowerShell module is installed. The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
-            
-                
-                For internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+                Detects if the SpeculationControl PowerShell module is installed. The module is required for checking that a system has Spectre and Meltdown mitigations configured correctly.
 
-                1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl 
+
+                For internet connected systems running modern versions of PowerShell (v5 on Windows 10 or Windows Server 2016):
+                    1. Install from an administrative PowerShell prompt: Install-Module -Name SpeculationControl
 
                 The module will install to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\version number\ e.g. C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\1.0.3\
 
-                
+
                 or
 
-                
+
                 For internet disconnected systems or systems running an older version (v2-v4) of PowerShell:
+                    1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050
+                    2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
+                    3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
+                    4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
 
-                1. Download from https://gallery.technet.microsoft.com/scriptcenter/Speculation-Control-e36f0050 
-                2. From a PowerShell prompt, navigate to the location of SpeculationControl and type Unblock-File -Path .\SpeculationControl.zip
-                3. Create a SpeculationControl folder under C:\Program Files\WindowsPowerShell\Modules
-                4. Copy SpeculationControl.psd1 and SpeculationControl.psm1 files to C:\Program Files\WindowsPowerShell\Modules\SpeculationControl\
 
+                Executes PowerShell code:
 
-                The detection logic looks for either %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\any version number\SpeculationControl.psm1 or %ProgramFiles%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1
+				(Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1)
                   "
             value_type: POLICY_TEXT
             value_data: "True"
@@ -71,56 +78,59 @@
             severity: HIGH
         </custom_item>
 
-        # Win32BIOS.ReleaseDate
-    
+        # 3. Check that the firmware/BIOS update is installed
+
+        # AUDIT_POWERSHELL does not support a value_type of POLICY_DWORD so CHECK_GREATER_THAN_OR_EQUAL can't be used. That operator does not work correctly for comparing numbers when using POLICY_TEXT
+        # ReleaseDate example: 20171227000000.000000+000
+		
         <custom_item>
             type: AUDIT_POWERSHELL
             description: "Detects if the system firmware/BIOS has been updated"
             info: "
-                Detects if the firmware/BIOS has a Win32_BIOS WMI class ReleaseDate property value is newer than 12/01/2017. If the ReleaseDate is older than 12/01/2017, then a firmware update is needed for Spectre.
+                Detects if the firmware/BIOS has a Win32_BIOS WMI class ReleaseDate property value is newer than 12/01/2017. If the ReleaseDate is older than 12/01/2017, then a firmware update is needed.
+				
+				The date of 12/01/2017 was selected based on limited testing and may need to be adjust to an earlier date.
                 
-                ([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8))
-                
-                ReleaseDate full example: 20171227000000.000000+000
-                ReleaseDate test example: 20171227
-                ReleaseDate test verification value: 20171201
+				Executes PowerShell code:
+
+                ([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8)) -ge 20171201               
                   "
-            value_type: POLICY_DWORD
-            value_data: 20171201
+            value_type: POLICY_TEXT
+            value_data: "True"
             check_type: CHECK_GREATER_THAN_OR_EQUAL
-            powershell_args: "([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8))"
+            powershell_args: "([int]((Get-WmiObject -Class Win32_BIOS).ReleaseDate).ToString().SubString(0,8)) -ge 20171201"
             ps_encoded_args: NO
             only_show_cmd_output: NO
             severity: HIGH
         </custom_item>
 
-        # QualityCompat cadca5fe-87d3-4b96-b7fb-a231484277cc
+        # 4. Check that the AV registry value exists and is set to the correct value
 
         <if>
             <condition type: "and">
                 <custom_item>
                     type: REG_CHECK
-                    description: "Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists."
+                    description: "Detects if the registry value denoting anti-virus compatibility exists."
                     info: "
-                        Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists. The registry value name must exist, and its data must be set to 0, in order for the operating system patches to download and apply via Windows Update.                        
-                        
+                        Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc exists. The registry value name must exist, and its data must be set to 0, in order for the operating system patches to download and apply via Windows Update.                      
+
                         Key: HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat
                         Value Name: cadca5fe-87d3-4b96-b7fb-a231484277cc
                           "
                     value_type: POLICY_TEXT
                     value_data: "HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat"
                     key_item: "cadca5fe-87d3-4b96-b7fb-a231484277cc"
-                    reg_option: MUST_EXIST                    
+                    reg_option: MUST_EXIST             
                 </custom_item>
                 <custom_item>
                     type: REGISTRY_SETTING
                     description: "Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc data is set to 0"
                     info: "
                         Detects if the registry value name cadca5fe-87d3-4b96-b7fb-a231484277cc data is set to 0. The registry value data must be set to 0 in order for the operating system patches to download and apply via Windows Update.
-                        
-                        The registry value data, when set to 0, denotes if the system antivirus product is compatible with the Spectre and Meltdown operating system patches. 
-            
-                        If the registry value name does not exist or its data is not set to 0, then the January 2018 patches, as well as ALL future updates, will not be applied when using Windows Update as the delivery mechanism. 
+
+                        The registry value data, when set to 0, denotes if the system antivirus product is compatible with the Spectre and Meltdown operating system patches.
+
+                        If the registry value name does not exist or its data is not set to 0, then the January 2018 patches, as well as ALL future updates, will not be applied when using Windows Update as the delivery mechanism.
                         
                         If performing manual patch installation or using WSUS, SCCM, or other patch deployment mechanisma to install the patch, then this registry value name does not need to exist and be set to 0. This warning can be ignored.
 
@@ -134,7 +144,7 @@
                     reg_key: "HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat"
                     reg_item: "cadca5fe-87d3-4b96-b7fb-a231484277cc"
                     severity: HIGH
-                </custom_item>            
+                </custom_item>         
             </condition>
             <then>
                 <report type: "PASSED">
@@ -150,132 +160,108 @@
             </else>
         </if>
 
-        # FeatureSettingsOverride
+        # 5. Check that FeatureSettingsOverride registry value is configured correctly when required
 
-        <if>
-            <condition type: "and">
-                <custom_item>
-                    type: REG_CHECK
-                    description: "Detects if the registry value name FeatureSettingsOverride exists."
-                    info: "
-                        Detects if the registry value name FeatureSettingsOverride exists. The registry value name must exist, and its data must be set to 0, in order for the mitigation to be enabled.
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the registry value name FeatureSettingsOverride is configured correctly."
+            info: "
+                Detects if the registry value name FeatureSettingsOverride is configured correctly.
 
-                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
-                        Value Name: FeatureSettingsOverride               
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
-                    key_item: "FeatureSettingsOverride"
-                    reg_option: MUST_EXIST                    
-                </custom_item>
-                <custom_item>
-                    type: REGISTRY_SETTING
-                    description: "Detects if the registry value name FeatureSettingsOverride data is set to 0."
-                    info: "
-                        Detects if the registry value name FeatureSettingsOverride data is set to 0. The registry value data must be set to 0 in order for the mitigation to be enabled.
+                On client systems, the value is optional, but if it exists, then it must be set to 0.
 
-                        The registry value data, when set to 0, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
-                        
-                        If the value data is not set to 0, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
-                    
-                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
-                        Value Name: FeatureSettingsOverride
-                        Value Data: 0
-                        Value Type: DWORD                 
-                          "
-                    value_type: POLICY_DWORD
-                    value_data: 0
-                    reg_key: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
-                    reg_item: "FeatureSettingsOverride"
-                    severity: HIGH
-                </custom_item>
-            </condition>
-            <then>
-                <report type: "PASSED">
-                    description: "Registry key path exists, registry value name exists, and FeatureSettingsOverride registry value data is set to 0."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, FeatureSettingsOverride registry value name exists, and FeatureSettingsOverride registry value data is set to 0."
-                </report>
-            </then>
-            <else>
-                <report type: "FAILED">
-                    description: "Registry key path does not exist, or registry value name does not exist, or FeatureSettingsOverride registry value data is not set to 0."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or FeatureSettingsOverride registry value name does not exist, or FeatureSettingsOverride registry value data is not set to 0."
-                </report>
-            </else>
-        </if>
+                On server systems, the value is required, and must be set to 0.
+				
+				Executes PowerShell code:
 
-        # FeatureSettingsOverrideMask
+                if ((Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion').InstallationType -ne 'Client') {
+                    if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverride') {
+                        $false
+                    } else {
+                        ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverride -eq 0)
+                    }
+                } else {
+                    if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverride') {
+                        ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverride -eq 0)
+                    } else {
+                        $true
+                    }
+                }
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "if ((Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion').InstallationType -ne 'Client') { if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverride') { $false } else {((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverride -eq 0)}} else {if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverride') {((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverride -eq 0)} else { $true }}"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
 
-        <if>
-            <condition type: "and">
-                <custom_item>
-                    type: REG_CHECK
-                    description: "Detects if the registry value name FeatureSettingsOverrideMask exists."
-                    info: "
-                        Detects if the registry value name FeatureSettingsOverrideMask exists. The registry value name must exist, and its data must be set to 3, in order for the mitigation to be enabled.
+        # 6. Check that the FeatureSettingsOverrideMask registry value is configured correctly when required
 
-                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
-                        Value Name: FeatureSettingsOverrideMask                    
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
-                    key_item: "FeatureSettingsOverrideMask"
-                    reg_option: MUST_EXIST                    
-                </custom_item>
-                <custom_item>
-                    type: REGISTRY_SETTING
-                    description: "Detects if the registry value name FeatureSettingsOverrideMask data is set to 3."
-                    info: "
-                        Detects if the registry value name FeatureSettingsOverrideMask data is set to 3. The registry value data must be set to 3 in order for the mitigation to be enabled.
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if the registry value name FeatureSettingsOverrideMask is configured correctly."
+            info: "
+                Detects if the registry value name FeatureSettingsOverrideMask is configured correctly.
 
-                        The registry value data, when set to 3, denotes if the system is configured to enable the mitigations delivered with the Spectre and Meltdown operating system patches.
-                        
-                        If the value data is not set to 3, then the mitigations for the Spectre and Meltdown operating system patches are not fully enabled. 
-                    
-                        Key: HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
-                        Value Name: FeatureSettingsOverrideMask
-                        Value Data: 3
-                        Value Type: DWORD                 
-                          "
-                    value_type: POLICY_DWORD
-                    value_data: 3
-                    reg_key: "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management"
-                    reg_item: "FeatureSettingsOverrideMask"
-                    severity: HIGH
-                </custom_item>
-            </condition>
-            <then>
-                <report type: "PASSED">
-                    description: "Registry key path exists, registry value name exists, and FeatureSettingsOverrideMask registry value data is set to 3."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management exists, FeatureSettingsOverrideMask registry value name exists, and FeatureSettingsOverrideMask registry value data is set to 3."
-                </report>
-            </then>
-            <else>
-                <report type: "FAILED">
-                    description: "Registry key path does not exist, or registry value name does not exist, or FeatureSettingsOverrideMask registry value data is not set to 3."
-                    info: "Registry key path HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management does not exist, or FeatureSettingsOverrideMask registry value name FeatureSettingsOverrideMask does not exist, or FeatureSettingsOverrideMask registry value data is not set to 3."
-                </report>
-            </else>
-        </if>
+                On client systems, the value is optional, but if it exists, then it must be set to 3.
 
-        # BTIHardwarePresent
-        
+                On server systems, the value is required, and must be set to 3.
+
+				Executes PowerShell code:
+
+                if ((Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion').InstallationType -ne 'Client') {
+                    if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverrideMask') {
+                        $false
+                    } else {
+                        ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverrideMask -eq 3)
+                    }
+                } else {
+                    if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverrideMask') {
+                        ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverrideMask -eq 3)
+                    } else {
+                        $true
+                    }
+                }
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "if ((Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion').InstallationType -ne 'Client') { if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverrideMask') { $false } else {((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverrideMask -eq 0)}} else {if ((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').PSObject.Properties.Name -contains 'FeatureSettingsOverrideMask') {((Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Session Manager\Memory Management').FeatureSettingsOverrideMask -eq 0)} else { $true }}"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        # 7. Check that BTIHardwarePresent is true
+
         <if>
             <condition type: "and">
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support is present using the SpeculationControl PowerShell module"
                     info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent
-
-                        If this check fails, then install a firmware update.
-                        
                         The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+
+                        If this check fails, the check the following:
+						    1. ensure the SpeculationControl module is installed
+							2. ensure the January 2018 Windows operating system patches are installed
+						    3. ensure a firmware update has been installed
+
+						Executes PowerShell code:
+
+                        if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) {
+						    Import-Module -Name SpeculationControl;
+							(Get-SpeculationControlSettings).BTIHardwarePresent
+						} else {
+						    $false
+						}
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIHardwarePresent } else { $false }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl; (Get-SpeculationControlSettings).BTIHardwarePresent } else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -283,36 +269,49 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is present"
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is present"
+                    description: "Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support (BTIHardwarePresent) is present"
+                    info: "Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support (BTIHardwarePresent) is present"
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is NOT present or cannot be detected. Install firmware update."
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is NOT present or cannot be detected. Install firmware update."
+                    description: "Branch Target Invocation (CVE-2017-5715) mitigation hardware/firmware support (BTIHardwarePresent) is not present or cannot be detected."
+                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation hardware/firmware support (BTIHardwarePresent) is not present or cannot be detected.
+						       1. ensure the SpeculationControl module is installed
+						       2. ensure the January 2018 Windows operating system patches are installed
+						       3. ensure a firmware update has been installed
+					      "
                 </report>
             </else>
         </if>
 
-        # BTIWindowsSupportPresent        
-        
+        # 8. Check that BTIWindowsSupportPresent is true
+
         <if>
-            <condition type: "and"> 
+            <condition type: "and">
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the SpeculationControl PowerShell module"
                     info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent
-
-                        If this check fails, then install the January 2018 Windows operating system patches.
-                        
                         The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+
+                        If this check fails, then check the following:
+						    1. ensure the SpeculationControl module is installed
+						    2. ensure the January 2018 Windows operating system patches are installed
+
+						Executes PowerShell code:
+
+                        if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) {
+						    Import-Module -Name SpeculationControl;
+							(Get-SpeculationControlSettings).BTIWindowsSupportPresent
+					    } else {
+						    $false
+						}
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportPresent } else { $false }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl; (Get-SpeculationControlSettings).BTIWindowsSupportPresent } else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -320,36 +319,50 @@
             </condition>
             <then>
                 <report type: "PASSED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is present"
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is present"
+                    description: "Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support (BTIWindowsSupportPresent) is present"
+                    info: "Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support (BTIWindowsSupportPresent) is present"
                 </report>
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is NOT present or cannot be detected. Install operating system patches."
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportPresent) is NOT present or cannot be detected. Install operating system patches."
+                    description: "Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support (BTIWindowsSupportPresent) is not present or cannot be detected."
+                    info: "Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support (BTIWindowsSupportPresent) is not present or cannot be detected.
+						       1. ensure the SpeculationControl module is installed
+						       2. ensure the January 2018 Windows operating system patches are installed
+					      "
                 </report>
             </else>
         </if>
 
-        # BTIWindowsSupportEnabled
-        
+        # 9. Check that BTIWindowsSupportEnabled is true
+
         <if>
             <condition type: "and">
                <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if the Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support is present using the Get-SpeculationControl PowerShell module"
                     info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled
-
-                        If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
-                        
                         The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+
+                        If this check fails, then check the following:
+						    1. ensure the SpeculationControl module is installed
+						    2. ensure the January 2018 Windows operating system patches are installed
+						    3. on Windows server systems, ensure the FeatureSettingsOverride registry value exists and is set to 0 and the FeatureSettingsOverrideMask value exists and is set to 3
+						    4. on Windows client systems, since the FeatureSettingsOverride and FeatureSettingsOverrideMask settings are optional, ensure FeatureSettingsOverride is set to 0 and the FeatureSettingsOverrideMask value is set to 3 ONLY if those values exist
+						
+						Executes PowerShell code:
+
+                        if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) {
+						    Import-Module -Name SpeculationControl; 
+							(Get-SpeculationControlSettings).BTIWindowsSupportEnabled
+						} else {
+						    $false
+						}
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled }} else { $false }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl; (Get-SpeculationControlSettings).BTIWindowsSupportEnabled } else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
@@ -363,34 +376,59 @@
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportEnabled) is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
-                    info: "Branch Target Invocation (CVE-2017-5715) Spectre mitigation Windows operating system support (BTIWindowsSupportEnabled) is NOT enabled or cannot be detected. Configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values."
+                    description: "Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support (BTIWindowsSupportEnabled) is not enabled or cannot be detected."
+                    info: "Branch Target Invocation (CVE-2017-5715) mitigation Windows operating system support (BTIWindowsSupportEnabled) is NOT enabled or cannot be detected.
+						       1. ensure the SpeculationControl module is installed
+						       2. ensure the January 2018 Windows operating system patches are installed
+						       3. on Windows server systems, ensure the FeatureSettingsOverride registry value exists and is set to 0 and the FeatureSettingsOverrideMask value exists and is set to 3
+						       4. on Windows client systems, since the FeatureSettingsOverride and FeatureSettingsOverrideMask settings are optional, ensure FeatureSettingsOverride is set to 0 and the FeatureSettingsOverrideMask value is set to 3 ONLY if those values exist
+					      "
                 </report>
             </else>
         </if>
 
-        # KVAShadowWindowsSupportPresent
-        
+        # 10. Check that KVAShadowWindowsSupportPresent is true when required
+
         <if>
             <condition type: "and">
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowWindowsSupportPresent is true using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportPresent is true using the SpeculationControl PowerShell module"
                     info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
+					    The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
 
-                        If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
-                        
-                        The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+					    Detects if KVAShadowWindowsSupportPresent is true using the SpeculationControl PowerShell module.
+
+						KVAShadowWindowsSupportPresent needs to be true only when KVAShadowRequired is true.
+
+                        If this check fails, then check the following:
+						    1. ensure the SpeculationControl module is installed 
+						    2. ensure the January 2018 Windows operating system patches are installed
+						    3. on Windows server systems, ensure the FeatureSettingsOverride registry value exists and is set to 0 and the FeatureSettingsOverrideMask value exists and is set to 3
+						    4. on client systems, since the FeatureSettingsOverride and FeatureSettingsOverrideMask settings are optional, ensure FeatureSettingsOverride is set to 0 and the FeatureSettingsOverrideMask value is set to 3 ONLY if those values exist
+
+						Executes PowerShell code:
+
+                        if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) {
+						    Import-Module -Name SpeculationControl;
+							$settings = Get-SpeculationControlSettings;
+							if ($settings.KVAShadowRequired) {
+							    $settings.KVAShadowWindowsSupportPresent
+							} else {
+							    $true
+						    }
+						} else {
+						    $false
+						}
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportPresent } else { $true }} else { $false }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl; $settings = Get-SpeculationControlSettings; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportPresent } else { $true }} else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
-                </custom_item>              
+                </custom_item>
             </condition>
             <then>
                 <report type: "PASSED">
@@ -400,34 +438,60 @@
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "KVAShadowWindowsSupportPresent is NOT enabled."
-                    info: "KVAShadowWindowsSupportPresent is NOT enabled."
+                    description: "KVAShadowWindowsSupportPresent is not enabled."
+                    info: "KVAShadowWindowsSupportPresent is not enabled.
+						    1. ensure the SpeculationControl module is installed 
+						    2. ensure the January 2018 Windows operating system patches are installed
+						    3. on Windows server systems, ensure the FeatureSettingsOverride registry value exists and is set to 0 and the FeatureSettingsOverrideMask value exists and is set to 3
+						    4. on client systems, since the FeatureSettingsOverride and FeatureSettingsOverrideMask settings are optional, ensure FeatureSettingsOverride is set to 0 and the FeatureSettingsOverrideMask value is set to 3 ONLY if those values exist
+					"
                 </report>
             </else>
         </if>
         
-        # KVAShadowWindowsSupportEnabled
+        # 11. Check that KVAShadowWindowsSupportEnabled is true when required
         
         <if>
             <condition type: "and">
                <custom_item>
                     type: AUDIT_POWERSHELL
-                    description: "Detects if KVAShadowWindowsSupportEnabled is true using the Get-SpeculationControl PowerShell module"
+                    description: "Detects if KVAShadowWindowsSupportEnabled is true using the SpeculationControl PowerShell module"
                     info: "
-                        Executes Import-Module -Name SpeculationControl ; (Get-SpeculationControlSettings).KVAShadowRequired
+					    Detects if KVAShadowWindowsSupportEnabled is true using the SpeculationControl PowerShell module.
 
-                        If this check fails, then configure the FeatureSettingsOverride and FeatureSettingsOverrideMask registry values.
-                        
+						KVAShadowWindowsSupportEnabled needs to be true only when KVAShadowRequired is true.
+
                         The January 2018 patches must be installed for the SpeculationControl module to correctly detect the system configuration.
+
+                        If this check fails, then check the following:
+						    1. ensure the SpeculationControl module is installed
+						    2. ensure the January 2018 Windows operating system patches are installed
+						    3. on Windows server systems, ensure the FeatureSettingsOverride registry value exists and is set to 0 and the FeatureSettingsOverrideMask value exists and is set to 3
+						    4. on client systems, since the FeatureSettingsOverride and FeatureSettingsOverrideMask settings are optional, ensure FeatureSettingsOverride is set to 0 and the FeatureSettingsOverrideMask value is set to 3 ONLY if those values exist
+
+                        Executes PowerShell code:
+
+                        if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { 
+						    Import-Module -Name SpeculationControl; 
+							$settings = Get-SpeculationControlSettings; 
+
+							if ($settings.KVAShadowRequired) {
+							    $settings.KVAShadowWindowsSupportEnabled
+							} else {
+							    $true
+							}
+						} else {
+						    $false
+						}
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) {Import-Module -Name SpeculationControl ; $settings = Get-SpeculationControlSettings ; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportEnabled } else { $true }} else { $false }"
+                    powershell_args: "if (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\*\SpeculationControl.psm1) -or (Test-Path -Path ${env:ProgramFiles}\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psm1) { Import-Module -Name SpeculationControl; $settings = Get-SpeculationControlSettings; if ($settings.KVAShadowRequired) { $settings.KVAShadowWindowsSupportEnabled } else { $true }} else { $false }"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
-                </custom_item>                  
+                </custom_item>
             </condition>
             <then>
                 <report type: "PASSED">
@@ -437,8 +501,13 @@
             </then>
             <else>
                 <report type: "FAILED">
-                    description: "KVAShadowWindowsSupportEnabled is NOT enabled."
-                    info: "KVAShadowWindowsSupportEnabled is NOT enabled."
+                    description: "KVAShadowWindowsSupportEnabled is not enabled."
+                    info: "KVAShadowWindowsSupportEnabled is not enabled.
+						    1. ensure the SpeculationControl module is installed
+						    2. ensure the January 2018 Windows operating system patches are installed
+						    3. on Windows server systems, ensure the FeatureSettingsOverride registry value exists and is set to 0 and the FeatureSettingsOverrideMask value exists and is set to 3
+						    4. on client systems, since the FeatureSettingsOverride and FeatureSettingsOverrideMask settings are optional, ensure FeatureSettingsOverride is set to 0 and the FeatureSettingsOverrideMask value is set to 3 ONLY if those values exist
+					      "
                 </report>
             </else>
         </if>

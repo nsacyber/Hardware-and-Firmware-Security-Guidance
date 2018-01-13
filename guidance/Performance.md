@@ -4,9 +4,25 @@ Initial reports, based on microbenchmarks, lead to a performance impact of up to
 
 ## Vendor statements
 
+### Intel
+
+#### Link 
+* https://newsroom.intel.com/editorials/intel-security-issue-update-initial-performance-data-results-client-systems/
+
+#### Statement
+
+*Today we are sharing data on several 6th, 7th and 8th Generation Intel® Core™ processor platforms using Windows* 10. We previously said that we expected our performance impact should not be significant for average computer users, and the data we are sharing today support that expectation on these platforms.*
+
+*The performance impact of the mitigation on 8th generation platforms (Kaby Lake, Coffee Lake) with SSDs is small. Across a variety of workloads, including office productivity and media creation as represented in the SYSMark2014SE benchmark, the expected impact is less than 6 percent. In certain cases, some users may see a more noticeable impact. For instance, users who use web applications that involve complex JavaScript operations may see a somewhat higher impact (up to 10 percent based on our initial measurements). Workloads that are graphics-intensive like gaming or compute-intensive like financial analysis see minimal impact.*
+
+*Our measurements of the impact on the 7th Gen Kaby Lake-H performance mobile platform are similar to the 8th generation platforms (approximately 7 percent on the SYSMark2014SE benchmark).*
+
+*For the 6th generation Skylake-S platform, our measurements show the performance impact is slightly higher, but generally in line with the observations on 8th and 7th generation platforms (approximately 8 percent on the SYSMark2014SE benchmark). We have also measured performance on the same platform with Windows 7, a common configuration in the installed base, especially in office environments. The observed impact is small (approximately 6 percent on the SYSMark2014SE benchmark). Observed impact is even lower on systems with HDDs.*
+
 ### Google
 
-Link: https://security.googleblog.com/2018/01/more-details-about-mitigations-for-cpu_4.html
+L#### 
+* Link: https://security.googleblog.com/2018/01/more-details-about-mitigations-for-cpu_4.html
 
 #### Statement
 *There has been speculation that the deployment of KPTI causes significant performance slowdowns. Performance can vary, as the impact of the KPTI mitigations depends on the rate of system calls made by an application. On most of our workloads, including our cloud infrastructure, we see negligible impact on performance.*
@@ -16,7 +32,8 @@ Link: https://security.googleblog.com/2018/01/more-details-about-mitigations-for
 
 ### Apple
 
-https://support.apple.com/en-us/HT208394
+#### Link 
+* https://support.apple.com/en-us/HT208394
 
 **Meltdown**
 
