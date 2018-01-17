@@ -2,19 +2,15 @@
 
 Based on [Microsoft's guidance](https://blogs.technet.microsoft.com/configurationmgr/2018/01/08/additional-guidance-to-mitigate-speculative-execution-side-channel-vulnerabilities/) for the order of operations, perform the following tasks on Windows operating systems:
 
-1. Confirm antivirus software compatibility.
-1. Create antivirus software compatibility registry value, if needed.
-1. Create mitigation registry values to enable mitigations, if needed.
-1. Install operating system patches and reboot.
-1. Install firmware update and reboot.
-1. Install mitigation verification tool.
-1. Verify mitigations are enabled.
+1. [Confirm antivirus software compatibility](#confirm-antivirus-software-compatibility).
+1. [Create registry value to indicate antivirus software compatibility](#create-registry-value-to-indicate-antivirus-software-compatibility), if needed.
+1. [Create registry values to enable mitigations](#create-registry-values-to-enable-mitigations), if needed.
+1. [Install operating system patches](#install-operating-system-patches) and reboot.
+1. [Install firmware update](install-firmware-update) and reboot.
+1. [Install mitigation verification tool](#install-mitigation-verification-tool).
+1. [Verify mitigations are enabled](#verify-mitigations-are-enabled).
 
-## Install firmware update
-
-Intel has [confirmed a higher amount of reboots affecting systems with Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. Apply firmware updates on production systems after new firmware updates have been published by the affected vendors.
-
-## Check antivirus compatibility
+## Confirm antivirus software compatibility
 
 [Kevin Beaumont](https://twitter.com/GossiTheDog) has a [Google Docs spreadsheet](https://docs.google.com/spreadsheets/d/184wcDt9I9TUNFFbsAVLpzAtckQxYiuirADzf3cL42FQ) that tracks the status of a number antivirus products in regards to their compatibility with the January 2018 patches and whether the product creates the registry value required by Windows Update and Windows Server Update Services (WSUS) for the patches to install. Microsoft has additional guidance in [KB4072699](https://support.microsoft.com/en-us/help/4072699/january-3-2018-windows-security-updates-and-antivirus-software). Common antivirus products in DoD are discussed below.
 
@@ -34,7 +30,7 @@ See Symantec article [TECH248545](https://support.symantec.com/en_US/article.TEC
 ### Microsoft
 Windows Defender Antivirus (WDAV), formerly known as Windows Defender, is compatible with the Spectre and Meltdown patches.
 
-## Create antivirus compatibility registry value
+## Create registry value to indicate antivirus software compatibility 
 
 A registry value is required for delivery of the January 2018 patches via Windows Update or WSUS. [Microsoft documentation](https://support.microsoft.com/en-us/help/4072699) states: "*some third-party applications have been making unsupported calls into Windows kernel memory that cause stop errors (also known as bluescreen errors) to occur*". Requiring the registry value  before the patches will apply is a safety mechanism to prevent systems from having bluescreen errors.
 
@@ -77,19 +73,14 @@ Some antivirus products create the value on their own while others require admin
 The McAfee article [KB90167](https://kc.mcafee.com/corporate/index?page=content&id=KB90167) states: "*Starting with the January 12th DAT (**8772**), customers who use VirusScan Enterprise (VSE) 8.8 and receive their DAT updates through ePolicy Orchestrator (ePO) will have the registry key automatically updated.*". McAfee article [KB90180](https://kc.mcafee.com/corporate/index?page=content&id=KB90180) documents how to create the registry value through ePolicy Orchestrator (ePO). 
 
 ### Symantec
-SEP will create the registry value with ERASER update.
+SEP will create the registry value via the ERASER update.
 
 ### Microsoft
 Windows Defender Antivirus will create the registry value via signature update. To force creation of the registry value run **"%Program Files%\Windows Defender\MpCmdRun.exe" -SignatureUpdate** from a command prompt.
 
-## Install patches
-Install operating system patches using a patch deployment mechanism.
+## Create registry values to enable mitigations
 
-**The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
-
-## Create mitigation registry values
-
-Certain registry values must exist on systems running Windows Server in order for the mitigations to be enabled. The registry values are not required for systems running client editions of Windows are enabled by default after the operating system patches, and firmware updates, are installed. The Microsoft [client guidance](https://support.microsoft.com/en-us/help/4073119/windows-client-guidance-for-it-pros-to-protect-against-speculative-exe) page states: "*By default, this update is enabled. No customer action is required to enable the fixes. We are providing the following registry information for completeness in the event that customers want to disable the security fixes related to CVE-2017-5715 and CVE-2017-5754 for Windows clients*".
+Certain registry values must exist on systems running Windows Server in order for the mitigations to be enabled. The registry values are not required for systems running client editions of Windows since the mitigations are enabled by default after installing the operating system and firmware patches. The Microsoft [client guidance](https://support.microsoft.com/en-us/help/4073119/windows-client-guidance-for-it-pros-to-protect-against-speculative-exe) page states: "*By default, this update is enabled. No customer action is required to enable the fixes. We are providing the following registry information for completeness in the event that customers want to disable the security fixes related to CVE-2017-5715 and CVE-2017-5754 for Windows clients*". The registry values have no effect if the operating system patches are not installed.
 
 The registry values to set are:
 * Key Path: HKLM\System\CurrentControlSet\Control\Session Manager\Memory Management
@@ -133,6 +124,15 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Enter **0** in the **Value data** field.
 1. Click **OK**.
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
+
+## Install operating system patches
+Install operating system patches using a patch deployment mechanism.
+
+**The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
+
+## Install firmware update
+
+Intel has [confirmed a higher amount of reboots affecting systems with Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. Apply firmware updates on production systems after new firmware updates have been published by the affected vendors.
 
 ## Install mitigation verification tool
 
@@ -184,7 +184,7 @@ See Microsoft documentation for instructions on how to [import the CAB file](htt
 ### Nessus
 DoD components can acquire Nessus via the [ACAS](https://www.disa.mil/cybersecurity/network-defense/acas) program. See Tenable documentation for [installing](https://docs.tenable.com/nessus/6_9/Content/WindowsInstall.htm) and [configuring](https://docs.tenable.com/nessus/6_9/Content/ConfigureNessus.htm) Nessus on Windows.
 
-## Verify mitigations
+## Verify mitigations are enabled
 
 ### SpeculationControl module 
 Once the SpeculationControl module has been installed, it can be used for verifying the firmware and operating system mitigations exist and are correctly configured.
