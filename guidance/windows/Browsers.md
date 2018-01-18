@@ -18,7 +18,7 @@ Install the January 2018 patches released by Microsoft.
 
 The [Chromium page](https://www.chromium.org/Home/chromium-security/ssca) states: "*Chrome has disabled SharedArrayBuffer on Chrome 63 starting on Jan 5th, and will modify the behavior of other APIs such as performance.now, to help reduce the efficacy of speculative side-channel attacks. This is intended as a temporary measure until other mitigations are in place.*"
 
-Install Chrome [63.0.3239.132](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html), or later, released on January 5, 2018. Install Chrome 64, or later, since it will have [additional mitigations](https://github.com/v8/v8/wiki/Untrusted-code-mitigations) when released on or around January 23, 2018. 
+Download ([32-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi)/**[64-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi)**) and install Chrome [63.0.3239.132](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html), or later, released on January 5, 2018. Install Chrome 64, or later, since it will have [additional mitigations](https://github.com/v8/v8/wiki/Untrusted-code-mitigations) when released on or around January 23, 2018. 
 
 Opera browser users should install the corresponding versions of Opera since Opera is also based on Chromium.
 
@@ -27,8 +27,6 @@ Opera browser users should install the corresponding versions of Opera since Ope
 A [Mozilla blog entry](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) describes the Firefox mitigations:
 * "*The resolution of performance.now() will be reduced to 20µs.*"
 * "*The SharedArrayBuffer feature is being disabled by default.*"
-
-These mitigations are only available by updating Firefox. 
 
 [Download](https://www.mozilla.org/en-US/firefox/all/?q=English%20(US)) and install [Firefox 57.0.4](https://www.mozilla.org/en-US/firefox/57.0.4/releasenotes/), or later, released on January 4, 2018.
 
@@ -40,7 +38,7 @@ Firefox 52 ESR has partial mitigations already in place. A [Mozilla blog entry](
 
 ## Perform configuration changes
 
-Some browsers have additional configuration settings that may protect against exploitation of Spectre.
+Chromium-based browsers have additional configuration settings that may protect against exploitation of Spectre.
 
 ### Chrome
 
@@ -64,7 +62,7 @@ Opera browser users can follow [similar guidance](https://blogs.opera.com/securi
 
 To enable Site Isolation enterprise wide:
 1. Download the latest Chrome [Group Policy templates](https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip).
-1. Extract the zipe file.
+1. Extract the zip file.
 1. Copy the **chrome.admx** and **google.admx** files to **C:\Windows\PolicyDefinitions** and copy the **chrome.adml** and **google.adml** files to **C:\Windows\PolicyDefinitions\en-us** on your Active Directory Domain Controller or to your [Group Policy Central Store](https://support.microsoft.com/en-us/help/3087759) location.
 1. Open the Group Policy Management Console, navigate to the location containing the Group Policy object (GPO) that will contain the Site Isolation policy, and then click **Edit**.
 1. In the console tree under **Computer Configuration**, expand the **Administrative Templates** folder, and then expand the **Google Chrome** folder.
@@ -73,7 +71,7 @@ To enable Site Isolation enterprise wide:
 
 ## Verify mitigations
 
-Verify the latest version of each browser is installed. The only other browser that may require additional verification are Chromium-based browsers, such as Chrome or Opera, if the Site Isolation feature was enabled.
+Verify the latest version of each browser is installed. The only browsers that may require additional verification are Chromium-based browsers, such as Chrome or Opera, if the Site Isolation feature was enabled through Group Policy.
 
 ### Chrome
 
