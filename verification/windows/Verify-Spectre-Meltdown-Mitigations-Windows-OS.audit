@@ -1,4 +1,4 @@
-# Last Updated:
+# Last Updated: 01/18/2018
 
 <check_type: "Windows" version: "2">
     <group_policy: "Verifies Spectre and Meltdown patches are installed and mitigations are enabled on Windows operating systems">
@@ -68,12 +68,12 @@
                 
                 Executes PowerShell code:
                 
-                @(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0
+                @(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn -and $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0
                   "
             value_type: POLICY_TEXT
             value_data: "True"
             check_type: CHECK_EQUAL
-            powershell_args: "@(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0"
+            powershell_args: "@(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn -and $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0"
             ps_encoded_args: NO
             only_show_cmd_output: NO
             severity: HIGH

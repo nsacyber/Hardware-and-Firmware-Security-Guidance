@@ -168,12 +168,12 @@ To download the SpeculationControl module:
 1. If support for PowerShell 2.0 is required, then modify the **SpeculationControl.psd1** file by replacing the **RootModule** keyword with **ModuleToImport**.
 1. Copy the **SpeculationControl** folder that contains the .psd1 and .psm1 files to a location that will be accessible to the server where the Group Policy object for deploying the module will be created.
 
-To install the Speculation module using [Group Policy File Preferences](https://technet.microsoft.com/en-us/library/cc772536(v=ws.11).aspx):
+To install the SpeculationControl module using [Group Policy File Preferences](https://technet.microsoft.com/en-us/library/cc772536(v=ws.11).aspx):
 1. Open the Group Policy Management Console, navigate to the location containing the Group Policy object (GPO) that will contain the new preference item, and then click **Edit**.
 1. In the console tree under **Computer Configuration**, expand the **Preferences** folder, and then expand the **Windows Settings** folder.
 1. Right click the **Files** node and select **New** > **File**.
 1. In the New File Item dialog box, select **Create** or **Replace** from the **Action*** dropdown menu.
-1. In the **Source file(s):** field, click **...***, navigate to the SpeculationControl folder, select SpeculationControl.psd1, and click **Open**.
+1. In the **Source file(s):** field, click **...**, navigate to the SpeculationControl folder, select SpeculationControl.psd1, and click **Open**.
 1. In the **Destination File** field, enter **%ProgramFilesDir%\WindowsPowerShell\Modules\SpeculationControl\SpeculationControl.psd1**.
 1. Click **OK**.
 1. Repeat steps 3-7 for **SpeculationControl.psm1**.
