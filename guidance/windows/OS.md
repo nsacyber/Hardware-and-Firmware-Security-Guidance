@@ -12,7 +12,7 @@ Based on [Microsoft's guidance](https://blogs.technet.microsoft.com/configuratio
 
 ## Confirm antivirus software compatibility
 
-[Kevin Beaumont](https://twitter.com/GossiTheDog) has a [Google Docs spreadsheet](https://docs.google.com/spreadsheets/d/184wcDt9I9TUNFFbsAVLpzAtckQxYiuirADzf3cL42FQ) that tracks the status of a number antivirus products in regards to their compatibility with the January 2018 patches and whether the product creates the registry value required by Windows Update and Windows Server Update Services (WSUS) for the patches to install. Microsoft has additional guidance in [KB4072699](https://support.microsoft.com/en-us/help/4072699/january-3-2018-windows-security-updates-and-antivirus-software). Common antivirus products in DoD are discussed below.
+[Kevin Beaumont](https://twitter.com/GossiTheDog) has a [Google Docs spreadsheet](https://docs.google.com/spreadsheets/d/184wcDt9I9TUNFFbsAVLpzAtckQxYiuirADzf3cL42FQ) that tracks the status of a number antivirus products in regards to their compatibility with the January 2018 patches and whether the product creates the registry value required by Windows Update and Windows Server Update Services (WSUS) for the patches to install. Microsoft has additional guidance in [KB4072699](https://support.microsoft.com/en-us/help/4072699/). Common antivirus products in DoD are discussed below.
 
 ### McAfee
 
@@ -32,7 +32,7 @@ Windows Defender Antivirus (WDAV), formerly known as Windows Defender, is compat
 
 ## Create registry value to indicate antivirus software compatibility 
 
-A registry value is required for delivery of the January 2018 patches via Windows Update or WSUS. [Microsoft documentation](https://support.microsoft.com/en-us/help/4072699) states: "*some third-party applications have been making unsupported calls into Windows kernel memory that cause stop errors (also known as bluescreen errors) to occur*". Requiring the registry value  before the patches will apply is a safety mechanism to prevent systems from having bluescreen errors.
+A registry value is required for delivery of the January 2018 patches via Windows Update or WSUS. **Absence of the registry value will also prevent future security updates from being installed via Windows Update or WSUS.** Microsoft [antivirus guidance](https://support.microsoft.com/en-us/help/4072699/) states: *"Customers will not receive the January 2018 security updates (**or any subsequent security updates**) and will not be protected from security vulnerabilities unless their antivirus software vendor sets the following registry key"*. If the system does not have antivirus software, then the registry value still needs to be created.
 
 The registry value to set is:
 * Key Path: HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat
@@ -40,7 +40,11 @@ The registry value to set is:
 * Value Type: REG_DWORD 
 * Value Data: 0
 
-The registry value is not needed if manually installing the January 2018 patches or if using third-party patch management software. To create the registry value from an administrator command prompt: 
+The registry value is not needed if manually installing the January 2018 patches or if using third-party patch management software, but its creation is still recommended in case a transition to Windows Update or WSUS occurs to ensure the system receives future patches. 
+
+Requiring the registry value for installation of the January 2018 patches, as well as all future patches, is a safety mechanism to prevent systems from having bluescreen errors. Microsoft [antivirus guidance](https://support.microsoft.com/en-us/help/4072699) states: "*During testing, we discovered that some third-party applications have been making unsupported calls into Windows kernel memory that cause stop errors (also known as bluescreen errors) to occur.*". 
+
+To create the registry value from an administrator command prompt: 
 
 ~~~
 reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat" /v cadca5fe-87d3-4b96-b7fb-a231484277cc  /t REG_DWORD /d 0 /f >nul
@@ -126,7 +130,12 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
 
 ## Install operating system patches
-Install operating system patches using a patch deployment mechanism.
+Install operating system patches using a patch deployment mechanism. 
+
+**Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
+"*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
+
+"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations.*"
 
 **The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
