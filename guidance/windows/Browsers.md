@@ -9,10 +9,11 @@ Prioritize installation of browser patches since Javascript can be used as a mec
 ## Install browser patches
 
 ### Edge and Internet Explorer
-
 A [blog entry from the Edge team](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) states: "*Initially, we are removing support for SharedArrayBuffer from Microsoft Edge (originally introduced in the [Windows 10 Fall Creators Update](https://developer.microsoft.com/en-us/microsoft-edge/platform/changelog/desktop/16299/?compareWith=15063)), and reducing the resolution of performance.now() in Microsoft Edge and Internet Explorer from 5 microseconds to 20 microseconds, with variable jitter of up to an additional 20 microseconds. These two changes substantially increase the difficulty of successfully inferring the content of the CPU cache from a browser process.*"
 
-Install the January 2018 patches released by Microsoft.
+The [Microsoft advisory](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/ADV180002) only lists patches being available for Internet Explorer 11 which is the only supported version of Internet Explorer for Windows desktop operating systems. Windows Server 2008 SP2 supports Internet Explorer 9 and Windows Server 2012 supports Internet Explorer 10. Patches do not appear to be available at this time for IE9 or IE10 on Windows server operating systems. See the **What is the Lifecycle Policy for Internet Explorer?** section of the [Internet Explorer Lifecycle FAQ](https://support.microsoft.com/en-us/help/17454/lifecycle-faq-internet-explorer) for more information.
+
+Install all January 2018 patches released by Microsoft.
 
 ### Chrome
 

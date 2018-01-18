@@ -130,7 +130,7 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
 
 ## Install operating system patches
-Install operating system patches using a patch deployment mechanism. 
+Install all January 2018 patches released by Microsoft. 
 
 **Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
 "*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
