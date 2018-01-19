@@ -36,14 +36,13 @@ Initial reports, based on microbenchmarks, lead to a performance impact of up to
 
 ### Google
 
-L#### 
-* Link: https://security.googleblog.com/2018/01/more-details-about-mitigations-for-cpu_4.html
+#### Link
+* https://security.googleblog.com/2018/01/more-details-about-mitigations-for-cpu_4.html
 
 #### Statement
 *There has been speculation that the deployment of KPTI causes significant performance slowdowns. Performance can vary, as the impact of the KPTI mitigations depends on the rate of system calls made by an application. On most of our workloads, including our cloud infrastructure, we see negligible impact on performance.*
 
 *In our own testing, we have found that microbenchmarks can show an exaggerated impact. Of course, Google recommends thorough testing in your environment before deployment; we cannot guarantee any particular performance or operational impact.*
-
 
 ### Apple
 
