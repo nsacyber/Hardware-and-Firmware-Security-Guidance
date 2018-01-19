@@ -19,6 +19,21 @@ Initial reports, based on microbenchmarks, lead to a performance impact of up to
 
 *For the 6th generation Skylake-S platform, our measurements show the performance impact is slightly higher, but generally in line with the observations on 8th and 7th generation platforms (approximately 8 percent on the SYSMark2014SE benchmark). We have also measured performance on the same platform with Windows 7, a common configuration in the installed base, especially in office environments. The observed impact is small (approximately 6 percent on the SYSMark2014SE benchmark). Observed impact is even lower on systems with HDDs.*
 
+
+#### Link
+* https://newsroom.intel.com/news/firmware-updates-and-initial-performance-data-for-data-center-systems/
+ 
+#### Statement
+
+*As expected, our testing results to date show performance impact that ranges depending on specific workloads and configurations. Generally speaking, the workloads that incorporate a larger number of user/kernel privilege changes and spend a significant amount of time in privileged mode will be more adversely impacted.*
+
+*To summarize what we’ve seen in testing so far:*
+* *Impacts ranging from 0-2% on industry-standard measures of integer and floating point throughput, Linpack, STREAM, server-side Java and energy efficiency benchmarks. These benchmarks represent several common workloads important to enterprise and cloud customers.*
+* *An online transaction processing (OLTP) benchmark simulating modeling a brokerage firm’s customer-broker-stock exchange interaction showed a 4% impact. More analytics testing is in process and the results will be dependent on system configuration, test setup and benchmark used.*
+* *Benchmarks for storage also showed a range of results depending on the benchmark, test setup and system configuration:
+** *For FlexibleIO, a benchmark simulating different types of I/O loads, results depend on many factors, including read/write mix, block size, drives and CPU utilization. When we conducted testing to stress the CPU (100% write case), we saw an 18% decrease in throughput performance because there was not CPU utilization headroom. When we used a 70/30 read/write model, we saw a 2% decrease in throughput performance. When CPU utilization was low (100% read case), as is the case with common storage provisioning, we saw an increase in CPU utilization, but no throughput performance impact.*
+** *Storage Performance Development Kit (SPDK) tests, which provide a set of tools and libraries for writing high performance, scalable, user-mode storage applications, were measured in multiple test configurations. Using SPDK iSCSI, we saw as much as a 25% impact while using only a single core. Using SPDK vHost, we saw no impact.*
+
 ### Google
 
 L#### 

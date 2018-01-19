@@ -1,0 +1,300 @@
+# Last Updated: 01/19/2018
+
+<check_type: "Windows" version: "2">
+    <group_policy: "Verifies Spectre and Meltdown patches are installed and mitigations are enabled for browsers on Windows operating systems">
+        # Check for prerequisite that PowerShell must be installed
+    
+        <custom_item> 
+            type: FILE_CHECK 
+            description: "Detects if powershell.exe exists."
+            info: "Detects if powershell.exe exists. PowerShell is required for other Nessus checks in this custom audit file as well as required for verifying Spectre and Meltdown operating system and firmware mitigations.
+            
+                Looks for:
+                %SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe
+                  "
+            value_type: POLICY_TEXT
+            value_data: "%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+            check_type: CHECK_EQUAL
+            file_option: MUST_EXIST
+            severity: HIGH            
+        </custom_item>
+
+        # Check for prerequisite that PowerShell version 2.0 or later must be installed
+        
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if PowerShell 2.0 or later is installed."
+            info: "
+                Detects if PowerShell 2.0 or later is installed.
+                
+                Executes PowerShell code:
+                
+                ([System.Version]($PSVersionTable).PSVersion.ToString().SubString(0,3)).CompareTo([System.Version]'2.0') -ge 0
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "([System.Version]($PSVersionTable).PSVersion.ToString().SubString(0,3)).CompareTo([System.Version]'2.0') -ge 0"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        # 1. if Chrome is installed, then check for the latest version and that the Site Isolation registry value is correctly configured
+        
+        <if>
+            <condition type: "or">
+                <custom_item> 
+                    type: FILE_CHECK 
+                    description: "Detects if Chrome browser for business is installed at %ProgramFiles% (x86)"
+                    info: "
+                          Looks for:
+                          %ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe
+                          "
+                    value_type: POLICY_TEXT 
+                    value_data: "%ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe"
+                    file_option: MUST_EXIST
+                </custom_item>
+                <custom_item> 
+                    type: FILE_CHECK 
+                    description: "Detects if Chrome browser for business is installed at %ProgramFiles%"
+                    info: "
+                          Looks for:
+                          %ProgramFiles%\Google\Chrome\Application\chrome.exe
+                          "
+                    value_type: POLICY_TEXT 
+                    value_data: "%ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe"
+                    file_option: MUST_EXIST
+                </custom_item>
+            </condition>
+            <then>
+
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if Chrome browser for business is updated."
+                    info: "
+                        Detects if Chrome browser for business is updated.
+                
+                        Executes PowerShell code:
+                
+                        $path = '';
+
+                        if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') {
+                            $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
+                        }
+
+                        if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') {
+                            $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
+                        }
+
+                        if($path -eq '') {
+                            $true
+                        } else {
+                            $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv);
+                            $version.CompareTo([System.Version]'63.0.3239.132') -ge 0
+                        }
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if($path -eq '') { $true } else { $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv); $version.CompareTo([System.Version]'63.0.3239.132') -ge 0}"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+
+                <if>
+                    <condition type: "and">
+                        <custom_item>
+                            type: REG_CHECK
+                            description: "Detects if the Site Isolation registry value exists."
+                            info: "
+                                Detects if the Site Isolation registry value exists. The registry value name must exist, and its data must be set to 1, in order for Site Isolation to be enabled for all sites.
+
+                                Key: HKLM\Software\Policies\Google\Chrome
+                                Value Name: SitePerProcess
+                                  "
+                            value_type: POLICY_TEXT
+                            value_data: "HKLM\Software\Policies\Google\Chrome"
+                            key_item: "SitePerProcess"
+                            reg_option: MUST_EXIST             
+                        </custom_item>
+                        <custom_item>
+                            type: REGISTRY_SETTING
+                            description: "Detects if the Site Isolation registry value is set to 1."
+                            info: "
+                                Detects if the Site Isolation registry value is set to 1. The registry value data must be set to 1 in order for Site Isolation to be enabled for all sites.
+
+                                The registry value data, when set to 1, denotes that Site Isolation is enabled for all sites.
+                        
+                                Key: HKLM\Software\Policies\Google\Chrome
+                                Value Name: SitePerProcess
+                                Value Data: 1
+                                Value Type: DWORD
+                                  "
+                            value_type: POLICY_DWORD
+                            value_data: 1
+                            reg_key: "HKLM\Software\Policies\Google\Chrome"
+                            reg_item: "SitePerProcess"
+                            severity: MEDIUM
+                        </custom_item>         
+                    </condition>
+                    <then>
+                        <report type: "PASSED">
+                            description: "Registry key path exists, registry value name exists, and SitePerProcess registry value data is set to 1."
+                            info: "Registry key path HKLM\Software\Policies\Google\Chrome exists, SitePerProcess registry value name exists, and SitePerProcess registry value data is set to 1."
+                        </report>
+                    </then>
+                    <else>
+                        <report type: "FAILED">
+                            description: "Registry key path does not exist, or registry value name does not exist, or SitePerProcess registry value data is not set to 1."
+                            info: "Registry key path HKLM\Software\Policies\Google\Chrome does not exist, or SitePerProcess registry value name does not exist, or SitePerProcess registry value data is not set to 1."
+                        </report>
+                    </else>
+                </if>
+
+            </then>
+            <else>
+                <report type: "PASSED">
+                    description: "Chrome browser for business is not installed"
+                    info: "Chrome browser for business is not installed"
+                </report>
+            </else>
+        </if>
+
+        # 2. check if Internet Explorer is updated
+        
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if Internet Explorer is updated."
+            info: "
+                Detects if Internet Explorer is updated.
+
+                TODO: check correct IE version on different releases and architectures of Windows
+                
+                Executes PowerShell code:
+
+                if ((Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Internet Explorer').PSObject.Properties.Name -contains 'svcVersion') {
+                    $version = [System.Version](Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Internet Explorer' -Name svcVersion | Select-Object -Property svcVersion -ExpandProperty svcVersion)
+                } else {
+                    $version = [System.Version](Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Internet Explorer' -Name Version | Select-Object -Property Version -ExpandProperty Version)
+                }
+
+                $version.CompareTo([System.Version]'11.125.16299.0') -gt 0
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "if ((Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Internet Explorer').PSObject.Properties.Name -contains 'svcVersion') { $version = [System.Version](Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Internet Explorer' -Name svcVersion | Select-Object -Property svcVersion -ExpandProperty svcVersion)} else { $version = [System.Version](Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Internet Explorer' -Name Version | Select-Object -Property Version -ExpandProperty Version)} $version.CompareTo([System.Version]'11.125.16299.0') -gt 0"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        # 3. if Edge exists, then check if it is updated
+        
+        <custom_item>
+            type: AUDIT_POWERSHELL
+            description: "Detects if Edge is updated."
+            info: "
+                Detects if Edge is updated.
+
+                TODO: check correct Edge version on different releases and architectures of Windows
+                
+                Executes PowerShell code:
+
+                if (Test-Path -Path 'HKCU:\Software\Classes\AppX3xxs313wwkfjhythsb8q46xdsq8d2cvv\Application') {
+                    $name = (Get-ItemProperty -Path HKCU:\Software\Classes\AppX3xxs313wwkfjhythsb8q46xdsq8d2cvv\Application -Name ApplicationName | Select-Object -Property ApplicationName -ExpandProperty ApplicationName);
+
+                    if($name -match '^@\{Microsoft.MicrosoftEdge_(\d{1,3}\.\d{1,6}\.\d{1,3}\.\d{1,3})_.*$') {
+                        $version = [System.Version]$matches[1];
+                        $version.CompareTo([System.Version]'41.16299.15.0') -gt 0      
+                    } else {
+                        $false
+                    }
+                } else {
+                    $true
+                }
+                  "
+            value_type: POLICY_TEXT
+            value_data: "True"
+            check_type: CHECK_EQUAL
+            powershell_args: "if (Test-Path -Path 'HKCU:\Software\Classes\AppX3xxs313wwkfjhythsb8q46xdsq8d2cvv\Application') { $name = (Get-ItemProperty -Path HKCU:\Software\Classes\AppX3xxs313wwkfjhythsb8q46xdsq8d2cvv\Application -Name ApplicationName | Select-Object -Property ApplicationName -ExpandProperty ApplicationName); if($name -match '^@\{Microsoft.MicrosoftEdge_(\d{1,3}\.\d{1,6}\.\d{1,3}\.\d{1,3})_.*$') { $version = [System.Version]$matches[1]; $version.CompareTo([System.Version]'41.16299.15.0') -gt 0 } else { $false }} else {$true}"
+            ps_encoded_args: NO
+            only_show_cmd_output: NO
+            severity: HIGH
+        </custom_item>
+
+        # 4. if Firefox is installed, then check if it is updated
+        
+        <if>
+            <condition type: "or">
+                <custom_item> 
+                    type: FILE_CHECK 
+                    description: "Detects if Firefox is installed at %ProgramFiles% (x86)"
+                    info: "
+                          Looks for:
+                          %ProgramFiles% (x86)\Mozilla Firefox\firefox.exe
+                          "
+                    value_type: POLICY_TEXT 
+                    value_data: "%ProgramFiles% (x86)\Mozilla Firefox\firefox.exe"
+                    file_option: MUST_EXIST
+                </custom_item>
+                <custom_item> 
+                    type: FILE_CHECK 
+                    description: "Detects if Firefox is installed at %ProgramFiles%"
+                    info: "
+                          Looks for:
+                          %ProgramFiles%\Mozilla Firefox\firefox.exe
+                          "
+                    value_type: POLICY_TEXT 
+                    value_data: "%ProgramFiles%\Mozilla Firefox\firefox.exe"
+                    file_option: MUST_EXIST
+                </custom_item>
+            </condition>
+            <then>
+
+                <custom_item>
+                    type: AUDIT_POWERSHELL
+                    description: "Detects if Firefox is updated."
+                    info: "
+                        Detects if Firefox is updated.
+                
+                        Executes PowerShell code:
+                
+                        $path = '';
+
+                        if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox') {
+                           $path = 'HKLM:\Software\Mozilla\Mozilla Firefox'
+                        }
+
+                        if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox') {
+                           $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox'
+                        }
+
+                        if($path -eq '') {
+                            $true
+                        } else {
+                            $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]);
+                            $version.CompareTo([System.Version]'57.0.4') -ge 0
+                        }
+                          "
+                    value_type: POLICY_TEXT
+                    value_data: "True"
+                    check_type: CHECK_EQUAL
+                    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox') { $path = 'HKLM:\Software\Mozilla\Mozilla Firefox' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox') { $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox' } if($path -eq '') { $true } else { $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]); $version.CompareTo([System.Version]'57.0.4') -ge 0 }"
+                    ps_encoded_args: NO
+                    only_show_cmd_output: NO
+                    severity: HIGH
+                </custom_item>
+
+            </then>
+            <else>
+                <report type: "PASSED">
+                    description: "Firefox browser is not installed"
+                    info: "Firefox browser is not installed"
+                </report>
+            </else>
+        </if>
+    </group_policy>
+</check_type>
