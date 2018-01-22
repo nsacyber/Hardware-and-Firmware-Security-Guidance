@@ -47,18 +47,20 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | Windows Server 2012 | TBD | TBD | |
 | Windows Server 2008 SP2 | TBD | TBD | |
 
-
 ### Application Software
 
 #### Browsers
 
 | Product | Version | Release Date | Links |
 | --- | --- | --- | --- |
+| Chrome | 63.0.3239.132 | 01/05/2018 | [1](https://www.chromium.org/Home/chromium-security/ssca) |
 | Chrome | 64+ | ~01/23/2018 | [1](https://support.google.com/faqs/answer/7622138#chrome) |
 | Edge | Windows 10 OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
 | Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
 | Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
-| Internet Explorer | Windows OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
+| Internet Explorer 11 | January 2018 patches | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
+| Internet Explorer 10 on Windows Server 2012 | TBD | | |
+| Internet Explorer 9 on Windows Server 2008 SP2 | TBD | | |
 | Safari on macOS High Sierra 10.13.2 | 11.0.2+ / 11.0.2 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
 | Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2+ / 11.0.2 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.0.2 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
 
