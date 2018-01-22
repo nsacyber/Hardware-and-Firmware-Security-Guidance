@@ -59,6 +59,7 @@
                 * KB4056890 - Windows 10 1607 / Windows Server 2016
                 * KB4056891 - Windows 10 1703
                 * KB4056892 - Windows 10 1709 / Windows Server 1709
+                * KB4073291 - Windows 10 1709 - 32-bit only
                 * KB4056894 - Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup)
                 * KB4056897 - Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only)
                 * KB4056895 - Windows 8.1 / Windows Server 2012 R2 (Monthly Roll Up)                
@@ -68,12 +69,12 @@
                 
                 Executes PowerShell code:
                 
-                @(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn -and $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0
+                @(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn -and $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4073291','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0
                   "
             value_type: POLICY_TEXT
             value_data: "True"
             check_type: CHECK_EQUAL
-            powershell_args: "@(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn -and $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0"
+            powershell_args: "@(Compare-Object -ReferenceObject ([string[]]@(@(Get-WMIObject -Class Win32_QuickFixEngineering) | Where-Object {$_.InstalledOn -and $_.InstalledOn.CompareTo([DateTime]'01/01/2018') -gt 0} | Select HotFixID -ExpandProperty HotFixID)) -DifferenceObject ([string[]]@('KB4056893','KB4056888','KB4056890','KB4056891','KB4056892','KB4073291','KB4056894','KB4056897','KB4056895','KB4056898')) -PassThru -IncludeEqual -ExcludeDifferent).Count -gt 0"
             ps_encoded_args: NO
             only_show_cmd_output: NO
             severity: HIGH
