@@ -15,7 +15,7 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | HPe | Server | [1](http://h22208.www2.hpe.com/eginfolib/securityalerts/SCAM/Side_Channel_Analysis_Method.html),[2](https://support.hpe.com/hpsc/doc/public/display?sp4ts.oid=null&docLocale=en_US&docId=emr_na-a00039267en_us),[3](https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-hpesbhf03805en_us) | 
 | Huawei | Server | [1](http://www.huawei.com/au/psirt/security-notices/huawei-sn-20180104-01-intel-en) |
 | Lenovo | Client / Server | [1](https://support.lenovo.com/us/en/solutions/len-18282) |
-| IBM | Server | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/),[2](https://www-945.ibm.com/support/fixcentral/)
+| IBM | Server | [1](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-power-firmware-update-released-address-common-vulnerabilities-exposures-issue-numbers-cve-2017-5715-cve-2017-5753-cve-2017-5754-known-spectre-m/),[2](http://www-01.ibm.com/support/docview.wss?uid=isg3T1026811),[3](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/))
 | LG | Client | [1](https://www.lg.com/us/support) |
 | Panasonic | Client | [1](https://pc-dl.panasonic.co.jp/itn/vuln/g18-001.html) |
 | Samsung | Client | [1](http://www.samsung.com/uk/support/intel_update/) |
@@ -29,7 +29,9 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | Aix | | ~01/15/2018 | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | Android | 2018-01-05 | 01/02/2018 | [1](https://support.google.com/faqs/answer/7622138#android),[2](https://source.android.com/security/bulletin/2018-01-01) |
 | Chrome OS | 63+ | 12/25/2017 | [1](https://support.google.com/faqs/answer/7622138#chromeos) |
-| IBM i | | ~01/15/2018 | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
+| IBM i 7.1 | MF64553 | 01/13/2018 | [1](http://www-01.ibm.com/support/docview.wss?uid=nas3MF64553),[2](http://www-01.ibm.com/support/docview.wss?uid=nas8N1022433),[3](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-ibm-released-ptfs-response-vulnerabilities-known-spectre-meltdown/),[4](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
+| IBM i 7.2 | MF64552(http://www-01.ibm.com/support/docview.wss?uid=nas3MF64552) | 01/13/2018 | [1](http://www-01.ibm.com/support/docview.wss?uid=nas3MF64552),[2](http://www-01.ibm.com/support/docview.wss?uid=nas8N1022433),[3](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-ibm-released-ptfs-response-vulnerabilities-known-spectre-meltdown/),[4](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
+| IBM i 7.3 | MF64551(http://www-01.ibm.com/support/docview.wss?uid=nas3MF64551) | 01/13/2018 | [1](http://www-01.ibm.com/support/docview.wss?uid=nas3MF64551),[2](http://www-01.ibm.com/support/docview.wss?uid=nas8N1022433),[3](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-ibm-released-ptfs-response-vulnerabilities-known-spectre-meltdown/),[4](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | iOS | 11.2.2+ | 01/08/2018 | [1](https://support.apple.com/en-us/HT208401) |
 | Linux kernel | 4.15.0+ | ~01/21/2018| |
 | Linux kernel | 4.14.11+ | 01/03/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.14.11) |
@@ -53,8 +55,8 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 
 | Product | Version | Release Date | Links |
 | --- | --- | --- | --- |
-| Chrome | 63.0.3239.132 | 01/05/2018 | [1](https://www.chromium.org/Home/chromium-security/ssca) |
-| Chrome | 64+ | ~01/23/2018 | [1](https://support.google.com/faqs/answer/7622138#chrome) |
+| Chrome 63 | 63.0.3239.132 | 01/05/2018 | [1](https://www.chromium.org/Home/chromium-security/ssca), [2](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html),[3]() |
+| Chrome 64 | 64+ | ~01/23/2018 | [1](https://support.google.com/faqs/answer/7622138#chrome), [2](https://github.com/v8/v8/wiki/Untrusted-code-mitigations)  |
 | Edge | Windows 10 OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
 | Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
 | Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
