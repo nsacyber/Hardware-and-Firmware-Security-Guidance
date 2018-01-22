@@ -31,10 +31,11 @@ A custom Nessus audit file is available for scanning browsers on Windows operati
 The audit file performs the following checks:
 * PowerShell is installed.
 * PowerShell version is at least 2.0.
-* if Chrome is installed, then check for the latest version and that the Site Isolation registry value is correctly configured.
-* Internet Explorer is updated.
-* if Edge exists, then check if it is updated.
-* if Firefox is installed, then check if it is updated.
+* If Chrome is installed, then at least 63.0.3239.132 or newer is installed and that the Site Isolation registry value is correctly configured (optional).
+* Internet Explorer 11 patch is installed.
+* If Edge exists, then that the Edge patched is installed.
+* If Firefox is installed, then that Firefox 57.0.4 or newer is installed.
+* If Firefox ESR is installed, then that Firefox 52.6 or newer is installed.
 
 ### Hyper-V
 A custom Nessus audit file is being developed for Hyper-V hosts.

@@ -72,13 +72,21 @@ To enable Site Isolation enterprise wide:
 
 ## Verify mitigations
 
-Verify the latest version of each browser is installed. The only browsers that may require additional verification are Chromium-based browsers, such as Chrome or Opera, if the Site Isolation feature was enabled through Group Policy.
-
-### Chrome
-
-The Site Isolation feature can be verified when configured through Group Policy:
+Verify the latest version of each browser is installed. The only browsers that may require additional verification are Chromium-based browsers, such as Chrome or Opera, if the Site Isolation feature was enabled through Group Policy. The Site Isolation feature can be manually verified when configured through Group Policy:
 1. Visit chrome://policy in the browser.
 1. Look for a value of **[SitePerProcess](https://www.chromium.org/administrators/policy-list-3#SitePerProcess)** under the **Policy name** column and ensure the value of **true** is in the corresponding **Policy value** column.
 
+Site Isolation can also be manually verified when configured through the Chrome flags page:
+1. Visit chrome://flags#enable-site-per-process in the browser.
+1. Find **Strict site isolation** which will have a blue circle, with a checkmark inside the circle, next to the words **Strict site isolation**. The blue button to the right will say **Disable** indicating the feature is enabled. If the button is clicked, then the feature will be disabled.
 
+### Nessus
+A custom Nessus audit file is available for scanning browsers on Windows operating systems: [Verify-Spectre-Meltdown-Mitigations-Windows-Browsers.audit](./../../verification/windows/Verify-Spectre-Meltdown-Mitigations-Windows-Browsers.audit). The custom audit file can be leveraged by using a [Policy Compliance](https://docs.tenable.com/nessus/7_0/Content/ScanAndPolicyTemplates.htm) scan. The audit file performs the following checks:
+* PowerShell is installed.
+* PowerShell version is at least 2.0.
+* If Chrome is installed, then at least 63.0.3239.132 or newer is installed and that the Site Isolation registry value is correctly configured (optional).
+* Internet Explorer 11 patch is installed.
+* If Edge exists, then that the Edge patched is installed.
+* If Firefox is installed, then that Firefox 57.0.4 or newer is installed.
+* If Firefox ESR is installed, then that Firefox 52.6 or newer is installed.
 

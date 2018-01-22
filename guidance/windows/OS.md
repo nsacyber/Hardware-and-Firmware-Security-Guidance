@@ -226,7 +226,7 @@ KVAShadowPcidEnabled denotes a performance improvement that is enabled when avai
 See Microsoft documentation for how to for instructions on how to [view the compliance results](ttps://docs.microsoft.com/en-us/sccm/compliance/deploy-use/monitor-compliance-settings). The More Information section of the [TechNet Gallery page for the CAB file](https://gallery.technet.microsoft.com/Speculation-Execution-Side-1483f621) explains how to interpret the results.
 
 ### Nessus
-A custom Nessus audit file is available for scanning Windows systems. The custom audit file can be leveraged by using a [Policy Compliance](https://docs.tenable.com/nessus/7_0/Content/ScanAndPolicyTemplates.htm) scan. The audit file performs the following checks:
+A custom Nessus audit file is available for scanning Windows operating systems: [Verify-Spectre-Meltdown-Mitigations-Windows-OS.audit](./../../verification/windows/Verify-Spectre-Meltdown-Mitigations-Windows-OS.audit). The custom audit file can be leveraged by using a [Policy Compliance](https://docs.tenable.com/nessus/7_0/Content/ScanAndPolicyTemplates.htm) scan. The audit file performs the following checks:
 * PowerShell is installed.
 * PowerShell version is at least 2.0.
 * The operating system patches are installed.
