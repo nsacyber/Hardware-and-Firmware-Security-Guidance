@@ -139,6 +139,15 @@ Install all January 2018 patches released by Microsoft.
 
 **The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
+The initial set of Windows patches for Spectre and Meltdown had issues on some systems with older AMD processors where the system would be put into an unbootable state. Microsoft temporarily paused the patches on systems with the affected AMD processors. The following patches resolve the issues:
+* [KB4073290](https://support.microsoft.com/en-us/help/4073290) - Windows 10 1709
+* [KB4057144](https://support.microsoft.com/en-us/help/4057144) - Windows 10 1703
+* [KB4057142](https://support.microsoft.com/en-us/help/4057142) - Windows 10 1607 / Windows Server 2016 
+* [KB4075200](https://support.microsoft.com/en-us/help/4075200) - Windows 10 1511
+* [KB4075199](https://support.microsoft.com/en-us/help/4075199) - Windows 10 1507
+* [KB4073576](https://support.microsoft.com/en-us/help/4073576) - Windows 8.1 / Windows Server 2012 R2
+* [KB4073578](https://support.microsoft.com/en-us/help/4073578) - Windows 7 SP1 / Windows Server 2008 R2 SP1
+
 ## Install firmware update
 
 Intel has [confirmed a higher amount of reboots affecting systems with Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. Apply firmware updates on production systems after new firmware updates have been published by the affected vendors.
