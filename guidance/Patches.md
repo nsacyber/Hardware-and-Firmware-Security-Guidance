@@ -2,7 +2,10 @@
 
 ### Firmware
 
-Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after apply firmware updates. Apply firmware updates on production systems after new firmware updates have been published by the affected vendors.
+Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. As of January 22, Intel has [identified](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr) the root cause of the reboot issue impacting [Broadwell and Haswell platforms](https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/microcode-update-guidance.pdf) and is working with OEMs on testing a new update. 
+Only apply firmware updates on production systems after new firmware updates have been published by the affected vendors and the updates have been tested on non-production systems.
+
+
 
 | OEM | Type | Link |
 | --- | ---- | ---- |
@@ -63,6 +66,7 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | Internet Explorer 11 | January 2018 patches | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
 | Internet Explorer 10 on Windows Server 2012 | TBD | | |
 | Internet Explorer 9 on Windows Server 2008 SP2 | TBD | | |
+| Opera | 50.0.2762.67 | January 22, 2018| [1](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) |
 | Safari on macOS High Sierra 10.13.2 | 11.0.2+ / 11.0.2 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
 | Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2+ / 11.0.2 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.0.2 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
 

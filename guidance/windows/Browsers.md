@@ -21,7 +21,10 @@ The [Chromium page](https://www.chromium.org/Home/chromium-security/ssca) states
 
 Download ([32-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi)/**[64-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi)**) and install Chrome [63.0.3239.132](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html), or later, released on January 5, 2018. Install Chrome 64, or later, since it will have [additional mitigations](https://github.com/v8/v8/wiki/Untrusted-code-mitigations) when released on or around January 23, 2018. 
 
-Opera browser users should install the corresponding versions of Opera since Opera is also based on Chromium.
+### Opera
+Opera [blog entry]((https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/)) states: "*In today’s Opera 50 update we have a fix that blunts the main tool for the attack: The very high precision timer you get with performance.now(). After the change, performance.now() has a precision of 100μs and additionally it has received a small amount of randomness in it. That will make the attacks both much harder and less efficient. It is likely that the timer change is enough to make attacks inefficient enough to not at all be practical but we are going to implement further mitigations in Opera 51*".
+
+Install [Opera 50.0.2762.67] released on January 22, 2018. Install Opera 51 when it is made available.
 
 ### Firefox
 
@@ -55,11 +58,9 @@ The Site Isolation page describes a number of known issues:
 
 
 To enable Site Isolation on a single system:
-1. Visit chrome://flags#enable-site-per-process in the browser.
+1. Visit **chrome://flags#enable-site-per-process** in the browser.
 1. Click **Enable** next to **Strict site isolation**.
 1. Restart the browser. 
-
-Opera browser users can follow [similar guidance](https://blogs.opera.com/security/2018/01/opera-mitigates-critical-cpu-vulnerabilities/) since Opera is based on Chromium. Visit **opera://flags/?search=enable-site-per-process** in the browser, click **Enable**, and restart the browser.
 
 To enable Site Isolation enterprise wide:
 1. Download the latest Chrome [Group Policy templates](https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip).
@@ -69,6 +70,13 @@ To enable Site Isolation enterprise wide:
 1. In the console tree under **Computer Configuration**, expand the **Administrative Templates** folder, and then expand the **Google Chrome** folder.
 1. Double click **Enable Site Isolation for every site**.
 1. Select **Enabled** and click **OK**.
+
+### Opera
+Opera browser users can follow [similar guidance](https://blogs.opera.com/security/2018/01/opera-mitigates-critical-cpu-vulnerabilities/) for enabling Site Isolation since Opera is based on the same code base as Chrome: 
+
+1. Visit **opera://flags/?search=enable-site-per-process** in the browser. 
+1. Click **Enable**.
+1. Restart the browser.
 
 ## Verify mitigations
 

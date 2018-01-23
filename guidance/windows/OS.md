@@ -150,7 +150,10 @@ The initial set of Windows patches for Spectre and Meltdown had issues on some s
 
 ## Install firmware update
 
-Intel has [confirmed a higher amount of reboots affecting systems with Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. Apply firmware updates on production systems after new firmware updates have been published by the affected vendors.
+Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. As of January 22, Intel has [identified](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr) the root cause of the reboot issue impacting [Broadwell and Haswell platforms](https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/microcode-update-guidance.pdf) and is working with OEMs on testing a new update. 
+Only apply firmware updates on production systems after new firmware updates have been published by the affected vendors and the updates have been tested on non-production systems.
+
+See the [Patches page](./../Patches.md) for links to OEM specific firmware pages.
 
 ## Install mitigation verification tool
 

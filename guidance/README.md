@@ -9,5 +9,5 @@ Guidance is currently being developed for operating systems and applications.
 ## Windows
 Windows operating systems and applications guidance in development:
 * [Operating system](./windows/OS.md) guidance
-* [Browsers](./windows/Browsers.md) guidance
+* [Browser](./windows/Browsers.md) guidance
 * [Hyper-V host](./windows/Hyper-V.md) guidance
