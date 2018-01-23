@@ -22,6 +22,74 @@ The main areas of interest in the repository are:
 
 The files in this repository can be downloaded as a zip file [here](https://github.com/iadgov/Spectre-and-Meltdown-Guidance/archive/master.zip).
 
+## Affected processors
+Below is a list of known affected processors as documented by [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD}](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/).
+
+| Manufacturer | Processor Family |
+| --- | --- |
+| AMD | Ryzen |
+| AMD | EPYC |
+| AMD | Opteron |
+| AMD | Athlon |
+| AMD | Turion X2 Ultra |
+| Arm | Cortex-R7 |
+| Arm | Cortex-R8 |
+| Arm | Cortex-A8 |
+| Arm | Cortex-A9 |
+| Arm | Cortex-A15 |
+| Arm | Cortex-A17 |
+| Arm | Cortex-A57 |
+| Arm | Cortex-A72 |
+| Arm | Cortex-A73 |
+| Arm | Cortex-A75 |
+| IBM | POWER7+ |
+| IBM | POWER8 |
+| IBM | POWER9 |
+| Intel | Core i3 processor (45nm and 32nm) |
+| Intel | Core i5 processor (45nm and 32nm) |
+| Intel | Core i7 processor (45nm and 32nm) |
+| Intel | Core M processor family (45nm and 32nm) |
+| Intel | 2nd generation Core processors |
+| Intel | 3rd generation Core processors |
+| Intel | 4th generation Core processors |
+| Intel | 5th generation Core processors |
+| Intel | 6th generation Core processors |
+| Intel | 7th generation Core processors |
+| Intel | 8th generation Core processors |
+| Intel | Core X-series Processor Family for Intel X99 platforms |
+| Intel | Core X-series Processor Family for Intel X299 platforms |
+| Intel | Xeon processor 3400 series |
+| Intel | Xeon processor 3600 series |
+| Intel | Xeon processor 5500 series |
+| Intel | Xeon processor 5600 series |
+| Intel | Xeon processor 6500 series |
+| Intel | Xeon processor 7500 series |
+| Intel | Xeon Processor E3 Family |
+| Intel | Xeon Processor E3 v2 Family |
+| Intel | Xeon Processor E3 v3 Family |
+| Intel | Xeon Processor E3 v4 Family |
+| Intel | Xeon Processor E3 v5 Family |
+| Intel | Xeon Processor E3 v6 Family |
+| Intel | Xeon Processor E5 Family |
+| Intel | Xeon Processor E5 v2 Family |
+| Intel | Xeon Processor E5 v3 Family |
+| Intel | Xeon Processor E5 v4 Family |
+| Intel | Xeon Processor E7 Family |
+| Intel | Xeon Processor E7 v2 Family |
+| Intel | Xeon Processor E7 v3 Family |
+| Intel | Xeon Processor E7 v4 Family |
+| Intel | Xeon Processor Scalable Family |
+| Intel | Xeon Phi Processor 3200, 5200, 7200 Series |
+| Intel | Atom Processor C Series |
+| Intel | Atom Processor E Series |
+| Intel | Atom Processor A Series |
+| Intel | Atom Processor x3 Series |
+| Intel | Atom Processor Z Series |
+| Intel | Celeron Processor J Series |
+| Intel | Celeron Processor N Series |
+| Intel | Pentium Processor J Series |
+| Intel | Pentium Processor N Series |
+
 ## License
 See [LICENSE](./LICENSE.md).
 
