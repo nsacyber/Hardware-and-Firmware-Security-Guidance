@@ -27,9 +27,9 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 ### Operating Systems
 | Product | Patch / Version | Release Date | Links |
 | --- | --- | --- | --- |
-| Aix | | ~01/15/2018 | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
+| Aix | | ~01/26/2018 | [1](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | Android | 2018-01-05 | 01/02/2018 | [1](https://support.google.com/faqs/answer/7622138#android),[2](https://source.android.com/security/bulletin/2018-01-01) |
-| Chrome OS | 63+ | 12/25/2017 | [1](https://support.google.com/faqs/answer/7622138#chromeos), [1](https://www.chromium.org/a/chromium.org/dev/chrome-os-devices-and-kernel-versions) |
+| Chrome OS | 63+ | 12/25/2017 | [1](https://support.google.com/faqs/answer/7622138#chromeos),[2](https://www.chromium.org/a/chromium.org/dev/chrome-os-devices-and-kernel-versions) |
 | IBM i 7.1 | MF64553 | 01/13/2018 | [1](http://www-01.ibm.com/support/docview.wss?uid=nas3MF64553),[2](http://www-01.ibm.com/support/docview.wss?uid=nas8N1022433),[3](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-ibm-released-ptfs-response-vulnerabilities-known-spectre-meltdown/),[4](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | IBM i 7.2 | MF64552 | 01/13/2018 | [1](http://www-01.ibm.com/support/docview.wss?uid=nas3MF64552),[2](http://www-01.ibm.com/support/docview.wss?uid=nas8N1022433),[3](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-ibm-released-ptfs-response-vulnerabilities-known-spectre-meltdown/),[4](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
 | IBM i 7.3 | MF64551 | 01/13/2018 | [1](http://www-01.ibm.com/support/docview.wss?uid=nas3MF64551),[2](http://www-01.ibm.com/support/docview.wss?uid=nas8N1022433),[3](https://www.ibm.com/blogs/psirt/ibm-security-bulletin-ibm-released-ptfs-response-vulnerabilities-known-spectre-meltdown/),[4](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) |
@@ -60,7 +60,7 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | Chrome 64 | 64+ | ~01/23/2018 | [1](https://support.google.com/faqs/answer/7622138#chrome), [2](https://github.com/v8/v8/wiki/Untrusted-code-mitigations)  |
 | Edge | Windows 10 OS patch | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
 | Firefox | 57.0.4+ | 01/04/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
-| Firefox ESR | 52.6+ | ~01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
+| Firefox ESR | 52.6+ | 01/23/2018 | [1](https://www.mozilla.org/en-US/security/advisories/mfsa2018-01/),[2](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) |
 | Internet Explorer 11 | January 2018 patches | 01/03/2018 | [1](https://blogs.windows.com/msedgedev/2018/01/03/speculative-execution-mitigations-microsoft-edge-internet-explorer/) |
 | Internet Explorer 10 on Windows Server 2012 | TBD | | |
 | Internet Explorer 9 on Windows Server 2008 SP2 | TBD | | |
