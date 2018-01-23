@@ -22,9 +22,9 @@ The [Chromium page](https://www.chromium.org/Home/chromium-security/ssca) states
 Download ([32-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi)/**[64-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi)**) and install Chrome [63.0.3239.132](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html), or later, released on January 5, 2018. Install Chrome 64, or later, since it will have [additional mitigations](https://github.com/v8/v8/wiki/Untrusted-code-mitigations) when released on or around January 23, 2018. 
 
 ### Opera
-Opera [blog entry]((https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/)) states: "*In today’s Opera 50 update we have a fix that blunts the main tool for the attack: The very high precision timer you get with performance.now(). After the change, performance.now() has a precision of 100μs and additionally it has received a small amount of randomness in it. That will make the attacks both much harder and less efficient. It is likely that the timer change is enough to make attacks inefficient enough to not at all be practical but we are going to implement further mitigations in Opera 51*".
+Opera [blog entry](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) states: "*In today’s Opera 50 update we have a fix that blunts the main tool for the attack: The very high precision timer you get with performance.now(). After the change, performance.now() has a precision of 100μs and additionally it has received a small amount of randomness in it. That will make the attacks both much harder and less efficient. It is likely that the timer change is enough to make attacks inefficient enough to not at all be practical but we are going to implement further mitigations in Opera 51*".
 
-Install [Opera 50.0.2762.67] released on January 22, 2018. Install Opera 51 when it is made available.
+[Download](http://ftp.opera.com/pub/opera/desktop/50.0.2762.67/win/) and install [Opera 50.0.2762.67](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) released on January 22, 2018. Install Opera 51 when it is made available.
 
 ### Firefox
 
@@ -93,8 +93,10 @@ A custom Nessus audit file is available for scanning browsers on Windows operati
 * PowerShell is installed.
 * PowerShell version is at least 2.0.
 * If Chrome is installed, then at least 63.0.3239.132 or newer is installed and that the Site Isolation registry value is correctly configured (optional).
-* Internet Explorer 11 patch is installed.
-* If Edge exists, then that the Edge patched is installed.
-* If Firefox is installed, then that Firefox 57.0.4 or newer is installed.
-* If Firefox ESR is installed, then that Firefox 52.6 or newer is installed.
+* Internet Explorer 11 patch is installed. - partially implemented
+* If Edge exists, then that the Edge patched is installed. - partially implemented
+* If Firefox is installed, then that Firefox 57.0.4 or newer is installed. - partially implemented
+* If Firefox ESR is installed, then that Firefox 52.6 or newer is installed. - not implemented yet
+* If Opera is installed, then that Opera 50.0.2762.67 or newer is installed. - not implemented yet
 
+**The Nessus audit file for browers on Windows is still a work in progress**.
