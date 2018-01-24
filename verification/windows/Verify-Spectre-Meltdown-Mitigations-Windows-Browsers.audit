@@ -91,7 +91,7 @@
                             $true
                         } else {
                             $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv);
-                            $version.CompareTo([System.Version]'63.0.3239.132') -ge 0
+                            $version.CompareTo([System.Version]'64.0.3282.119') -ge 0
                         }
                           "
                     value_type: POLICY_TEXT

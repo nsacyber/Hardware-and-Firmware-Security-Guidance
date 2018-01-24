@@ -130,16 +130,7 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
 
 ## Install operating system patches
-Install all January 2018 patches released by Microsoft. 
-
-**Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
-"*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
-
-"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations.*"
-
-**The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
-
-The initial set of Windows patches for Spectre and Meltdown had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft temporarily paused the patches on systems with the affected AMD processors. The following patches resolve the issues:
+Install all January 2018 patches released by Microsoft. The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/). The following patches, released January 10-19, resolve the issues:
 * [KB4073290](https://support.microsoft.com/en-us/help/4073290) - Windows 10 1709
 * [KB4057144](https://support.microsoft.com/en-us/help/4057144) - Windows 10 1703
 * [KB4057142](https://support.microsoft.com/en-us/help/4057142) - Windows 10 1607 / Windows Server 2016 
@@ -148,10 +139,35 @@ The initial set of Windows patches for Spectre and Meltdown had issues on some s
 * [KB4073576](https://support.microsoft.com/en-us/help/4073576) - Windows 8.1 / Windows Server 2012 R2
 * [KB4073578](https://support.microsoft.com/en-us/help/4073578) - Windows 7 SP1 / Windows Server 2008 R2 SP1
 
+**Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
+"*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
+
+"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations.*"
+
+**The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
+
 ## Install firmware update
 
-Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. As of January 22, Intel has [identified](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr) the root cause of the reboot issue impacting [Broadwell and Haswell platforms](https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/microcode-update-guidance.pdf) and is working with OEMs on testing a new update. 
-Only apply firmware updates on production systems after new firmware updates have been published by the affected vendors and the updates have been tested on non-production systems.
+Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. As of January 22, Intel has [identified](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr) the root cause of the reboot issue impacting [Broadwell and Haswell platforms](https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/microcode-update-guidance.pdf) and is working with OEMs on testing a new update. Only apply firmware updates on production systems after new firmware updates have been published by the affected vendors and the updates have been tested on non-production systems.
+
+Dell and HPi have updated their advisories and recommend that customers do not install firmware updates until after new updates have been issued.
+
+[HPi statemment](https://support.hp.com/us-en/document/c05869091):
+*In response to Intel's recommendation, HP is taking the following actions:*
+* *HP is removing HP BIOS softpaqs with Intel microcode patches from hp.com.*
+* *HP will be reissuing HP BIOS softpaqs with previous Intel microcode starting January 25, 2018.*
+* *Once Intel reissues microcode updates, HP will issue revised Softpaqs.*
+*HP is working closely with our partners, and updates will be made as soon as possible. Check this Security Bulletin frequently for updates.*
+
+[Dell EMC statement](https://www.dell.com/support/article/us/en/19/sln308588):
+*Intel has communicated new guidance regarding "reboot issues and unpredictable system behavior" with the microcode included in the BIOS updates released to address Spectre (Variant 2), CVE-2017-5715. Dell is advising that all customers should not deploy the BIOS update for the Spectre (Variant 2) vulnerability at this time. We have removed the impacted BIOS updates from our support pages and are working with Intel on a new BIOS update that will include new microcode from Intel.*
+
+*If you have already deployed the BIOS update, in order to avoid unpredictable system behavior, you can revert back to a previous BIOS version.*
+
+[Dell statement](http://www.dell.com/support/article/us/en/19/sln308587):
+*Intel has communicated new guidance regarding the "reboot issues" with the microcode included in the BIOS updates released to address Spectre (Variant 2), CVE-2017-5715. Dell is advising that all customers should not deploy the BIOS update for the Spectre (Variant 2) vulnerability at this time. We are removing the impacted BIOS updates from the web and suspending further BIOS updates for affected platforms.*
+
+*If you have already applied the BIOS update, please wait for further information and an updated BIOS release, no other action is recommended at this point. Please continue to check back for updates.*
 
 See the [Patches page](./../Patches.md) for links to OEM specific firmware pages.
 
