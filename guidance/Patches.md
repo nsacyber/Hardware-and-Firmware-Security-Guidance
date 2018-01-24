@@ -78,8 +78,8 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | Citrix XenServer 7.2 | XS72E015 | 01/22/2018 | [1](https://support.citrix.com/article/CTX231720),[2](https://support.citrix.com/article/CTX231390) |
 | Citrix XenServer 7.1 | XS71ECU1010 | 01/22/2018 | [1](https://support.citrix.com/article/CTX231719),[2](https://support.citrix.com/article/CTX231390) |
 | Citrix XenServer 7.0 | XS70E050 | 01/19/2018 | [1](https://support.citrix.com/article/CTX230787),[2](https://support.citrix.com/article/CTX231390) |
-| Citrix XenServer 6.5 SP1 | None | Never | []1(https://support.citrix.com/article/CTX231390) |
-| Citrix XenServer 6.2 SP1 | None | Never | []1(https://support.citrix.com/article/CTX231390) |
+| Citrix XenServer 6.5 SP1 | None | Never | [1](https://support.citrix.com/article/CTX231390) |
+| Citrix XenServer 6.2 SP1 | None | Never | [1](https://support.citrix.com/article/CTX231390) |
 | Citrix XenServer 6.0.2 Common Criteria | None | Never | [1](https://support.citrix.com/article/CTX231390) |
 | QEMU | 2.11.1 | TBD | [1](https://www.qemu.org/2018/01/04/spectre/) |
 | VMware ESXi 6.5 | ESXi650-201712101-SG | 12/19/2017 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151102),[3](https://kb.vmware.com/s/article/2151099) |
