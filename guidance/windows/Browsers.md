@@ -38,7 +38,7 @@ A [Mozilla blog entry](https://blog.mozilla.org/security/2018/01/03/mitigations-
 
 Firefox 52 ESR has partial mitigations already in place. A [Mozilla blog entry](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) states: "*Firefox 52 ESR does not support SharedArrayBuffer and is less at risk; the performance.now() mitigations will be included in the regularly scheduled Firefox 52.6 ESR release on January 23, 2018.*"
 
-[Download](https://www.mozilla.org/en-US/firefox/organizations/all/?q=English%20(US)) and install [Firefox 52.6 ESR](https://www.mozilla.org/en-US/firefox/52.6.0/releasenotes/), or later, when released on or around Janauary 23, 2018. 
+[Download](https://www.mozilla.org/en-US/firefox/organizations/all/?q=English%20(US)) and install [Firefox 52.6 ESR](https://www.mozilla.org/en-US/firefox/52.6.0/releasenotes/) released on January 23, 2018. 
 
 ## Perform configuration changes
 
