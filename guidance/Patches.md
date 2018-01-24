@@ -38,7 +38,9 @@ Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell
 | Linux kernel | 4.14.11+ | 01/03/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.14.11) |
 | Linux kernel | 4.9.75+ | 01/05/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.9.75) |
 | Linux kernel | 4.4.110+ | 01/05/2018 | [1](https://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.4.110)|
-| macOS High Sierra | 10.13.2+ | 12/06/2017 | [1](https://support.apple.com/en-us/HT208331)|
+| macOS High Sierra | 10.13.3 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465),[2](https://support.apple.com/en-us/HT208331) |
+| macOS Sierra Security Update 2018-001 | 10.12.7 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465) |
+| OS X El Capitan Security Update 2018-001 | 10.11.7 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465) |
 | Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056892) |
 | Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056891) |
 | Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056890) |
