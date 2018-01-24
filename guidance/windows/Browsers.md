@@ -17,12 +17,12 @@ Install all January 2018 patches released by Microsoft.
 
 ### Chrome
 
-The [Chromium page](https://www.chromium.org/Home/chromium-security/ssca) states: "*Chrome has disabled SharedArrayBuffer on Chrome 63 starting on Jan 5th, and will modify the behavior of other APIs such as performance.now, to help reduce the efficacy of speculative side-channel attacks. This is intended as a temporary measure until other mitigations are in place.*"
+Chrome [63.0.3239.132](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html), released on January 5, 2018, introduced initial mitigations for Spectre. The [Chromium speculative execution page](https://www.chromium.org/Home/chromium-security/ssca) states: "*Chrome has disabled SharedArrayBuffer on Chrome 63 starting on Jan 5th, and will modify the behavior of other APIs such as performance.now, to help reduce the efficacy of speculative side-channel attacks. This is intended as a temporary measure until other mitigations are in place.*" Chrome [64.0.3282.119](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop_24.html) released on January 24, 2018, has [additional mitigations](https://github.com/v8/v8/wiki/Untrusted-code-mitigations).
 
-Download ([32-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi)/**[64-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi)**) and install Chrome [63.0.3239.132](https://chromereleases.googleblog.com/2018/01/stable-channel-update-for-desktop.html), or later, released on January 5, 2018. Install Chrome 64, or later, since it will have [additional mitigations](https://github.com/v8/v8/wiki/Untrusted-code-mitigations) when released on or around January 23, 2018. 
+Download ([32-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi)/**[64-bit](https://dl.google.com/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi)**) and install Chrome 64.0.3282.119, or later, released on January 24, 2018.
 
 ### Opera
-Opera [blog entry](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) states: "*In today’s Opera 50 update we have a fix that blunts the main tool for the attack: The very high precision timer you get with performance.now(). After the change, performance.now() has a precision of 100μs and additionally it has received a small amount of randomness in it. That will make the attacks both much harder and less efficient. It is likely that the timer change is enough to make attacks inefficient enough to not at all be practical but we are going to implement further mitigations in Opera 51*".
+An Opera [blog entry](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) states: "*In today’s Opera 50 update we have a fix that blunts the main tool for the attack: The very high precision timer you get with performance.now(). After the change, performance.now() has a precision of 100μs and additionally it has received a small amount of randomness in it. That will make the attacks both much harder and less efficient. It is likely that the timer change is enough to make attacks inefficient enough to not at all be practical but we are going to implement further mitigations in Opera 51*".
 
 [Download](http://ftp.opera.com/pub/opera/desktop/50.0.2762.67/win/) and install [Opera 50.0.2762.67](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) released on January 22, 2018. Install Opera 51 when it is made available.
 
@@ -36,7 +36,7 @@ A [Mozilla blog entry](https://blog.mozilla.org/security/2018/01/03/mitigations-
 
 ### Firefox ESR
 
-Firefox 52 ESR has partial mitigations already in place. A [Mozilla blog entry](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) states: "*Firefox 52 ESR does not support SharedArrayBuffer and is less at risk; the performance.now() mitigations will be included in the regularly scheduled Firefox 52.6 ESR release on January 23, 2018.*"
+A [Mozilla blog entry](https://blog.mozilla.org/security/2018/01/03/mitigations-landing-new-class-timing-attack/) states: "*Firefox 52 ESR does not support SharedArrayBuffer and is less at risk; the performance.now() mitigations will be included in the regularly scheduled Firefox 52.6 ESR release on January 23, 2018.*"
 
 [Download](https://www.mozilla.org/en-US/firefox/organizations/all/?q=English%20(US)) and install [Firefox 52.6 ESR](https://www.mozilla.org/en-US/firefox/52.6.0/releasenotes/) released on January 23, 2018. 
 
