@@ -69,39 +69,82 @@
             </condition>
             <then>
 
-                <custom_item>
-                    type: AUDIT_POWERSHELL
-                    description: "Detects if Chrome browser for business is updated."
-                    info: "
-                        Detects if Chrome browser for business is updated.
-                
-                        Executes PowerShell code:
-                
-                        $path = '';
+                #<custom_item>
+                #    type: AUDIT_POWERSHELL
+                #    description: "Detects if Chrome browser for business is updated."
+                #    info: "
+                #        Detects if Chrome browser for business is updated.
+                #
+                #        Executes PowerShell code:
+                #
+                #        $path = '';
+#
+                #        if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') {
+                #            $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
+                #        }
+#
+                #        if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') {
+                #            $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
+                #        }
+#
+                #        if($path -eq '') {
+                #            $true
+                #        } else {
+                #            $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv);
+                #            $version.CompareTo([System.Version]'64.0.3282.119') -ge 0
+                #        }
+                #          "
+                #    value_type: POLICY_TEXT
+                #    value_data: "True"
+                #    check_type: CHECK_EQUAL
+                #    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if($path -eq '') { $true } else { $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv); $version.CompareTo([System.Version]'63.0.3239.132') -ge 0}"
+                #    ps_encoded_args: NO
+                #    only_show_cmd_output: NO
+                #    severity: HIGH
+                #</custom_item>
 
-                        if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') {
-                            $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
-                        }
+                <if>
+                    <condition type: "or">
+                        <custom_item>
+                            type: FILE_VERSION
+                            description: "Detects if Chrome browser for business in %ProgramFiles% is updated."
+                            info: "
+                                Detects if Chrome browser for business in %ProgramFiles% is updated.
 
-                        if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') {
-                            $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
-                        }
+                                Looks for %ProgramFiles%\Google\Chrome\Application\chrome.exe version greater than or equal to 64.0.3282.119
+                                  "
+                            value_type: POLICY_FILE_VERSION
+                            value_data: "64.0.3282.119"
+                            file_item: "%ProgramFiles%\Google\Chrome\Application\chrome.exe"
+                            file_option: MUST_EXIST             
+                        </custom_item>
+                        <custom_item>
+                            type: FILE_VERSION
+                            description: "Detects if Chrome browser for business in %ProgramFiles% (x86) is updated."
+                            info: "
+                                Detects if Chrome browser for business in %ProgramFiles% (x86) is updated.
 
-                        if($path -eq '') {
-                            $true
-                        } else {
-                            $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv);
-                            $version.CompareTo([System.Version]'64.0.3282.119') -ge 0
-                        }
-                          "
-                    value_type: POLICY_TEXT
-                    value_data: "True"
-                    check_type: CHECK_EQUAL
-                    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if($path -eq '') { $true } else { $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv); $version.CompareTo([System.Version]'63.0.3239.132') -ge 0}"
-                    ps_encoded_args: NO
-                    only_show_cmd_output: NO
-                    severity: HIGH
-                </custom_item>
+                                Looks for %ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe version greater than or equal to 64.0.3282.119
+                                  "
+                            value_type: POLICY_FILE_VERSION
+                            value_data: "64.0.3282.119"
+                            file_item: "%ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe"
+                            file_option: MUST_EXIST
+                        </custom_item>
+                    </condition>
+                    <then>
+                        <report type: "PASSED">
+                            description: "Chrome browser for business is updated."
+                            info: "Chrome browser for business is updated to at least 64.0.3282.119 or later."
+                        </report>
+                    </then>
+                    <else>
+                        <report type: "FAILED">
+                            description: "Chrome browser for business is not updated."
+                            info: "Chrome browser for business is not updated to at least 64.0.3282.119 or later."
+                        </report>
+                    </else>
+                </if>
 
                 <if>
                     <condition type: "and">
