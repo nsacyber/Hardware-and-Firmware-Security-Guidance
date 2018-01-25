@@ -92,7 +92,7 @@ Site Isolation can also be manually verified when configured through the Chrome 
 A custom Nessus audit file is available for scanning browsers on Windows operating systems: [Verify-Spectre-Meltdown-Mitigations-Windows-Browsers.audit](./../../verification/windows/Verify-Spectre-Meltdown-Mitigations-Windows-Browsers.audit). The custom audit file can be leveraged by using a [Policy Compliance](https://docs.tenable.com/nessus/7_0/Content/ScanAndPolicyTemplates.htm) scan. The audit file performs the following checks:
 * PowerShell is installed.
 * PowerShell version is at least 2.0.
-* If Chrome is installed, then at least 63.0.3239.132 or newer is installed and that the Site Isolation registry value is correctly configured (optional).
+* If Chrome is installed, then at least 64.0.3282.119 or newer is installed and that the Site Isolation registry value is correctly configured (optional).
 * Internet Explorer 11 patch is installed. - partially implemented
 * If Edge exists, then that the Edge patched is installed. - partially implemented
 * If Firefox is installed, then that Firefox 57.0.4 or newer is installed. - partially implemented
