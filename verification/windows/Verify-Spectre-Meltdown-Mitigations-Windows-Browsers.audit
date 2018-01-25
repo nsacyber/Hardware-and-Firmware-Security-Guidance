@@ -117,7 +117,7 @@
                             value_type: POLICY_TEXT
                             value_data: "HKLM\Software\Policies\Google\Chrome"
                             key_item: "SitePerProcess"
-                            reg_option: MUST_EXIST             
+                            reg_option: MUST_EXIST
                         </custom_item>
                         <custom_item>
                             type: REGISTRY_SETTING
@@ -253,7 +253,8 @@
                 </custom_item>
             </condition>
             <then>
-
+                # this item on its own will false positive in the case where Firefox ESR has been installed, uninstalled, and where Firefox (RR or ESR) is not installed on the system
+                # this is due to FireFox ESR not deleting its registry keys and values on uninstall (Firefox RR does delete its registry keys on uninstall)
                 <custom_item>
                     type: AUDIT_POWERSHELL
                     description: "Detects if Firefox is updated."
@@ -304,6 +305,87 @@
                 <report type: "PASSED">
                     description: "Firefox browser is not installed"
                     info: "Firefox browser is not installed"
+                </report>
+            </else>
+        </if>
+        
+        # 5. if Opera is installed, then check if it is updated
+
+        <if>
+            <condition type: "or">
+                <custom_item> 
+                    type: FILE_CHECK 
+                    description: "Detects if Opera is installed at %ProgramFiles% (x86)"
+                    info: "
+                          Looks for:
+                          %ProgramFiles% (x86)\Opera\launcher.exe
+                          "
+                    value_type: POLICY_TEXT 
+                    value_data: "%ProgramFiles% (x86)\Opera\launcher.exe"
+                    file_option: MUST_EXIST
+                </custom_item>
+                <custom_item> 
+                    type: FILE_CHECK 
+                    description: "Detects if Opera is installed at %ProgramFiles%"
+                    info: "
+                          Looks for:
+                          %ProgramFiles%\Opera\launcher.exe
+                          "
+                    value_type: POLICY_TEXT 
+                    value_data: "%ProgramFiles%\Opera\launcher.exe"
+                    file_option: MUST_EXIST
+                </custom_item>
+            </condition>
+            <then>
+            
+                <if>
+                    <condition type: "or">
+                        <custom_item>
+                            type: FILE_VERSION
+                            description: "Detects if Opera launcher in %ProgramFiles% is updated."
+                            info: "
+                                Detects if Opera launcher in %ProgramFiles% is updated.
+
+                                Looks for %ProgramFiles%\Opera\launcher.exe version greater than or equal to 50.0.2762.67
+                                  "
+                            value_type: POLICY_FILE_VERSION
+                            value_data: "50.0.2762.67"
+                            file_item: "%ProgramFiles%\Opera\launcher.exe"
+                            file_option: MUST_EXIST             
+                        </custom_item>
+                        <custom_item>
+                            type: FILE_VERSION
+                            description: "Detects if Opera launcher in %ProgramFiles% (x86) is updated."
+                            info: "
+                                Detects if Opera launcher in %ProgramFiles% (x86) is updated.
+
+                                Looks for %ProgramFiles% (x86)\Opera\launcher.exe version greater than or equal to 50.0.2762.67
+                                  "
+                            value_type: POLICY_FILE_VERSION
+                            value_data: "50.0.2762.67"
+                            file_item: "%ProgramFiles% (x86)\Opera\launcher.exe"
+                            file_option: MUST_EXIST
+                        </custom_item>
+                    </condition>
+                    <then>
+                        <report type: "PASSED">
+                            description: "Opera browser is updated."
+                            info: "Opera browser is updated to at least 50.0.2762.67 or later."
+                        </report>
+                    </then>
+                    <else>
+                        <report type: "FAILED">
+                            description: "Opera browser is not updated."
+                            info: "Opera browser is not updated to at least 50.0.2762.67 or later."
+                        </report>
+                    </else>
+                </if>
+            
+            </then>
+            <else>
+                <report type: "PASSED">
+                    description: "Opera browser is not installed"
+                    info: "Opera browser is not installed"
                 </report>
             </else>
         </if>

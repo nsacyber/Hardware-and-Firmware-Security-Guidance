@@ -97,6 +97,6 @@ A custom Nessus audit file is available for scanning browsers on Windows operati
 * If Edge exists, then that the Edge patched is installed. - partially implemented
 * If Firefox is installed, then that Firefox 57.0.4 or newer is installed.
 * If Firefox ESR is installed, then that Firefox 52.6 or newer is installed.
-* If Opera is installed, then that Opera 50.0.2762.67 or newer is installed. - not implemented yet
+* If Opera is installed, then that Opera 50.0.2762.67 or newer is installed.
 
 **The Nessus audit file for browers on Windows is still a work in progress**.
