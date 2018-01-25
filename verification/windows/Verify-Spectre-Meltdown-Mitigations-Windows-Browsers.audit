@@ -1,4 +1,4 @@
-# Last Updated: 01/19/2018
+# Last Updated: 01/25/2018
 
 <check_type: "Windows" version: "2">
     <group_policy: "Verifies Spectre and Meltdown patches are installed and mitigations are enabled for browsers on Windows operating systems">
@@ -264,25 +264,36 @@
                 
                         $path = '';
 
-                        if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox') {
-                           $path = 'HKLM:\Software\Mozilla\Mozilla Firefox'
-                        }
+                        $isFireFoxRR = ((Get-ItemProperty -Path 'HKLM:\Software\Mozilla\Mozilla Firefox' -Name 'CurrentVersion' -ErrorAction SilentlyContinue) -ne $null) -or ((Get-ItemProperty -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox' -Name 'CurrentVersion' -ErrorAction SilentlyContinue) -ne $null);
 
-                        if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox') {
-                           $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox'
-                        }
+                        if($isFireFoxRR) {
+                            if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox') {
+                                $path = 'HKLM:\Software\Mozilla\Mozilla Firefox'
+                            }
 
-                        if($path -eq '') {
-                            $true
-                        } else {
+                            if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox') {
+                                $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox'
+                            }
+
                             $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]);
                             $version.CompareTo([System.Version]'57.0.4') -ge 0
+                        } else {
+                            if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox ESR') {
+                                $path = 'HKLM:\Software\Mozilla\Mozilla Firefox ESR'
+                            }
+
+                            if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox ESR') {
+                                $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox ESR'
+                            }
+
+                            $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]);
+                            $version.CompareTo([System.Version]'52.6.0') -ge 0
                         }
                           "
                     value_type: POLICY_TEXT
                     value_data: "True"
                     check_type: CHECK_EQUAL
-                    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox') { $path = 'HKLM:\Software\Mozilla\Mozilla Firefox' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox') { $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox' } if($path -eq '') { $true } else { $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]); $version.CompareTo([System.Version]'57.0.4') -ge 0 }"
+                    powershell_args: "$path = ''; $isFireFoxRR = ((Get-ItemProperty -Path 'HKLM:\Software\Mozilla\Mozilla Firefox' -Name 'CurrentVersion' -ErrorAction SilentlyContinue) -ne $null) -or ((Get-ItemProperty -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox' -Name 'CurrentVersion' -ErrorAction SilentlyContinue) -ne $null); if($isFireFoxRR) { if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox') {  $path = 'HKLM:\Software\Mozilla\Mozilla Firefox' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox') { $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox' } $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]); $version.CompareTo([System.Version]'57.0.4') -ge 0 } else { if(Test-Path -Path 'HKLM:\Software\Mozilla\Mozilla Firefox ESR') { $path = 'HKLM:\Software\Mozilla\Mozilla Firefox ESR' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox ESR') { $path = 'HKLM:\Software\WOW6432Node\Mozilla\Mozilla Firefox ESR' } $version = [System.Version]((Get-ItemProperty -Path $path -Name 'CurrentVersion' | Select-Object -Property 'CurrentVersion' -ExpandProperty 'CurrentVersion').Split(' ')[0]); $version.CompareTo([System.Version]'52.6.0') -ge 0}"
                     ps_encoded_args: NO
                     only_show_cmd_output: NO
                     severity: HIGH
