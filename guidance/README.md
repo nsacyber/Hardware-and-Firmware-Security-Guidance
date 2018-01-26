@@ -11,3 +11,10 @@ Windows operating systems and applications guidance in development:
 * [Operating system](./windows/OS.md) guidance
 * [Browser](./windows/Browsers.md) guidance
 * [Hyper-V host](./windows/Hyper-V.md) guidance
+
+## Linux
+* [Operating System](./linux/README.md) guidance
+* Browsers Guidance in the Windows section
+
+## macOs
+* [Operating System](./macOs/README.md) guidance
