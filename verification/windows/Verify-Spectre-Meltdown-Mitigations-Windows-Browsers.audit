@@ -242,21 +242,74 @@
             info: "
                 Detects if Edge is updated.
 
-                TODO: check correct Edge version on different releases and architectures of Windows
-                Windows 10 1709 - gt 41.16299.15.0
-                Windows 10 1703 - greater than ?
-                Windows 10 1607 - ge 38.14393.1066.0
-                Windows 10 1511 - greater than ?
-                Windows 10 1507 - greater than ? 
+                TODO: check correct Edge version on different releases, architectures, and role (client vs server) of Windows.
+                Windows 10 clients:
+                    Windows 10 1709 - gt 41.16299.15.0
+                    Windows 10 1703 - greater than ?
+                    Windows 10 1607 - ge 38.14393.1066.0
+                    Windows 10 1511 - greater than ?
+                    Windows 10 1507 - greater than ? 
+                    
+                Windows 10 servers:
+                    Windows Server 2016 (1607) - 
+                    Windows Server 1709 - none since no Edge?
                 
                 Executes PowerShell code:
+            
+                $major = 0;
+                $minor = 0;
+                $build = 0;
+                $revision = 0;
 
-                $groups = (@(Get-Item HKCU:\Software\Classes\AppX* | ForEach-Object { Get-ItemProperty -Path ($_.Name.Replace('HKEY_CURRENT_USER','HKCU:') + '\Application') -Name 'ApplicationName' -ErrorAction SilentlyContinue | Select-Object -Property 'ApplicationName' -ExpandProperty 'ApplicationName' } | Where-Object {$_ -match '^@\{Microsoft.MicrosoftEdge_(\d{1,8}\.\d{1,8}\.\d{1,8}\.\d{1,8})_.*$'} | Get-Unique)[0] | Select-String -Pattern '^@\{Microsoft.MicrosoftEdge_(\d{1,8}\.\d{1,8}\.\d{1,8}\.\d{1,8})_.*$').Matches.Groups;
+                $currentVersionPath = 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion';
+                $key = Get-ItemProperty -Path $currentVersionPath -ErrorAction SilentlyContinue;
+                $isWindows10orLater = $null -ne ($key.PSObject.Properties.Name -contains 'CurrentMajorVersionNumber');
 
-                if($groups -eq $null) {
-                    $true
+                if($isWindows10orLater) {
+                    $major = [Uint32]($key.CurrentMajorVersionNumber);
+                    $minor = [UInt32]($key.CurrentMinorVersionNumber);
+                    $build = [UInt32]($key.CurrentBuildNumber);
                 } else {
-                   ([System.Version]$groups[1].Value).CompareTo([System.Version]'41.16299.15.0') -gt 0
+                    $major = [UInt32](($key.CurrentVersion -split '\.')[0]);
+                    $minor = [UInt32](($key.CurrentVersion -split '\.')[1]);
+                    $build = [UInt32]($key.CurrentBuild);
+                }
+
+                if($key.PSObject.Properties.Name -contains 'UBR') {
+                    $revision = [UInt32]($key.UBR)
+                } 
+
+                $osVersion = [System.Version]('{0}.{1}.{2}.{3}' -f $major,$minor,$build,$revision)
+
+                if ($osVersion.Major -ge 10) {
+                    if($key.PSObject.Properties.Name -contains 'ReleaseId') {
+                        $releaseId = [UInt32]$key.ReleaseId 
+                    } else {
+                        $releaseId = 1507
+                    }
+
+                    $groups = (@(Get-Item HKCU:\Software\Classes\AppX* | ForEach-Object { Get-ItemProperty -Path ($_.Name.Replace('HKEY_CURRENT_USER','HKCU:') + '\Application') -Name 'ApplicationName' -ErrorAction SilentlyContinue | Select-Object -Property 'ApplicationName' -ExpandProperty 'ApplicationName' } | Where-Object {$_ -match '^@\{Microsoft.MicrosoftEdge_(\d{1,8}\.\d{1,8}\.\d{1,8}\.\d{1,8})_.*$'} | Get-Unique)[0] | Select-String -Pattern '^@\{Microsoft.MicrosoftEdge_(\d{1,8}\.\d{1,8}\.\d{1,8}\.\d{1,8})_.*$').Matches.Groups;
+
+                    if($groups -eq $null) {
+                        $false
+                    } else {
+                        $edgeVersion = [System.Version]($groups[1].Value)
+                    }
+
+                    $isClient = $key.InstallationType -eq 'Client';
+   
+                    switch($releaseId) {
+                        1709 { $requiredEdgeVersion = [System.Version]'41.16299.15.0'; break }
+                        1703 { $requiredEdgeVersion = [System.Version]'40.15063.0.0'; break }
+                        1607 { $requiredEdgeVersion = [System.Version]'38.14393.1066.0'; break }
+                        1511 { $requiredEdgeVersion = [System.Version]'25.10586.0.0'; break }
+                        1507 { $requiredEdgeVersion = [System.Version]'20.10240.0.0'; break }
+                        default { $requiredEdgeVersion = [System.Version]'0.0.0.0'; break }
+                    }
+
+                    $edgeVersion.CompareTo($requiredEdgeVersion) -ge 0
+                } else {
+                    $true
                 }
                   "
             value_type: POLICY_TEXT
