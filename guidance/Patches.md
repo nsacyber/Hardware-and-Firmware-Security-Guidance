@@ -62,14 +62,15 @@ Dell and HPi have updated their advisories and recommend that customers do not i
 | macOS High Sierra | 10.13.2 | 12/06/2017 | [1](https://support.apple.com/en-us/HT208331) |
 | macOS Sierra Security Update 2018-001 | 10.12.7 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465) |
 | OS X El Capitan Security Update 2018-001 | 10.11.7 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465) |
-| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056892) |
-| Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056891) |
-| Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056890) |
-| Windows 10 1511 | KB4056888 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056888) |
-| Windows 10 1507 | KB4056893 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056893) |
-| Windows 8.1 / Windows Server 2012 R2 | KB4056898 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056898) |
-| Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup) | KB4056894 | 01/04/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056894) |
-| Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only) | KB4056897 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown),[3](https://support.microsoft.com/en-us/help/4056897) |
+| Windows 10 1709 (32-bit only) | KB4073291 | 01/18/2017 | [l](https://support.microsoft.com/en-us/help/4073291) |
+| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056892),(https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056891),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056890),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 10 1511 | KB4056888 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056888),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 10 1507 | KB4056893 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056893),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 8.1 / Windows Server 2012 R2 | KB4056898 | 01/03/2018 | [1][3](https://support.microsoft.com/en-us/help/4056898), [2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup) | KB4056894 | 01/04/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/),[3](https://support.microsoft.com/en-us/help/4056894) |
+| Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only) | KB4056897 | 01/03/2018 | [1](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[2](https://support.microsoft.com/en-us/help/4073757/),[3](https://support.microsoft.com/en-us/help/4056897) |
 | Windows Server 2012 | TBD | TBD | |
 | Windows Server 2008 SP2 | TBD | TBD | |
 
@@ -89,7 +90,8 @@ Dell and HPi have updated their advisories and recommend that customers do not i
 | Internet Explorer 9 on Windows Server 2008 SP2 | TBD | | |
 | Opera | 50.0.2762.67 | 01/22/2018| [1](https://blogs.opera.com/desktop/2018/01/opera-50-0-2762-67-stable-update/) |
 | Safari on macOS High Sierra 10.13.2 | 11.0.2 / 11.0.2 (13604.4.7.1.6) or 11.0.2 (13604.4.7.10.6)| 01/08/2018 | [1](https://support.apple.com/en-us/HT208397) |
-| Safari on OS X El Capitan 10.11.6 and macOS Sierra 10.12.6 | 11.0.2 / 11.0.2 (11604.4.7.1.6) on OS X El Capitan 10.11.6 and 11.0.2 (12604.4.7.1.6) on macOS Sierra 10.12.6 | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
+| Safari on macOS Sierra 10.12.6  |  11.0.2 (12604.4.7.1.6) | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
+| Safari on OS X El Capitan 10.11.6 | 11.0.2 (11604.4.7.1.6) | 01/08/2018| [1](https://support.apple.com/en-us/HT208403) |
 
 #### Virtualization
 
@@ -103,11 +105,11 @@ Dell and HPi have updated their advisories and recommend that customers do not i
 | Citrix XenServer 6.2 SP1 | None | Never | [1](https://support.citrix.com/article/CTX231390) |
 | Citrix XenServer 6.0.2 Common Criteria | None | Never | [1](https://support.citrix.com/article/CTX231390) |
 | QEMU | 2.11.1 | TBD | [1](https://www.qemu.org/2018/01/04/spectre/) |
-| VMware ESXi 6.5 | ESXi650-201712101-SG | 12/19/2017 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151102),[3](https://kb.vmware.com/s/article/2151099) |
-| VMware ESXi 6.0 | ESXi600-201711101-SG | 11/09/2017 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151126),[3](http://kb.vmware.com/kb/2151132) |
-| VMware ESXi 5.5 | ESXi550-201709101-SG | 09/14/2017| [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2150882),[3](https://kb.vmware.com/s/article/2150876) |
-| VMware Fusion 8 / Fusion Pro 8 | 8.5.9 | 01/03/2018 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html) |
-| VMware Workstation Pro 12 / Workstation Player 12 | 12.5.8 | 01/03/2018 | [1](https://www.vnware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware ESXi 6.5 | ESXi650-201712101-SG | 12/19/2017 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151102),[3](https://kb.vmware.com/s/article/2151099) |
+| VMware ESXi 6.0 | ESXi600-201711101-SG | 11/09/2017 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151126),[3](http://kb.vmware.com/kb/2151132) |
+| VMware ESXi 5.5 | ESXi550-201709101-SG | 09/14/2017| [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2150882),[3](https://kb.vmware.com/s/article/2150876) |
+| VMware Fusion 8 / Fusion Pro 8 | 8.5.9 | 01/03/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware Workstation Pro 12 / Workstation Player 12 | 12.5.8 | 01/03/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
 | Xen Project | | TBD| [1](https://xenbits.xen.org/xsa/advisory-254.html) |
 
 #### Other
