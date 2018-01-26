@@ -142,9 +142,11 @@ Install all January 2018 patches released by Microsoft. The initial set of Windo
 **Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
 "*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
 
-"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations.*"
+"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations*"
 
 **The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
+
+Microsoft released KB4073291 for 32-bit Windows 10 1709 systems on January 18 for CVE-2017-5754. Other 32-bit releases of Windows do not have a patch for CVE-2017-5754 at this time.
 
 ## Install firmware update
 

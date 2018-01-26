@@ -1,4 +1,4 @@
-# Last Updated: 01/25/2018
+# Last Updated: 01/26/2018
 
 <check_type: "Windows" version: "2">
     <group_policy: "Verifies Spectre and Meltdown patches are installed and mitigations are enabled for browsers on Windows operating systems">
@@ -97,7 +97,7 @@
                 #    value_type: POLICY_TEXT
                 #    value_data: "True"
                 #    check_type: CHECK_EQUAL
-                #    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if($path -eq '') { $true } else { $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv); $version.CompareTo([System.Version]'63.0.3239.132') -ge 0}"
+                #    powershell_args: "$path = ''; if(Test-Path -Path 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if(Test-Path -Path 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}') { $path = 'HKLM:\Software\WOW6432Node\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}' } if($path -eq '') { $true } else { $version = [System.Version](Get-ItemProperty -Path $path -Name pv | Select-Object -Property pv -ExpandProperty pv); $version.CompareTo([System.Version]'64.0.3282.119') -ge 0}"
                 #    ps_encoded_args: NO
                 #    only_show_cmd_output: NO
                 #    severity: HIGH
@@ -115,7 +115,7 @@
                                   "
                             value_type: POLICY_FILE_VERSION
                             value_data: "64.0.3282.119"
-                            file_item: "%ProgramFiles%\Google\Chrome\Application\chrome.exe"
+                            file: "%ProgramFiles%\Google\Chrome\Application\chrome.exe"
                             file_option: MUST_EXIST             
                         </custom_item>
                         <custom_item>
@@ -128,7 +128,7 @@
                                   "
                             value_type: POLICY_FILE_VERSION
                             value_data: "64.0.3282.119"
-                            file_item: "%ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe"
+                            file: "%ProgramFiles% (x86)\Google\Chrome\Application\chrome.exe"
                             file_option: MUST_EXIST
                         </custom_item>
                     </condition>
@@ -393,7 +393,7 @@
                                   "
                             value_type: POLICY_FILE_VERSION
                             value_data: "50.0.2762.67"
-                            file_item: "%ProgramFiles%\Opera\launcher.exe"
+                            file: "%ProgramFiles%\Opera\launcher.exe"
                             file_option: MUST_EXIST             
                         </custom_item>
                         <custom_item>
@@ -406,7 +406,7 @@
                                   "
                             value_type: POLICY_FILE_VERSION
                             value_data: "50.0.2762.67"
-                            file_item: "%ProgramFiles% (x86)\Opera\launcher.exe"
+                            file: "%ProgramFiles% (x86)\Opera\launcher.exe"
                             file_option: MUST_EXIST
                         </custom_item>
                     </condition>
