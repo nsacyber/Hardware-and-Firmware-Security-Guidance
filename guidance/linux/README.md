@@ -3,7 +3,7 @@ Generally the best mitigation against Spectre and Meltdown and other
 known vulnerabilities is to choose an Operating System with good 
 support and leverage that support by applying provided updates as quickly as possible.
 
-Meltdown (and other KASLR bypass attacks) was addressed by the Linux 
+Meltdown and other similar types of KASLR bypass attacks were addressed by the Linux 
 kernel developers in January 2018.
 The mitigation is known as 
 [Kernel Page Table Isolation](https://en.wikipedia.org/wiki/Kernel_page-table_isolation) 

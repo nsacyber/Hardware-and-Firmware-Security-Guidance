@@ -17,7 +17,7 @@ Mitigations fall under a common number of themes:
 * Installing application specific patches and in some cases configuring the application.
 
 The main areas of interest in the repository are:
-* [Guidance](./guidance) - Operating system and application specific guidance. Currently only for Windows.
+* [Guidance](./guidance) - Operating system and application specific guidance. Currently only for Windows and Linux.
 * [Verification](./verification) - Operating and application specific verification of mitigations. Currently only for Windows.
 
 The files in this repository can be downloaded as a zip file [here](https://github.com/iadgov/Spectre-and-Meltdown-Guidance/archive/master.zip).
