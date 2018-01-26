@@ -14,7 +14,5 @@ Windows operating systems and applications guidance in development:
 
 ## Linux
 * [Operating System](./linux/README.md) guidance
-* See the Browsers Guidance in the Windows section
+* See the [Browser guidance]((./windows/Browsers.md) in the Windows section
 
-## macOs
-* [Operating System](./macOs/README.md) guidance
