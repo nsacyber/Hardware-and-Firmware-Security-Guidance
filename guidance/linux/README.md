@@ -27,10 +27,8 @@ system programs, browsers, and other applications) such that indirect
 branches cannot be manipulated to cause speculative mechanisms to 
 cache privileged memory reliably.
 Since this mitigation impacts much more than the OS, it has been much slower to productize and distribute.
-While disabling branch prediction would completely rectify Spectre attacks, the  
-catastrophic degredation on performance is generally deemed unacceptable.
-A permanent fix to Spectre requires a redesign of branch predictor and 
-speculative code execution mechanisms in the firmware.
+While disabling branch prediction would completely rectify Spectre attacks, the catastrophic degredation on performance is generally deemed unacceptable.
+A permanent fix to Spectre requires a redesign of branch predictor and speculative code execution mechanisms in the firmware.
 
 For Specter and Meltdown, several detection tools have been developed and published on the Internet:
 "spectre-meltdown-checker" by _speed47_ team available at https://github.com/speed47/spectre-meltdown-checker
