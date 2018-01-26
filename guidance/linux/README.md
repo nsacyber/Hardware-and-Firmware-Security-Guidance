@@ -22,11 +22,11 @@ performance is not an issue.
 Spectre, on the other hand, has not been completely addressed yet by the Linux community,
 but short-term mitigation efforts are coalescing around a technique called 
 ["Retpoline"](https://support.google.com/faqs/answer/7625886) that devised by Google.
-Retpoline works by patching critical executables (kernel, hypervisors, 
+Retpoline works by updating critical executables (kernel, hypervisors, 
 system programs, browsers, and other applications) such that indirect 
-branches cannot be manipulated to cause speculative mechanisms to 
-cache privileged memory reliably.
-Since this mitigation impacts much more than the OS, it has been much slower to productize and distribute.
+branches are replaced with returns which avoids utilizing and thus exposing branch target predictors.
+Unfortunately retpoline is mostly implemented by a compiler so all vulnerable software must be recompiled.
+Since this mitigation involves more than a simple patch to the OS, it has been much slower to productize and distribute.
 While disabling branch prediction would completely rectify Spectre attacks, the catastrophic degredation on performance is generally deemed unacceptable.
 A permanent fix to Spectre requires a redesign of branch predictor and speculative code execution mechanisms in the firmware.
 
