@@ -243,20 +243,20 @@
                 Detects if Edge is updated.
 
                 TODO: check correct Edge version on different releases and architectures of Windows
+                Windows 10 1709 - gt 41.16299.15.0
+                Windows 10 1703 - greater than ?
+                Windows 10 1607 - ge 38.14393.1066.0
+                Windows 10 1511 - greater than ?
+                Windows 10 1507 - greater than ? 
                 
                 Executes PowerShell code:
 
-                if (Test-Path -Path 'HKCU:\Software\Classes\AppX3xxs313wwkfjhythsb8q46xdsq8d2cvv\Application') {
-                    $name = (Get-ItemProperty -Path HKCU:\Software\Classes\AppX3xxs313wwkfjhythsb8q46xdsq8d2cvv\Application -Name ApplicationName | Select-Object -Property ApplicationName -ExpandProperty ApplicationName);
+                $groups = (@(Get-Item HKCU:\Software\Classes\AppX* | ForEach-Object { Get-ItemProperty -Path ($_.Name.Replace('HKEY_CURRENT_USER','HKCU:') + '\Application') -Name 'ApplicationName' -ErrorAction SilentlyContinue | Select-Object -Property 'ApplicationName' -ExpandProperty 'ApplicationName' } | Where-Object {$_ -match '^@\{Microsoft.MicrosoftEdge_(\d{1,8}\.\d{1,8}\.\d{1,8}\.\d{1,8})_.*$'} | Get-Unique)[0] | Select-String -Pattern '^@\{Microsoft.MicrosoftEdge_(\d{1,8}\.\d{1,8}\.\d{1,8}\.\d{1,8})_.*$').Matches.Groups;
 
-                    if($name -match '^@\{Microsoft.MicrosoftEdge_(\d{1,3}\.\d{1,6}\.\d{1,3}\.\d{1,3})_.*$') {
-                        $version = [System.Version]$matches[1];
-                        $version.CompareTo([System.Version]'41.16299.15.0') -gt 0      
-                    } else {
-                        $false
-                    }
-                } else {
+                if($groups -eq $null) {
                     $true
+                } else {
+                   ([System.Version]$groups[1].Value).CompareTo([System.Version]'41.16299.15.0') -gt 0
                 }
                   "
             value_type: POLICY_TEXT
