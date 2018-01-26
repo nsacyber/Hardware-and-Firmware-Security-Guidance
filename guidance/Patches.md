@@ -63,7 +63,7 @@ Dell and HPi have updated their advisories and recommend that customers do not i
 | macOS Sierra Security Update 2018-001 | 10.12.7 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465) |
 | OS X El Capitan Security Update 2018-001 | 10.11.7 | 01/23/2018 | [1](https://support.apple.com/en-us/HT208465) |
 | Windows 10 1709 (32-bit only) | KB4073291 | 01/18/2017 | [l](https://support.microsoft.com/en-us/help/4073291) |
-| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056892),(https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
+| Windows 10 1709 / Windows Server 1709 | KB4056892 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056892),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
 | Windows 10 1703 | KB4056891 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056891),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
 | Windows 10 1607 / Windows Server 2016 | KB4056890 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056890),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
 | Windows 10 1511 | KB4056888 | 01/03/2018 | [1](https://support.microsoft.com/en-us/help/4056888),[2](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002),[3](https://support.microsoft.com/en-us/help/4073757) |
@@ -105,13 +105,20 @@ Dell and HPi have updated their advisories and recommend that customers do not i
 | Citrix XenServer 6.2 SP1 | None | Never | [1](https://support.citrix.com/article/CTX231390) |
 | Citrix XenServer 6.0.2 Common Criteria | None | Never | [1](https://support.citrix.com/article/CTX231390) |
 | QEMU | 2.11.1 | TBD | [1](https://www.qemu.org/2018/01/04/spectre/) |
-| VMware ESXi 6.5 | ESXi650-201712101-SG | 12/19/2017 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151102),[3](https://kb.vmware.com/s/article/2151099) |
-| VMware ESXi 6.0 | ESXi600-201711101-SG | 11/09/2017 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2151126),[3](http://kb.vmware.com/kb/2151132) |
-| VMware ESXi 5.5 | ESXi550-201709101-SG | 09/14/2017| [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html),[2](https://kb.vmware.com/s/article/2150882),[3](https://kb.vmware.com/s/article/2150876) |
-| VMware Fusion 8 / Fusion Pro 8 | 8.5.9 | 01/03/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
-| VMware Workstation Pro 12 / Workstation Player 12 | 12.5.8 | 01/03/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware ESXi 6.5 | ESXi650-201712101-SG | 12/19/2017 | [1](https://kb.vmware.com/s/article/2151099), [2](https://kb.vmware.com/s/article/2151102),[3](https://kb.vmware.com/s/article/52345),[4](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware ESXi 6.0 | ESXi600-201711101-SG | 11/09/2017 | [1](https://kb.vmware.com/kb/2151132),[2](https://kb.vmware.com/s/article/2151126),[3](https://kb.vmware.com/s/article/52345),[4](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware ESXi 5.5 | ESXi550-201801301-BG | 01/22/2018 | [1](https://kb.vmware.com/s/article/52406),[2](https://kb.vmware.com/s/article/52345),[2](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware Fusion 10 / Fusion Pro 10 | 10.1.1 | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html) |
+| VMware Fusion 8 / Fusion Pro 8 | 8.5.10 | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html),[2](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
+| VMware Workstation Pro 14 / Workstation Player 14 | 14.1.1 | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html) |
+| VMware Workstation Pro 12 / Workstation Player 12 | 12.5.9 | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html),[2](https://www.vmware.com/us/security/advisories/VMSA-2018-0002.html) |
 | Xen Project | | TBD| [1](https://xenbits.xen.org/xsa/advisory-254.html) |
 
 #### Other
+| Product | Version | Release Date | Links |
+| --- | --- | --- | --- |
+| VMware VCenter 6.5 | 6.5 U1e | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html),[2](https://kb.vmware.com/s/article/52085) |
+| VMware VCenter 6.0 | 6.0 U3d | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html),[2](https://kb.vmware.com/s/article/52085)|
+| VMware VCenter 5.5 | 5.5 U3g | 01/09/2018 | [1](https://www.vmware.com/us/security/advisories/VMSA-2018-0004.html),[2](https://kb.vmware.com/s/article/52085)|
 
 ### Devices
