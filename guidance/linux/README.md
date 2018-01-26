@@ -31,5 +31,5 @@ While disabling branch prediction would completely rectify Spectre attacks, the 
 A permanent fix to Spectre requires a redesign of branch predictor and speculative code execution mechanisms in the firmware.
 
 For Specter and Meltdown, several detection tools have been developed and published on the Internet:
-"spectre-meltdown-checker" by _speed47_ team available at https://github.com/speed47/spectre-meltdown-checker
+"spectre-meltdown-checker" by the _speed47_ team available at https://github.com/speed47/spectre-meltdown-checker
 seems to be the most popular.
