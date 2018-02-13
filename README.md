@@ -3,18 +3,26 @@
 ## About this Repository
 This repository provides content for aiding DoD administrators in verifying systems have applied and enabled mitigations for [Spectre](https://spectreattack.com/) and [Meltdown](https://meltdownattack.com/). The repository is a companion to a forthcoming Information Assurance Advisory [Updated Guidance for Spectre and Meltdown Vulnerabilities Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/updated-guidance-for-spectre-and-meltdown-vulnerabilities-affecting-modern-processors.cfm). This advisory will be an update to the previously issued advisory [Vulnerabilties Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/vulnerabilities_affecting_modern_processors.cfm).
 
+
+## General guidance
 Three vulnerabilities affecting modern [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) processors have been [disclosed](https://googleprojectzero.blogspot.com/2018/01/reading-privileged-memory-with-side.html).
 
 | Marketing Name | Variant | Technical Name | CVE | Requires OS patches | Requires firmware patches | Requires application patches | Requires configuration changes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Spectre | 1 | Bounds Check Bypass | CVE-2017-5753 | Yes | No | Yes | Yes, for some applications |
-| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes |  No | Yes, for some operating systems | 
+| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems | 
 | Meltdown | 3 | Rogue Data Cache Load | CVE-2017-5754 | Yes | No | No | Yes, for some operating systems |
 
 Mitigations fall under a common number of themes:
-* Installing firmware patches that contain processor microcode updates.
-* Installing operating system patches and in some cases configuring the operating system.
 * Installing application specific patches and in some cases configuring the application.
+* Installing operating system patches and in some cases configuring the operating system.
+* Installing firmware patches that contain processor microcode updates.
+
+General guidance for prioritizing patching:
+1. Prioritize patching applications, such as browsers first, as they are the easiest to patch, have the least amount of issues with performance and compatibility, and the most likely widespread attack vector.
+1. Prioritize installing operating system patches on desktop, laptops, and tablets. Compatibility issues with operating system patches have been largely resolved by the OS vendors and performance issues are much less on desktops since they typically do not have IO intensive workloads like servers (file storage arrays, email servers, database servers) where the majority of the performance issues are excertbated. Attacks via email, Office documents, PDFs, are the second most likely widespread attack vector.
+1. Priotize patching servers that do NOT have IO intensive workloads (no file storage arrays, no email servers, no database servers). Some organizations may want to wait on patching any servers until more performance data is available or more localized testing has been performed to determine if the risk of remaining unpatched is warranted for the performance trade offs.
+1. Do not install firmware patches until processor manufacturers (Intel, AMD, IBM, Arm, etc) and OEMs (Dell, Dell EMC, HP Inc, HP Enterprise, etc) have signaled the new firmware patches are read
 
 The main areas of interest in the repository are:
 * [Guidance](./guidance) - Operating system and application specific guidance. Currently only for Windows and Linux.
