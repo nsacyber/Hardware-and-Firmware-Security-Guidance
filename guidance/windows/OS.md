@@ -130,7 +130,27 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
 
 ## Install operating system patches
-Install all January 2018 patches released by Microsoft. The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/). The following patches, released January 10-19, resolve the issues:
+Install all January and February 2018 patches released by Microsoft. 
+
+* [KB4056893](https://support.microsoft.com/en-us/help/4056893) - Windows 10 1507
+* [KB4056888](https://support.microsoft.com/en-us/help/4056888) - Windows 10 1511
+* [KB4056890](https://support.microsoft.com/en-us/help/4056890) - Windows 10 1607 / Windows Server 2016
+* [KB4056891](https://support.microsoft.com/en-us/help/4056891) - Windows 10 1703
+* [KB4056892](https://support.microsoft.com/en-us/help/4056892) - Windows 10 1709 / Windows Server 1709
+* [KB4056894](https://support.microsoft.com/en-us/help/4056894) - Windows 7 SP1 / Windows Server 2008 R2 SP1 (Monthly Rollup)
+* [KB4056897](https://support.microsoft.com/en-us/help/4056897) - Windows 7 SP1 /Windows Server 2008 R2 SP1 (Security Update Only)
+* [KB4056895](https://support.microsoft.com/en-us/help/4056895) - Windows 8.1 / Windows Server 2012 R2 (Monthly Roll Up)                
+* [KB4056898](https://support.microsoft.com/en-us/help/4056898) - Windows 8.1 / Windows Server 2012 R2 (Security Update Only)
+* TBD - Windows Server 2012
+* TBD - Windows Server 2008 SP2
+
+**Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
+"*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
+
+"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations*"
+
+
+The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/). The following patches, released January 10-19, resolve the issues:
 * [KB4073290](https://support.microsoft.com/en-us/help/4073290) - Windows 10 1709
 * [KB4057144](https://support.microsoft.com/en-us/help/4057144) - Windows 10 1703
 * [KB4057142](https://support.microsoft.com/en-us/help/4057142) - Windows 10 1607 / Windows Server 2016 
@@ -139,14 +159,18 @@ Install all January 2018 patches released by Microsoft. The initial set of Windo
 * [KB4073576](https://support.microsoft.com/en-us/help/4073576) - Windows 8.1 / Windows Server 2012 R2
 * [KB4073578](https://support.microsoft.com/en-us/help/4073578) - Windows 7 SP1 / Windows Server 2008 R2 SP1
 
-**Windows Server 2008 and Windows Server 2012 do not have patches available at this time**. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
-"*6. Why aren't Windows Server 2008 and Windows Server 2012 platforms getting an update? When can customers expect the fix?*"
-
-"*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations*"
 
 **The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
-Microsoft released KB4073291 for 32-bit Windows 10 1709 systems on January 18 for CVE-2017-5754. Other 32-bit releases of Windows do not have a patch for CVE-2017-5754 at this time.
+Microsoft has released patches for some 32-bit operating systems since the initial Spectre and Meltdown patches released in early January 2018. Microsoft released KB4073291 for 32-bit Windows 10 1709 systems on January 18, 2018 for CVE-2017-5754. Microsoft released additional patches for 32-bit versions of Windows 10 (1507, 1511, 1607, 1703, 1709) on February 13, 2018 for CVE-2017-5754.
+
+* [KB4074596](https://support.microsoft.com/en-us/help/4074596) – Windows 10 1507 - 32-bit only
+* [KB4074591](https://support.microsoft.com/en-us/help/4074591) – Windows 10 1511 - 32-bit only
+* [KB4074590](https://support.microsoft.com/en-us/help/4074590) – Windows 10 1607 - 32-bit only
+* [KB4074592](https://support.microsoft.com/en-us/help/4074592) – Windows 10 1703 - 32-bit only
+* [KB4073291](https://support.microsoft.com/en-us/help/4073291) - Windows 10 1709 - 32-bit only
+
+Other 32-bit releases of Windows (Windows 7 SP1, Windows 8/8.1, Windows Server 2008 SP2) do not have a patch for CVE-2017-5754 at this time.
 
 ## Install firmware update
 
