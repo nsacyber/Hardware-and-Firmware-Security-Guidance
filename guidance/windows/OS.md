@@ -130,8 +130,9 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
 
 ## Install operating system patches
-Install all January and February 2018 patches released by Microsoft. 
+**Install all January and February 2018 patches released by Microsoft.** If you have not installed the January 2018 patches, then you only need to install the Monthly Rollup or Security Only updates for February 2018. The Security Only updates are usually not cumulative, but the Feburary 2018 Security Only updates are cumulative and include the January 2018 Spectre and Meltdown patches as well as the fixes for issues on systems with AMD processors. IF you installed the January 2018 patches, then you need to install the February 2018 patches as well to ensure 32-bit Windows 10 systems are patched against CVE-2017-5754 (Meltdown).
 
+The initial set of January 3 and January 9 patches for Spectre and Meltdown:
 * [KB4056893](https://support.microsoft.com/en-us/help/4056893) - Windows 10 1507
 * [KB4056888](https://support.microsoft.com/en-us/help/4056888) - Windows 10 1511
 * [KB4056890](https://support.microsoft.com/en-us/help/4056890) - Windows 10 1607 / Windows Server 2016
@@ -149,8 +150,17 @@ Install all January and February 2018 patches released by Microsoft.
 
 "*Addressing a hardware vulnerability with a software update presents significant challenges with some operating systems requiring extensive architectural changes. Microsoft continues to work with affected chip manufacturers and investigate the best way to provide mitigations*"
 
+The Febuary 2018 Security Only updates can also be installed as well as the Monthly Rollup which is always cumulative. Microsoft's Security Only updates usually are not cumulative, but they are cumulative for February 2018 only. The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: 
 
-The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/). The following patches, released January 10-19, resolve the issues:
+"*I have not installed the January 2018 Security Only updates. If I install the February 2018 Security Only updates, am I protected from the vulnerabilities described in this advisory?*"
+
+"*Yes. While Security Only updates are not normally cumulative, to ensure customers are protected, Microsoft is including the mitigations against these vulnerabilities in the February Security Only updates. These updates also include the updates for AMD-based devices.*"
+
+
+The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/).
+
+
+The patches released January 10-19 to resolve the issues on AMD-based systems:
 * [KB4073290](https://support.microsoft.com/en-us/help/4073290) - Windows 10 1709
 * [KB4057144](https://support.microsoft.com/en-us/help/4057144) - Windows 10 1703
 * [KB4057142](https://support.microsoft.com/en-us/help/4057142) - Windows 10 1607 / Windows Server 2016 
@@ -159,22 +169,27 @@ The initial set of Windows patches for Spectre and Meltdown released on January 
 * [KB4073576](https://support.microsoft.com/en-us/help/4073576) - Windows 8.1 / Windows Server 2012 R2
 * [KB4073578](https://support.microsoft.com/en-us/help/4073578) - Windows 7 SP1 / Windows Server 2008 R2 SP1
 
+Apply the above patches to AMD systems OR apply the February 2018 patches which include the fixes for AMD-based systems as well as protection against Meltdown on 32-bit Windows 10 systems.
 
-**The patches do not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
-Microsoft has released patches for some 32-bit operating systems since the initial Spectre and Meltdown patches released in early January 2018. Microsoft released KB4073291 for 32-bit Windows 10 1709 systems on January 18, 2018 for CVE-2017-5754. Microsoft released additional patches for 32-bit versions of Windows 10 (1507, 1511, 1607, 1703, 1709) on February 13, 2018 for CVE-2017-5754.
+**The initial patches released by Microsoft did not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
-* [KB4074596](https://support.microsoft.com/en-us/help/4074596) – Windows 10 1507 - 32-bit only
-* [KB4074591](https://support.microsoft.com/en-us/help/4074591) – Windows 10 1511 - 32-bit only
-* [KB4074590](https://support.microsoft.com/en-us/help/4074590) – Windows 10 1607 - 32-bit only
-* [KB4074592](https://support.microsoft.com/en-us/help/4074592) – Windows 10 1703 - 32-bit only
-* [KB4073291](https://support.microsoft.com/en-us/help/4073291) - Windows 10 1709 - 32-bit only
+Microsoft has released patches for some 32-bit operating systems since the initial Spectre and Meltdown patches were released in early January 2018. Microsoft released KB4073291 for 32-bit Windows 10 1709 on January 18, 2018 for CVE-2017-5754 (Meltdown). Microsoft released additional patches for 32-bit versions of Windows 10 (1507, 1511, 1607, 1703, 1709) on February 13, 2018 for CVE-2017-5754 (Meltdown).
+
+The January 18 and February 13 patches for 32-bit Windows 10 releases for Meltdown:
+* [KB4074596](https://support.microsoft.com/en-us/help/4074596) - Windows 10 1507
+* [KB4074591](https://support.microsoft.com/en-us/help/4074591) - Windows 10 1511
+* [KB4074590](https://support.microsoft.com/en-us/help/4074590) - Windows 10 1607
+* [KB4074592](https://support.microsoft.com/en-us/help/4074592) - Windows 10 1703
+* [KB4073291](https://support.microsoft.com/en-us/help/4073291) - Windows 10 1709
 
 Other 32-bit releases of Windows (Windows 7 SP1, Windows 8/8.1, Windows Server 2008 SP2) do not have a patch for CVE-2017-5754 at this time.
 
 ## Install firmware update
 
 Intel has [confirmed a higher amounts of reboots affecting Broadwell and Haswell processors](https://newsroom.intel.com/news/intel-security-issue-update-addressing-reboot-issues/) after applying firmware updates. As of January 22, Intel has [identified](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr) the root cause of the reboot issue impacting [Broadwell and Haswell platforms](https://newsroom.intel.com/wp-content/uploads/sites/11/2018/01/microcode-update-guidance.pdf) and is working with OEMs on testing a new update. Only apply firmware updates on production systems after new firmware updates have been published by the affected vendors and the updates have been tested on non-production systems.
+
+**Do not install firmware patches until processor manufacturers (Intel, AMD, IBM, Arm, etc) and OEMs (Dell, Dell EMC, HP Inc, HP Enterprise, etc) have signaled the new firmware patches are ready.**
 
 Dell and HPi have updated their advisories and recommend that customers do not install firmware updates until after new updates have been issued.
 
