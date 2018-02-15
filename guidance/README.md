@@ -18,6 +18,7 @@ Guidance is currently being developed for operating systems and applications.
 Windows operating systems and applications guidance in development:
 * [Operating system](./windows/OS.md) guidance
 * [Browser](./windows/Browsers.md) guidance
+* [Hyper-V hosts](./windows/Hyper-V.md) guidance
 
 ### Linux
 * [Operating System](./linux/README.md) guidance
