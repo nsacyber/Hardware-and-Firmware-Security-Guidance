@@ -1,4 +1,4 @@
-# Last Updated: 01/18/2018
+# Last Updated: 02/14/2018
 
 <check_type: "Windows" version: "2">
     <group_policy: "Verifies Spectre and Meltdown patches are installed and mitigations are enabled on Windows operating systems">
