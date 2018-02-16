@@ -157,10 +157,10 @@ The Febuary 2018 Security Only updates can also be installed as well as the Mont
 "*Yes. While Security Only updates are not normally cumulative, to ensure customers are protected, Microsoft is including the mitigations against these vulnerabilities in the February Security Only updates. These updates also include the updates for AMD-based devices.*"
 
 
-The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 had issues on some systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) where the system would be put into an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/).
+The initial set of Windows patches for Spectre and Meltdown released on January 3 and January 9 caused systems with [older AMD processors](https://www.amd.com/en/corporate/speculative-execution) (AMD Opteron, Athlon and AMD Turion X2 Ultra families) to be put in an unbootable state. Microsoft [temporarily paused the patches on systems with the affected AMD processors](https://support.microsoft.com/en-us/help/4073707/).
 
 
-The patches released January 10-19 to resolve the issues on AMD-based systems:
+The patches released on January 10-19 to resolve the issues on AMD-based systems:
 * [KB4073290](https://support.microsoft.com/en-us/help/4073290) - Windows 10 1709
 * [KB4057144](https://support.microsoft.com/en-us/help/4057144) - Windows 10 1703
 * [KB4057142](https://support.microsoft.com/en-us/help/4057142) - Windows 10 1607 / Windows Server 2016 
@@ -169,24 +169,25 @@ The patches released January 10-19 to resolve the issues on AMD-based systems:
 * [KB4073576](https://support.microsoft.com/en-us/help/4073576) - Windows 8.1 / Windows Server 2012 R2
 * [KB4073578](https://support.microsoft.com/en-us/help/4073578) - Windows 7 SP1 / Windows Server 2008 R2 SP1
 
-Apply the above patches to AMD systems OR apply the February 2018 patches which include the fixes for AMD-based systems as well as protection against Meltdown on 32-bit Windows 10 systems.
+Apply the above patches to affected AMD systems. The above patches do provide or alter mitigations for Meltdown or Spectre. The patches are only for addressing issues affecting AMD processors.
 
+The February 2018 patches that mitigate Meltdown on 32-bit Windows 10 systems also include the fixes for affected AMD-based systems.
 
 **The initial patches released by Microsoft did not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
-Microsoft has released patches for some 32-bit operating systems since the initial Spectre and Meltdown patches were released in early January 2018. Microsoft released KB4073291 for 32-bit Windows 10 1709 on January 18, 2018 for CVE-2017-5754 (Meltdown). Microsoft released additional patches for 32-bit versions of Windows 10 (1507, 1511, 1607, 1703, 1709) on February 13, 2018 for CVE-2017-5754 (Meltdown).
+Microsoft has released patches for some 32-bit operating systems since the initial Spectre and Meltdown patches were released in early January 2018. Microsoft released KB4073291 for 32-bit Windows 10 1709 on January 18, 2018 for CVE-2017-5754 (Meltdown). Microsoft released additional patches for 32-bit versions of Windows 10 (1507, 1511, 1607, 1703) on February 13, 2018 for CVE-2017-5754 (Meltdown).
 
-The January 18 and February 13 patches for 32-bit Windows 10 releases for Meltdown:
+The January 18 and February 13 patches for 32-bit Windows 10 releases that mitigate Meltdown:
 * [KB4074596](https://support.microsoft.com/en-us/help/4074596) - Windows 10 1507
 * [KB4074591](https://support.microsoft.com/en-us/help/4074591) - Windows 10 1511
 * [KB4074590](https://support.microsoft.com/en-us/help/4074590) - Windows 10 1607
 * [KB4074592](https://support.microsoft.com/en-us/help/4074592) - Windows 10 1703
 * [KB4073291](https://support.microsoft.com/en-us/help/4073291) - Windows 10 1709
 
-Other 32-bit releases of Windows (Windows 7 SP1, Windows 8/8.1, Windows Server 2008 SP2) do not have a patch for CVE-2017-5754 at this time.
+Other 32-bit releases of Windows (Windows 7 SP1, Windows 8/8.1, Windows Server 2008 SP2) do not have a patch for Meltdown at this time.
 
 
-On January 27, 2018 Microsoft released [KB4078130](https://support.microsoft.com/en-us/help/4078130) to disable operating system support for the firmware provided mitigation for CVE-2017-5715 (Branch Target Injection) aka Spectre variant 2. This patch only disables operating system support for the firwmare provided mitigation against Spectre variant 2. Microsoft disabled the operating system support for the firmware provided mitigation due to stability issues introduced by Intel's firmware microcode update. This patch applies to Windows 10 1507-1709, Windows 10 LTSB/LTSC, Windows 7, Windows 8.1, Windows Server 2008, Windows Server 2008 R2, Windows Server 2012 R2, Windows Server 2016. If you have not applied the faulty Intel microcode update (you have not installed any OEM provided firmware updates for Meltdown or Spectre), then you do not have to apply this patch. The operating system support for th firmware provided mitigation can also be disabled by configuring registry values mentioned in the **Disable mitigation against Spectre Variant 2** section of [Windows Client Guidance for IT Pros to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-us/help/4073119).
+On January 27, 2018 Microsoft released [KB4078130](https://support.microsoft.com/en-us/help/4078130) to disable operating system support for the firmware provided mitigation for CVE-2017-5715 (Branch Target Injection) aka Spectre variant 2. This patch only disables operating system support for the firwmare provided mitigation against Spectre variant 2. Microsoft disabled the operating system support for the firmware provided mitigation due to stability issues introduced by Intel's microcode update that OEMs included in their firmware updates. The Microsoft patch applies to Windows 10 1507-1709, Windows 10 LTSB/LTSC, Windows 7, Windows 8.1, Windows Server 2008, Windows Server 2008 R2, Windows Server 2012 R2, and Windows Server 2016. If you have not applied the faulty Intel microcode update (you have not installed any OEM provided firmware updates for Meltdown or Spectre yet), then you do not have to apply this patch. The operating system support for the firmware provided mitigation can also be disabled by configuring registry values mentioned in the **Disable mitigation against Spectre Variant 2** section of [Windows Client Guidance for IT Pros to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-us/help/4073119).
 
 ## Install firmware update
 
