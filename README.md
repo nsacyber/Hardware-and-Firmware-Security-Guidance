@@ -4,7 +4,7 @@
 ## Table of Contents
 1. [About this Repository](#about-this-repository)
 1. [General Guidance](#general-guidance)
-1. [SpectrePrime and MeltdownPrime](#spectrePrime-and-meltdownPrime)
+1. [SpectrePrime and MeltdownPrime](#spectreprime-and-meltdownprime)
 1. [SgxPectre](#sgxpectre)
 1. [Affected Processors](#affected-processors)
 1. [License](#license)
