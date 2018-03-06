@@ -1,10 +1,20 @@
+
 # Spectre and Meltdown Guidance
 
-## About this Repository
+## Table of Contents
+1. [About this Repository](#about)
+1. [General Guidance](#general)
+1. [SpectrePrime and MeltdownPrime](#prime)
+1. [SgxPectre](#sgx)
+1. [Affected Processors](#affected)
+1. [License](#license)
+1. [Contributing](#contributing)
+1. [Disclaimer](#disclaimer)
+
+## About this Repository <a name="about"/>
 This repository provides content for aiding DoD administrators in verifying systems have applied and enabled mitigations for [Spectre](https://spectreattack.com/) and [Meltdown](https://meltdownattack.com/). The repository is a companion to a forthcoming Information Assurance Advisory [Updated Guidance for Spectre and Meltdown Vulnerabilities Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/updated-guidance-for-spectre-and-meltdown-vulnerabilities-affecting-modern-processors.cfm). This advisory will be an update to the previously issued advisory [Vulnerabilties Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/vulnerabilities_affecting_modern_processors.cfm).
 
-
-## General guidance
+## General guidance <a name="general"/>
 Three vulnerabilities affecting modern [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) processors have been [disclosed](https://googleprojectzero.blogspot.com/2018/01/reading-privileged-memory-with-side.html).
 
 | Marketing Name | Variant | Technical Name | CVE | Requires OS patches | Requires firmware patches | Requires application patches | Requires configuration changes |
@@ -12,6 +22,7 @@ Three vulnerabilities affecting modern [Intel](https://security-center.intel.com
 | Spectre | 1 | Bounds Check Bypass | CVE-2017-5753 | Yes | No | Yes | Yes, for some applications |
 | Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems | 
 | Meltdown | 3 | Rogue Data Cache Load | CVE-2017-5754 | Yes | No | No | Yes, for some operating systems |
+| SgxPectre | | Enclave Branch Target Injection | | Yes | No | Yes | No |
 
 Mitigations fall under a common number of themes:
 * Installing application specific patches and in some cases configuring the application.
@@ -30,7 +41,17 @@ The main areas of interest in the repository are:
 
 The files in this repository can be downloaded as a zip file [here](https://github.com/iadgov/Spectre-and-Meltdown-Guidance/archive/master.zip).
 
-## Affected processors
+## SpectrePrime and MeltdownPrime <a name="prime"/>
+[General guidance](#general) is sufficient for mitigating the prime variants of Spectre and Meltdown. Prime variants feature an implementation difference and speculative exploitation across processor core caches.
+
+## SgxPectre <a name="sgx"/>
+SgxPecture (sometimes referred to as SgxSpectre) leverages a race condition built into the Intel SGX SDK. A Spectre variant 2-like branch target injection vulnerability results. The attack affects Intel processors with SGX instructions.
+
+Developers should install SDK updates and recompile SGX applications. All SGX SDKs that are derived from the Intel SDK must be updated. All SGX applications built from Intel-derived SGX SDKs must be recompiled or patched.
+
+Administrators should update SGX-enabled applications and apply OS SGX-related patches.
+
+## Affected processors <a name="affected"/>
 Below is a list of known affected processors as documented by [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/). It is likely that more processors than documented below are affected.
 
 | Manufacturer | Processor Family |
@@ -99,11 +120,11 @@ Below is a list of known affected processors as documented by [Intel](https://se
 | Intel | Pentium Processor J Series |
 | Intel | Pentium Processor N Series |
 
-## License
+## License <a name="license"/>
 See [LICENSE](./LICENSE.md).
 
-## Contributing
+## Contributing <a name="contributing"/>
 See [CONTRIBUTING](./CONTRIBUTING.md)
 
-## Disclaimer
+## Disclaimer <a name="disclaimer"/>
 See [DISCLAIMER](./DISCLAIMER.md).
