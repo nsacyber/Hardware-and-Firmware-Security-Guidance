@@ -2,14 +2,14 @@
 # Spectre and Meltdown Guidance
 
 ## Table of Contents
-1. [About this Repository](#About-This-Repository-)
-1. [General Guidance](#General-Guidance)
-1. [SpectrePrime and MeltdownPrime](#SpectrePrime-and-MeltdownPrime)
-1. [SgxPectre](#SgxPectre)
-1. [Affected Processors](#Affected-Processors)
-1. [License](#License)
-1. [Contributing](#Contributing)
-1. [Disclaimer](#Disclaimer)
+1. [About this Repository](#about-this-repository)
+1. [General Guidance](#general-guidance)
+1. [SpectrePrime and MeltdownPrime](#spectrePrime-and-meltdownPrime)
+1. [SgxPectre](#sgxpectre)
+1. [Affected Processors](#affected-processors)
+1. [License](#license)
+1. [Contributing](#contributing)
+1. [Disclaimer](#disclaimer)
 
 ## About This Repository
 This repository provides content for aiding DoD administrators in verifying systems have applied and enabled mitigations for [Spectre](https://spectreattack.com/) and [Meltdown](https://meltdownattack.com/). The repository is a companion to a forthcoming Information Assurance Advisory [Updated Guidance for Spectre and Meltdown Vulnerabilities Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/updated-guidance-for-spectre-and-meltdown-vulnerabilities-affecting-modern-processors.cfm). This advisory will be an update to the previously issued advisory [Vulnerabilties Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/vulnerabilities_affecting_modern_processors.cfm).
