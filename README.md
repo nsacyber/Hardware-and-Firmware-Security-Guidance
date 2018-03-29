@@ -6,6 +6,9 @@
 1. [General Guidance](#general-guidance)
 1. [SpectrePrime and MeltdownPrime](#spectreprime-and-meltdownprime)
 1. [SgxPectre](#sgxpectre)
+1. [Total Meltdown](#total-meltdown)
+1. [BranchScope](#branchscope)
+1. [Ryzenfall, Chimera, Fallout, and Masterkey](#ryzenfall-chimera-fallout-masterkey)
 1. [Affected Processors](#affected-processors)
 1. [License](#license)
 1. [Contributing](#contributing)
@@ -50,6 +53,23 @@ SgxPecture (sometimes referred to as SgxSpectre) leverages a race condition buil
 Developers should install SDK updates and recompile SGX applications. All SGX SDKs that are derived from the Intel SDK must be updated. All SGX applications built from Intel-derived SGX SDKs must be recompiled or patched.
 
 Administrators should update SGX-enabled applications and apply OS SGX-related patches.
+
+## Total Meltdown
+A patching flaw has been identified in Windows 7 and Server 2008 64-bit operating systems. Security fixes intended to mitigate Meltdown may not have been effective. Install Microsoft's March 2018 rollup patches as a solution. Refrence patch KB4088878.
+
+[Microsoft Update Catalog](https://www.catalog.update.microsoft.com/Search.aspx?q=KB4088878)
+
+[Microsoft Support Advisory](https://support.microsoft.com/en-us/help/4088878/windows-7-update-kb4088878)
+
+## BranchScope
+Firmware patches are expected Q2 2018. No further information is available at this time.
+
+## Ryzenfall, Chimera, Fallout, Masterkey
+Software and firmware patches are expected in Q2 2018. Ryzenfall, Fallout, and Masterkey flaws affect AMD products. Chimera flaws affect ASMedia products with debugging features regardless of processor brand or architecture. The following mitigations are advised:
+
+1. Revisit security practices involving local machine administrative privileges. Attacks in this category require administrative credentials. Properly safeguarding and limiting the use of such credentials is critical.
+1. Set a UEFI configuration administrator password if not already present.
+1. Investigate UEFI configuration to identify and disable unused devices and ports. Unused SATA controller ports or unused USB controller ports are example candidates for disabling. Tailor the UEFI configuration based on a device's use case.
 
 ## Affected Processors
 Below is a list of known affected processors as documented by [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/). It is likely that more processors than documented below are affected.
