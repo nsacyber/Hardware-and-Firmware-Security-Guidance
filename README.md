@@ -116,7 +116,7 @@ Below is a list of known affected processors as documented by [Intel](https://se
 
 ## Additional Processor Flaw Guidance
 ### SpectrePrime and MeltdownPrime
-[General Guidance](#General-Guidance) is sufficient for mitigating the prime variants of Spectre and Meltdown. Prime variants feature an implementation difference and speculative exploitation across processor core caches.
+[General Guidance](#general-guidance) is sufficient for mitigating the prime variants of Spectre and Meltdown. Prime variants feature an implementation difference and speculative exploitation across processor core caches.
 
 ### SgxPectre
 SgxPecture (sometimes referred to as SgxSpectre) leverages a race condition built into the Intel SGX SDK. A Spectre variant 2-like branch target injection vulnerability results. The attack affects Intel processors with SGX instructions.
