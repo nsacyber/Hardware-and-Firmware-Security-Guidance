@@ -169,9 +169,14 @@ The patches released on January 10-19 to resolve the issues on AMD-based systems
 * [KB4073576](https://support.microsoft.com/en-us/help/4073576) - Windows 8.1 / Windows Server 2012 R2
 * [KB4073578](https://support.microsoft.com/en-us/help/4073578) - Windows 7 SP1 / Windows Server 2008 R2 SP1
 
-Apply the above patches to affected AMD systems. The above patches do provide or alter mitigations for Meltdown or Spectre. The patches are only for addressing issues affecting AMD processors.
+Apply the above patches to affected AMD systems. The above patches do no provide or alter mitigations for Meltdown or Spectre. The patches are only for addressing issues affecting AMD processors.
 
 The February 2018 patches that mitigate Meltdown on 32-bit Windows 10 systems also include the fixes for affected AMD-based systems.
+
+On April 10th, 2018, Microsoft released additional patches for AMD systems to mitigate Spectre vulnerabilities. The patches include microcode updates. Patches for Windows 10 version 1709 (latest release) are available. Patches for other versions of Windows 10, Windows 8.1, and Windows Server are expected soon. BIOS/UEFI updates are also expected from system vendors. Install the following security updates:
+
+* [KB4093112](https://support.microsoft.com/en-us/help/4093112/windows-10-update-kb4093112) - Windows 10 1709 64-bit
+* [KB4093112](https://support.microsoft.com/en-us/help/4093112/windows-10-update-kb4093112) - Windows 10 1709 32-bit
 
 **The initial patches released by Microsoft did not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
