@@ -130,6 +130,23 @@ To create the registry values using [Group Policy Registery Preferences](https:/
 1. Repeat steps 3-10 for **FeatureSettingsOverrideMask** with a value of **3**.
 
 ## Install operating system patches
+**Install all March and April 2018 security patches released by Microsoft.**
+On April 24th, 2018, Microsoft released additional patches for Intel systems. The latest microcode revisions are applied by installing these patches. Intel chips from the Haswell generation (4000-series) and newer are affected.
+
+* [Microsoft Advisory](https://support.microsoft.com/en-sg/help/4091666/kb4091666-intel-microcode-updates)
+* [KB4091666](https://www.catalog.update.microsoft.com/Search.aspx?q=KB4091666) - Windows 10 All
+* [KB4090007](https://support.microsoft.com/en-us/help/4090007) - Windows 10 and Windows Server 2016 version 1709
+* [KB4091663](https://support.microsoft.com/help/4091663) - Windows 10 version 1703
+* [KB4091664](https://support.microsoft.com/help/4091664) - Windows 10 and Windows Server 2016 version 1607
+* [Source article](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)
+
+On April 10th, 2018, Microsoft released additional patches for AMD systems to mitigate Spectre vulnerabilities. The patches include microcode updates. Patches for Windows 10 version 1709 (latest release) are available. Patches for other versions of Windows 10, Windows 8.1, and Windows Server are expected soon. BIOS/UEFI updates are also expected from system vendors. Install the following security updates:
+
+* [KB4093112](https://support.microsoft.com/en-us/help/4093112/windows-10-update-kb4093112) - Windows 10 1709 64-bit
+* [KB4093112](https://support.microsoft.com/en-us/help/4093112/windows-10-update-kb4093112) - Windows 10 1709 32-bit
+* [Mitigations to speculative side-channel attacks](https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in) - Windows 10, 8.1, and 7 SP1
+* [Source article](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown)
+
 **Install all January and February 2018 patches released by Microsoft.** If you have not installed the January 2018 patches, then you only need to install the Monthly Rollup or Security Only updates for February 2018. The Security Only updates are usually not cumulative, but the Feburary 2018 Security Only updates are cumulative and include the January 2018 Spectre and Meltdown patches as well as the fixes for issues on systems with AMD processors. IF you installed the January 2018 patches, then you need to install the February 2018 patches as well to ensure 32-bit Windows 10 systems are patched against CVE-2017-5754 (Meltdown).
 
 The initial set of January 3 and January 9 patches for Spectre and Meltdown:
@@ -172,11 +189,6 @@ The patches released on January 10-19 to resolve the issues on AMD-based systems
 Apply the above patches to affected AMD systems. The above patches do no provide or alter mitigations for Meltdown or Spectre. The patches are only for addressing issues affecting AMD processors.
 
 The February 2018 patches that mitigate Meltdown on 32-bit Windows 10 systems also include the fixes for affected AMD-based systems.
-
-On April 10th, 2018, Microsoft released additional patches for AMD systems to mitigate Spectre vulnerabilities. The patches include microcode updates. Patches for Windows 10 version 1709 (latest release) are available. Patches for other versions of Windows 10, Windows 8.1, and Windows Server are expected soon. BIOS/UEFI updates are also expected from system vendors. Install the following security updates:
-
-* [KB4093112](https://support.microsoft.com/en-us/help/4093112/windows-10-update-kb4093112) - Windows 10 1709 64-bit
-* [KB4093112](https://support.microsoft.com/en-us/help/4093112/windows-10-update-kb4093112) - Windows 10 1709 32-bit
 
 **The initial patches released by Microsoft did not fix CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, on 32-bit operating systems.** The Microsoft [advisory](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV180002) states: "*Addressing a hardware vulnerability with a software update presents significant challenges and mitigations for older operating systems that require extensive architectural changes. The existing 32-bit update packages listed in this advisory fully address CVE-2017-5753 and CVE-2017-5715, but do not provide protections for CVE-2017-5754 at this time. Microsoft is continuing to work with affected chip manufacturers and investigate the best way to provide mitigations for x86 customers, which may be provided in a future update*".
 
@@ -319,7 +331,3 @@ A custom Nessus audit file is available for scanning Windows operating systems: 
 * CVE-2017-5754 (Rogue Data Cache Load), aka variant 3 and commonly referred to as Meltdown, mitigation support is enabled in Windows when required   (KVAShadowWindowsSupportEnabled is True when KVAShadowRequired is True).
 
 Tenable has also published an initial list of plugin IDs that can used for detecting if Spectre and Meltdown patches are install in [this blog post](https://www.tenable.com/blog/the-first-major-security-logos-of-2018-spectre-and-meltdown-vulnerabilities). Additional plugins can be found by searching for **spectre** or **meltdown** using the [plugin search page](https://www.tenable.com/plugins/index.php?view=search). A [Spectre and Metldown dashboard](https://www.tenable.com/sc-dashboards/spectre-meltdown) is also available in SecurityCenter.
-
-
-
-
