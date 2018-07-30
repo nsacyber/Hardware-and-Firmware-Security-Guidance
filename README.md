@@ -24,9 +24,14 @@ Vulnerabilities affecting modern [Intel](https://security-center.intel.com/advis
 | Marketing Name | Variant | Technical Name | CVE | Requires OS patches | Requires firmware patches | Requires application patches | Requires configuration changes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Spectre | 1 | Bounds Check Bypass | CVE-2017-5753 | Yes | No | Yes | Yes, for some applications |
-| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems | 
-| Meltdown | 3 | Rogue Data Cache Load | CVE-2017-5754 | Yes | No | No | Yes, for some operating systems |
+| Spectre | 1.1 | Write Bounds Bypass | CVE-2018-3693 | TBD | TBD | No | TBD |
+| Spectre | 1.2 | Protected Memory Range Read Bypass | CVE-2018-3693 | TBD | TBD | No | TBD |
+| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems and work roles | 
 | SgxPectre | | Enclave Branch Target Injection | | Yes | No | Yes | No |
+| SpecreRSB | | Return Stack Poisoning | | TBD | TBD | TBD | TBD |
+| NetSpectre | | Network-attached Cache Siphon | | TBD | TDB | No | Yes, firewall configuration updates |
+| Meltdown | 3 | Rogue Data Cache Load | CVE-2017-5754 | Yes | No | No | Yes, for some operating systems |
+| Meltdown | 3.1 | Rogue Register Load | CVE-2018-3640 | Yes | No | No | Yes, for some operating systems |
 
 Mitigations fall under a common number of themes:
 * Installing application specific patches and in some cases configuring the application.
