@@ -26,12 +26,13 @@ Vulnerabilities affecting modern [Intel](https://security-center.intel.com/advis
 | Spectre | 1 | Bounds Check Bypass | CVE-2017-5753 | Yes | No | Yes | Yes, for some applications |
 | Spectre | 1.1 | Write Bounds Bypass | CVE-2018-3693 | TBD | TBD | No | TBD |
 | Spectre | 1.2 | Protected Memory Range Read Bypass | CVE-2018-3693 | TBD | TBD | No | TBD |
-| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems and work roles | 
-| SgxPectre | | Enclave Branch Target Injection | | Yes | No | Yes | No |
-| SpecreRSB | | Return Stack Poisoning | | TBD | TBD | TBD | TBD |
-| NetSpectre | | Network-attached Cache Siphon | | TBD | TDB | No | Yes, firewall configuration updates |
+| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems and work roles |
 | Meltdown | 3 | Rogue Data Cache Load | CVE-2017-5754 | Yes | No | No | Yes, for some operating systems |
 | Meltdown | 3.1 | Rogue Register Load | CVE-2018-3640 | Yes | No | No | Yes, for some operating systems |
+| SpectreNG | 4 | Bounds Check Bypass| CVE-2018-3639 | Yes | Yes | No | No |
+| SgxPectre | | Enclave Branch Target Injection | | Yes | No | Yes | No. Devs update SGX SDK. |
+| SpecreRSB | | Return Stack Poisoning | | TBD | TBD | TBD | TBD |
+| NetSpectre | | Network-attached Cache Siphon | | TBD | TDB | No | Yes, firewall configuration updates |
 
 Mitigations fall under a common number of themes:
 * Installing application specific patches and in some cases configuring the application.
