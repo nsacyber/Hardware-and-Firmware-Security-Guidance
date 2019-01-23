@@ -1,158 +1,137 @@
 
-# Spectre and Meltdown Guidance
-
+# Hardware and Firmware Security Guidance
 ## Table of Contents
-1. [About this Repository](#about-this-repository)
-1. [General Guidance](#general-guidance)
-1. [Affected Processors](#affected-processors)
-1. [Additional Processor Flaw Guidance](#additional-processor-flaw-guidance)
-   1. [SpectrePrime and MeltdownPrime](#spectreprime-and-meltdownprime)
-   1. [SgxPectre](#sgxpectre)
-   1. [Total Meltdown](#total-meltdown)
-   1. [BranchScope](#branchscope)
-   1. [Ryzenfall, Chimera, Fallout, and Masterkey](#ryzenfall-chimera-fallout-masterkey)
-1. [License](#license)
-1. [Contributing](#contributing)
-1. [Disclaimer](#disclaimer)
+- 1\. [About this repository](#about-this-repository)
+- 2\. [Side-channel attacks](#side-channel-attacks)
+	- 2.1 [Mitigations](#mitigations)
+		- 2.1.1 [Firmware patches](#firmware-patches)
+		- 2.1.2 [Software patches](#software-patches)
+		- 2.1.3 [Configuration changes](#configuration-changes)
+	- 2.2 [Affected products](#affected-products)
+		- 2.2.1 [Hardware resources](#hardware-resources)
+		- 2.2.2 [Software resources](#software-resources)
+	- 2.3 [Publicized attacks](#publicized-attacks)
+		- 2.3.1 [Spectre](#spectre)
+		- 2.3.2 [Meltdown](#meltdown)
+		- 2.3.3 [Foreshadow](#foreshadow)
+		- 2.3.4 [BranchScope](#branchscope)
+		- 2.3.5 [TLBleed](#tlbleed)
+		- 2.3.6 [PortSmash](#portsmash)
+		- 2.3.7 [NetSpectre](#netspectre)
+- 3\. [Firmware and microcode vulnerabilities](#firmware-and-microcode-vulnerabilities)
+	- 3.1 [LoJax](#lojax)
+	- 3.2 [Ryzenfall, Chimera, Fallout, and Masterkey](#ryzenfall-chimera-fallout-and-masterkey)
+- 4\. [Boot configuration](#boot-configuration)
+	- 4.1 [UEFI Hardening](#uefihardening)
+	- 4.2 [UEFI Secure Boot Customization](#securebootcustom)
+- 5\. [Disclaimer](#disclaimer)
+- 6\. [License](#license)
+- 7\. [Contributing](#contributing)
 
-## About This Repository
+## 1. About this respository
 This repository provides content for aiding DoD administrators in verifying systems have applied and enabled mitigations for [Spectre](https://spectreattack.com/) and [Meltdown](https://meltdownattack.com/). The repository is a companion to a forthcoming Information Assurance Advisory [Updated Guidance for Spectre and Meltdown Vulnerabilities Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/updated-guidance-for-spectre-and-meltdown-vulnerabilities-affecting-modern-processors.cfm). This advisory will be an update to the previously issued advisory [Vulnerabilties Affecting Modern Processors](https://www.iad.gov/iad/library/ia-advisories-alerts/vulnerabilities_affecting_modern_processors.cfm).
 
-## General Guidance
-Vulnerabilities affecting modern [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) processors have been [disclosed](https://googleprojectzero.blogspot.com/2018/01/reading-privileged-memory-with-side.html).
+## 2. Side-channel attacks
+### 2.1 Mitigations
+#### 2.1.1 Firmware updates
+Apply firmware updates provided by system vendors. Updates may specifically refer to UEFI, BIOS, microcode, ucode, or individual hardware device firmware. Multiple separate firmware updates may be available for a given system, or all updates may be rolled up into a single package (no universal standard exists). Firmware updates may not be delivered through established patching services such as Windows Update and are easy to miss. Consult vendor resources such as those provided by Dell and HP.
 
-| Marketing Name | Variant | Technical Name | CVE | Requires OS patches | Requires firmware patches | Requires application patches | Requires configuration changes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Spectre | 1 | Bounds Check Bypass | CVE-2017-5753 | Yes | No | Yes | Yes, for some applications |
-| Spectre | 1.1 | Write Bounds Bypass | CVE-2018-3693 | TBD | TBD | No | TBD |
-| Spectre | 1.2 | Protected Memory Range Read Bypass | CVE-2018-3693 | TBD | TBD | No | TBD |
-| Spectre | 2 | Branch Target Injection | CVE-2017-5715 | Yes | Yes | No | Yes, for some operating systems and work roles |
-| Meltdown | 3 | Rogue Data Cache Load | CVE-2017-5754 | Yes | No | No | Yes, for some operating systems |
-| Meltdown | 3.1 | Rogue Register Load | CVE-2018-3640 | Yes | No | No | Yes, for some operating systems |
-| SpectreNG | 4 | Bounds Check Bypass| CVE-2018-3639 | Yes | Yes | No | No |
-| SgxPectre | | Enclave Branch Target Injection | | Yes | No | Yes | No. Devs update SGX SDK. |
-| SpecreRSB | | Return Stack Poisoning | | TBD | TBD | TBD | TBD |
-| NetSpectre | | Network-attached Cache Siphon | | TBD | TDB | No | Yes, firewall configuration updates |
+#### 2.1.2 Software patches
+Microsoft, Apple, Red Hat, and Google have all released patches for their respective operating systems. Some software vendors -- particularly web browsers, document readers, and development kits -- may also have side-channel attack mitigation updates. Apply all patches to software. Be sure to check software that use vendor-specific update services or patch files -- not all vendors provide patches for operating system vendors to utilize.
 
-Mitigations fall under a common number of themes:
-* Installing application specific patches and in some cases configuring the application.
-* Installing operating system patches and in some cases configuring the operating system.
-* Installing firmware patches that contain processor microcode updates.
+#### 2.1.3 Configuration changes
+Some updates may require configuration changes to enable the full benefit of side-channel attack mitigations. Development kits in particular may require re-compilation of binaries to enable new CPU instructions. Operating systems may need changes made to user and network policies. Consult vendor resources for guidance on applying the appropriate mitigations for your use case.
 
-General guidance for prioritizing patching:
-1. Prioritize patching applications, such as browsers first, as they are the easiest to patch, have the least amount of issues with performance and compatibility, and the most likely widespread attack vector.
-1. Prioritize installing operating system patches on desktop, laptops, and tablets. Compatibility issues with operating system patches have been largely resolved by the OS vendors and performance issues are much less on desktops since they typically do not have IO intensive workloads like servers (file storage arrays, email servers, database servers) where the majority of the performance issues are excertbated. Attacks via email, Office documents, PDFs, are the second most likely widespread attack vector.
-1. Prioritize patching servers that do NOT have IO intensive workloads (no file storage arrays, no email servers, no database servers). Some organizations may want to wait on patching any servers until more performance data is available or more localized testing has been performed to determine if the risk of remaining unpatched is warranted for the performance trade offs.
-1. Do not install firmware patches until processor manufacturers (Intel, AMD, IBM, Arm, etc) and OEMs (Dell, Dell EMC, HP Inc, HP Enterprise, etc) have signaled the new firmware patches are ready.
+### 2.2 Affected products
+Assume that all processor products from all processor manufacturers ([Intel](https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00088.html), AMD, [ARM](https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability), [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/), Apple, Samsung, [Nvidia](https://nvidia.custhelp.com/app/answers/detail/a_id/4611/~/security-bulletin%3A-nvidia-driver-security-updates-for-cpu-speculative-side), Qualcomm, etc.) are affected by one or more side-channel vulnerabilities. Attempts have been made to quantify which [specific processors](https://www.techarp.com/guides/complete-meltdown-spectre-cpu-list/) are affected by a given attack or its variations. However, the listing of products continues to grow as more researchers put resources towards expanding the scope of analyzed products. In general, the more market share a company has, the more likely their products have discovered side-channel attacks with names and CVEs.
 
-The main areas of interest in the repository are:
-* [Guidance](./guidance) - Operating system and application specific guidance. Currently only for Windows and Linux.
-* [Verification](./verification) - Operating and application specific verification of mitigations. Currently only for Windows.
+Processor vendor exposure to side-channel attacks varies. For example, Spectre affects nearly all processor products to some degree while Meltdown primarily affects Intel products.  As of January 23, 2018, no hardware vendor has confirmed general availability of in-silicon fixes to side-channel attacks their respective products are vulnerable to. Replacing older hardware with newer hardware does not guarantee mitigation of all vulnerabilities. However,  newer hardware features updated instructions that lessen the performance impact of patches.
 
-The files in this repository can be downloaded as a zip file [here](https://github.com/nsacyber/Spectre-and-Meltdown-Guidance/archive/master.zip).
+#### 2.2.1 Hardware resources
+- [AMD](https://www.amd.com/en/corporate/security-updates)
+- [ARM](https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability/latest-updates/cache-speculation-issues-update)
+- [Dell](https://www.dell.com/support/contents/us/en/04/article/product-support/self-support-knowledgebase/software-and-downloads/support-for-meltdown-and-spectre)
+- [Dell EMC](https://www.dell.com/support/article/us/en/04/sln308588/microprocessor-side-channel-vulnerabilities-cve-2017-5715-cve-2017-5753-cve-2017-5754-impact-on-dell-emc-servers-storage-and-networking?lang=en)
+- [HP](https://support.hp.com/us-en/document/c05869091)
+- [HPE](https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-a00039267en_us)
+- IBM [Power Processors](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) and [Servers](https://www.ibm.com/blogs/psirt/ibm-storage-meltdownspectre/)
+- [Intel](https://www.intel.com/content/www/us/en/architecture-and-technology/facts-about-side-channel-analysis-and-intel-products.html)
+- [Nvidia](https://nvidia.custhelp.com/app/answers/detail/a_id/4611/~/security-bulletin%3A-nvidia-driver-security-updates-for-cpu-speculative-side)
 
-## Affected Processors
-Below is a list of known affected processors as documented by [Intel](https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00088&languageid=en-fr), [AMD](https://www.amd.com/en/corporate/speculative-execution), [Arm](https://developer.arm.com/support/security-update), and [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/). It is likely that more processors than documented below are affected.
+#### 2.2.2 Software Resources
+- [Apple](https://support.apple.com/en-us/HT208394)
+- Google [Cloud](https://cloud.google.com/security/cpu-vulnerabilities/), [Developers](https://developers.google.com/web/updates/2018/02/meltdown-spectre), [Chrome OS](https://www.chromium.org/chromium-os/meltdown-spectre-vulnerability-status), and [Project Zero](https://googleprojectzero.blogspot.com/)
+- [IBM Cloud](https://www.ibm.com/blogs/psirt/ibm-cloud-security-bulletin-spectre-meltdown-vulnerabilities/)
+- Microsoft [Windows](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) and [Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/mitigate-se)
+- [Red Hat](https://access.redhat.com/security/vulnerabilities/speculativeexecution)
 
-| Manufacturer | Processor Family |
-| --- | --- |
-| AMD | Ryzen |
-| AMD | EPYC |
-| AMD | Opteron |
-| AMD | Athlon |
-| AMD | Turion X2 Ultra |
-| Arm | Cortex-R7 |
-| Arm | Cortex-R8 |
-| Arm | Cortex-A8 |
-| Arm | Cortex-A9 |
-| Arm | Cortex-A15 |
-| Arm | Cortex-A17 |
-| Arm | Cortex-A57 |
-| Arm | Cortex-A72 |
-| Arm | Cortex-A73 |
-| Arm | Cortex-A75 |
-| IBM | POWER7 |
-| IBM | POWER7+ |
-| IBM | POWER8 |
-| IBM | POWER9 |
-| Intel | Core i3 processor (45nm and 32nm) |
-| Intel | Core i5 processor (45nm and 32nm) |
-| Intel | Core i7 processor (45nm and 32nm) |
-| Intel | Core M processor family (45nm and 32nm) |
-| Intel | 2nd generation Core processors |
-| Intel | 3rd generation Core processors |
-| Intel | 4th generation Core processors |
-| Intel | 5th generation Core processors |
-| Intel | 6th generation Core processors |
-| Intel | 7th generation Core processors |
-| Intel | 8th generation Core processors |
-| Intel | Core X-series Processor Family for Intel X99 platforms |
-| Intel | Core X-series Processor Family for Intel X299 platforms |
-| Intel | Xeon processor 3400 series |
-| Intel | Xeon processor 3600 series |
-| Intel | Xeon processor 5500 series |
-| Intel | Xeon processor 5600 series |
-| Intel | Xeon processor 6500 series |
-| Intel | Xeon processor 7500 series |
-| Intel | Xeon Processor E3 Family |
-| Intel | Xeon Processor E3 v2 Family |
-| Intel | Xeon Processor E3 v3 Family |
-| Intel | Xeon Processor E3 v4 Family |
-| Intel | Xeon Processor E3 v5 Family |
-| Intel | Xeon Processor E3 v6 Family |
-| Intel | Xeon Processor E5 Family |
-| Intel | Xeon Processor E5 v2 Family |
-| Intel | Xeon Processor E5 v3 Family |
-| Intel | Xeon Processor E5 v4 Family |
-| Intel | Xeon Processor E7 Family |
-| Intel | Xeon Processor E7 v2 Family |
-| Intel | Xeon Processor E7 v3 Family |
-| Intel | Xeon Processor E7 v4 Family |
-| Intel | Xeon Processor Scalable Family |
-| Intel | Xeon Phi Processor 3200, 5200, 7200 Series |
-| Intel | Atom Processor C Series |
-| Intel | Atom Processor E Series |
-| Intel | Atom Processor A Series |
-| Intel | Atom Processor x3 Series |
-| Intel | Atom Processor Z Series |
-| Intel | Celeron Processor J Series |
-| Intel | Celeron Processor N Series |
-| Intel | Pentium Processor J Series |
-| Intel | Pentium Processor N Series |
+#### 2.2.3 Advisory resources
+- [CERT/CC at Carnegie Mellon University](https://vuls.cert.org/confluence/display/Wiki/Vulnerabilities+Associated+with+CPU+Speculative+Execution)
+- [Graz University of Technology](https://meltdownattack.com/)
+- [NSA January 2018 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/csa-vulnerabilities-affecting-modern-processors.pdf?v=1)
+- NSA January 2019 advisory
+- [US-CERT](https://www.us-cert.gov/ncas/alerts/TA18-004A)
 
-## Additional Processor Flaw Guidance
-### SpectrePrime and MeltdownPrime
-[General Guidance](#general-guidance) is sufficient for mitigating the prime variants of Spectre and Meltdown. Prime variants feature an implementation difference and speculative exploitation across processor core caches.
+### 2.3 Publicized attacks
+#### 2.3.1 Spectre | CVE-2017-5715, CVE-2017-5753, CVE-2018-3639, and CVE-2018-3665
+Spectre exploits performance-enhancing behaviors known as "speculative execution." Variants include SpectreNG, SpectreRSB, Spectre Prime, and Spectre followed by version numbers. Technical names include bounds check bypass, write bounds bypass, protected memory range bypass, enclave branch target injection, return stack poisoning, and network cache shadow copy.
 
-### SgxPectre
-SgxPecture (sometimes referred to as SgxSpectre) leverages a race condition built into the Intel SGX SDK. A Spectre variant 2-like branch target injection vulnerability results. The attack affects Intel processors with SGX instructions.
+During speculative execution a processor may continue executing down one branch of a conditional instruction rather than waiting for the result. All execution following the conditional is referred to as "speculation" since the processor does not yet know the result of conditional instruction that has not yet returned a result. Once the result is returned, the processor's guess is either determined to be correct or incorrect. A correct guess shields the user from any performance impact, delay, or lag. Incorrect speculation temporarily pollute's the processor's cache with data that should not be present and may be available for exfiltration. Alternatively, observation of processor energy use, register use, executed instructions, speed variation, and other electronic indicators can reveal secrets without needing to read cache.
 
-Developers should install SDK updates and recompile SGX applications. All SGX SDKs that are derived from the Intel SDK must be updated. All SGX applications built from Intel-derived SGX SDKs must be recompiled or patched.
+For an example, assume there exists a local application that presents the user with a login prompt. Upon successful login, a secret message is displayed. An attacker can attempt to exploit Spectre vulnerabilities by deliberately entering incorrect logins and reading processor cache. The processor may speculatively load the secret message in anticipation of a correct login. The attacker can then fish the secret message out of cache despite not having login credentials to see it.
 
-Administrators should update SGX-enabled applications and apply OS SGX-related patches.
+#### 2.3.2 Meltdown | CVE-2017-5754 and CVE-2018-3640
+Meltdown builds upon Spectre. Variants include Meltdown Prime, Total Meltdown, and Meltdown followed by version numbers. Technical names include branch target injection, rogue data cache load, and rogue register load. Meltdown exploits a weakness in permission-checking during speculative execution. Some processor implementations will execute instructions prior to checking for permissions to access restricted regions of memory. Secrets can be leaked, security boundaries can be bypassed, and even virtual separation can be defeated due to the permission check that happens after speculative execution has already loaded protected data.
 
-### Total Meltdown
-A patching flaw has been identified in Windows 7 and Server 2008 64-bit operating systems. Security fixes intended to mitigate Meltdown may not have been effective. Install Microsoft's March 2018 rollup patches as a solution. Refrence patch KB4088878.
+For an example, assume there exists a local application that features multiple services. Some of the services require the user to have administrative credentials. An attacker could launch the application, deliberately try to use a service they don't have permission to utilize, and then recover speculative execution cache data resulting from the processor's possible assumption that the user had the correct permissions. If the application happened to be a user management system, then the attacker may have the opportunity to siphon administrative credentials out of cache.
 
-[Microsoft Update Catalog](https://www.catalog.update.microsoft.com/Search.aspx?q=KB4088878)
+#### 2.3.3 Foreshadow | CVE-2018-3615, CVE-2018-3620, and CVE-2018-3646
+Foreshadow builds upon Spectre. Variants include SGXpectre and technical names include L1 terminal fault and cache overrun. Foreshadow is all about violating trust boundaries -- different from Meltdown's focus on permissions and separations. Regions of memory can be tagged to have separations enforced at the hardware level. Secure enclaves, such as Intel's SGX, share system RAM with other applications and operating systems. Hypervisors, also known as Virtual Machine Managers (VMMs), can leverage different hardware virtualization features to separate their memory from other applications and operating systems too. Foreshadow allows a process running as a user to violate the boundaries between user memory and SGX or VMM memory via speculative execution.
 
-[Microsoft Support Advisory](https://support.microsoft.com/en-us/help/4088878/windows-7-update-kb4088878)
+For an example, assume there exists a local SGX application -- effectively a black box from some trusted vendor -- that contains a decryption key. A malicious user could leverage a Foreshadow exploit to leak the decryption key out of the SGX-protected enclave. SGX enclaves typically run as user processors meaning that no elevated credentials are necessary.
 
-### BranchScope
-Firmware patches are expected Q2 2018. No further information is available at this time.
+#### 2.3.4 BranchScope | CVE-2018-9056
+BranchScope builds upon Spectre. BranchScope targets the Branch Prediction Units (BPUs) that handle speculation when branching instructions, such as a conditional, are encountered. Modern processors handle multiple process threads simultaneously. BranchScope leverages processes against each other to influence and sometimes control the flow of speculative execution. Processes may prime the Branch Predictor itself to be predisposed to a specific solution, or they may corrupt the state of BPUs.
 
-### Ryzenfall, Chimera, Fallout, Masterkey
-Software and firmware patches are expected in Q2 2018. Ryzenfall, Fallout, and Masterkey flaws affect AMD products. Chimera flaws affect ASMedia products with debugging features regardless of processor brand or architecture. The following mitigations are advised:
+For an example, assume there exists a local application that has a login prompt and displays a different secret message based on which user has logged in. An attacker utilizing BranchScope could convince the processor to speculatively load the secret message for a specific user even though the attacker does not have their password.
 
-1. Revisit security practices involving local machine administrative privileges. Attacks in this category require administrative credentials. Properly safeguarding and limiting the use of such credentials is critical.
-1. Set a UEFI configuration administrator password if not already present.
-1. Investigate UEFI configuration to identify and disable unused devices and ports. Unused SATA controller ports or unused USB controller ports are example candidates for disabling. Tailor the UEFI configuration based on a device's use case.
+#### 2.3.5 TLBleed | No CVE issued
+TLBleed is a Spectre-like vulnerability that can exist in some poorly-developed software. TLBleed requires a processor that feeds multiple execution threads to a single processing core. Intel brands this technology Hyper Threading, and AMD uses the term Simultaneous Multi-Threading (SMT).
 
-## License
+One thread acts as the victim and the other acts as the attacker. The attacker can observe the victim thread's activity by accessing memory addresses in the shared-core's Transaction Lookaside Buffer (TLB). TLB entries can be used to translate between virtual and physical memory locations. The attacker can observe any memory the victim has been using including memory used to store prime numbers for cryptographic operations. Processor vendors view the fault as a problem with obsolete third-party development libraries that are not thread-safe. As a result, no CVE has been issued.
+
+#### 2.3.6 PortSmash | CVE-2018-5407
+PortSmash is similar to TLBleed. However, the attack thread observes the timing, cache accesses, memory accesses, energy use, and behavior of the victim thread. The attack thread does not need to access memory via the TLB. Close observation of the processor and platform hosting the victim thread can allow the attack thread to leak data from the victim thread. PortSmash is particularly effective against cryptographic functions where entropy can be observed or stealthily mirrored.
+
+#### 2.3.7 NetSpectre | No CVE issued
+NetSpectre is the only side-channel vulnerability listed on this page that does not require local code execution on a target system. Attackers can target systems connected to a network and flood them with data -- particularly data that takes advantage of AVX instruction sets. Processing of that data can reveal electronic indicators that allow the leaking or duplication of system secrets. NetSpectre is a noisy and slow attack method due to the large amount of data that must be sent to the target machine. An exploitable network driver, network service, or network application, such as a web browser, is also required on the target machine.
+
+## 3. Firmware and microcode vulnerabilities
+### 3.1 LoJax
+LoJax is a malicious modification to the anti-theft solution known as Computrace or LoJack. Each of these applications exist as UEFI modules implanted into system firmware. Firmware does not get cleared when the operating system is reformatted or storage media is replaced. Such persistence enables anti-theft solutions to continue to function despite attempts to disable them.
+
+Computrace, LoJack, and other verified and trusted anti-theft solutions are provided with UEFI Secure Boot signatures to allow execution. LoJax features an invalid signature that is not trusted by Secure Boot. When Secure Boot is enabled and functioning, LoJax is unable to execute. Note that Secure Boot does not remove LoJax -- only a firmware update can do so.
+
+To mitigate LoJax, ensure that UEFI Secure Boot is enabled and functioning. Standard mode is sufficient. Advanced organizations can also utilize custom mode.
+
+### 3.2 Ryzenfall, Chimera, Fallout, and Masterkey
+Together, these four named attacks constitute what is publicized as "AMD Flaws" and over a [dozen vulnerabilities](https://community.amd.com/community/amd-corporate/blog/2018/03/21/initial-amd-technical-assessment-of-cts-labs-research). Many vulnerabilities assume the compromise of administrator credentials or completely inept software-vetting processes. Some of the vulnerabilities are a direct result of debug features left enabled for use in advanced system tweaking common in the overclocking and gaming communities.
+
+To mitigate AMD Flaws, purchase business-class machines that lack "gamer" features such as overclocking, fan control, custom thermal management, RGB lighting, and firmware modding support. Also ensure that all firmware, microcode, and software updates are applied. Carefully analyze software before using it in conjunction with the AMD Secure Processor (SP) or Platform Security Processor (PSP) protected enclaves.
+
+## 4. Boot configuration
+
+### 4.1 UEFI Hardening
+See [UEFI Defensive Practices Guidance](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/ctr-uefi-defensive-practices-guidance.pdf?ver=2018-11-06-074836-090) technical report.
+
+### 4.2 UEFI Secure Boot Customization
+See UEFI Secure Boot Customization technical report.
+
+## 5. License
 See [LICENSE](./LICENSE.md).
 
-## Contributing
+## 6. Contributing
 See [CONTRIBUTING](./CONTRIBUTING.md)
 
-## Disclaimer
+## 7. Disclaimer
 See [DISCLAIMER](./DISCLAIMER.md).
