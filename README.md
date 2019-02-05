@@ -8,7 +8,7 @@
 		- 2.1.2 [Software patches](#softpatch)
 		- 2.1.3 [Configuration changes](#config)
 		- 2.1.4 [Verification](#verify)
-	- 2.2 [Affected products](#products)
+	- 2.2 [Resources and Affected products](#products)
 		- 2.2.1 [Hardware resources](#hardresources)
 		- 2.2.2 [Software resources](#softresources)
 		- 2.2.3 [Advisory resources](#advisories)
@@ -48,7 +48,7 @@ Some updates may require configuration changes to enable the full benefit of sid
 #### <a name="verify"/>2.1.4 Verification
 To test that patches are successful see the section named [Verification](./verification).
 
-### <a name="products"/>2.2 Affected products
+### <a name="products"/>2.2 Resources and Affected products
 Assume that all processor products from all processor manufacturers ([Intel](https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00088.html), AMD, [ARM](https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability), [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/), Apple, Samsung, [Nvidia](https://nvidia.custhelp.com/app/answers/detail/a_id/4611/~/security-bulletin%3A-nvidia-driver-security-updates-for-cpu-speculative-side), Qualcomm, etc.) are affected by one or more side-channel vulnerabilities. Attempts have been made to quantify which [specific processors](https://www.techarp.com/guides/complete-meltdown-spectre-cpu-list/) are affected by a given attack or its variations. However, the listing of products continues to grow as more researchers put resources towards expanding the scope of analyzed products. In general, the more market share a company has, the more likely their products have discovered side-channel attacks with names and CVEs.
 
 Processor vendor exposure to side-channel attacks varies. For example, Spectre affects nearly all processor products to some degree while Meltdown primarily affects Intel products.  As of January 23, 2018, no hardware vendor has confirmed general availability of in-silicon fixes to side-channel attacks their respective products are vulnerable to. Replacing older hardware with newer hardware does not guarantee mitigation of all vulnerabilities. However,  newer hardware features updated instructions that lessen the performance impact of patches.
