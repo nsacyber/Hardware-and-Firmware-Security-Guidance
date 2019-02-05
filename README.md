@@ -75,7 +75,7 @@ Processor vendor exposure to side-channel attacks varies. For example, Spectre a
 - [CERT/CC at Carnegie Mellon University](https://vuls.cert.org/confluence/display/Wiki/Vulnerabilities+Associated+with+CPU+Speculative+Execution)
 - [Graz University of Technology](https://meltdownattack.com/)
 - [NSA January 2018 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/csa-vulnerabilities-affecting-modern-processors.pdf?v=1)
-- NSA January 2019 advisory
+- [NSA January 2019 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/CSA_Updated_Guidance_For_Vulnerabilities_Affecting_Modern_Processors_20190130.pdf)
 - [US-CERT](https://www.us-cert.gov/ncas/alerts/TA18-004A)
 
 ### <a name="attacks"/>2.3 Publicized attacks
