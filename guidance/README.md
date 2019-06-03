@@ -1,5 +1,8 @@
+
 # Specific Guidance
-Specific guidance is intended to focus on products and solutions **commonly** found in government and industry spaces.
+Specific guidance is intended to focus on products and solutions **commonly** found in government and industry spaces. This page exists to gather vendor resources in one spot so public and private entities can collaborate on our [shared need to secure computing infrastructure](https://www.nsa.gov/What-We-Do/Cybersecurity/NSCAP/).
+
+The information and opinions contained in this document are provided "as is" and without any warranties or guarantees. **Reference herein to any specific commercial products, process, or service by trade name, trademark, manufacturer, or otherwise, does not constitute or imply its endorsement, recommendation, or favoring by the United States Government, and this guidance shall not be used for advertising or product endorsement purposes.**
 
 ## Table of Contents
 - 1\. [Attack Vector Minimization](#vectors)
@@ -26,12 +29,13 @@ Most exploits against Spectre, Meltdown, MDS, and other side-channel vulnerabili
 
 To minimize attack vectors, consider the following solutions:
 1. **Application whitelisting** applies a "known-good" filter to executable software on an endpoint. Chance of malicious code execution is significantly reduced.
-2. **Trusted scripts** applies a "known-good" filter to executable scripts. System utilities, user utilities, and web browser scripts may all be corralled by scripting restrictions.
+2. **Trusted scripts** applies a "known-good" filter to executable scripts. System utilities, user utilities, and web browser scripts may all be corralled by scripting restrictions. Alternatively, consider disabling user scripts entirely.
 3. **Audit new software and firmware** before introduction to an infrastructure. Perform malware scans and check provided code and documentation to the extent possible. Validate that the hash of received binaries matches the hash of what the software and firmware vendors intended to provide.
 4. **Separate network infrastructures where appropriate** to limit the lateral movement of attackers. Physical and virtual solutions can prevent unfettered access to sensitive resources.
 
 ##  <a name="patching"/>2. Patching Priority
 General guidance for prioritizing patching:
+
 1. Prioritize patching software applications, such as browsers first, as they are the easiest to patch, have the least amount of issues with performance and compatibility, and the most likely widespread attack vector.
 3. Prioritize installing operating system patches on desktop, laptops, and tablets -- especially systems that travel or leave the office environment. Compatibility issues with operating system patches have been largely resolved by the OS vendors and performance issues are much less on desktops since they typically do not have IO intensive workloads like servers (file storage arrays, email servers, database servers) where the majority of the performance issues are excertbated. Attacks via email, Office documents, PDFs, are the second most likely widespread attack vector.
 4. Prioritize patching servers that do NOT have IO intensive workloads (no file storage arrays, no email servers, no database servers). Some organizations may want to wait on patching any servers until more performance data is available or more localized testing has been performed to determine if the risk of remaining unpatched is warranted for the performance trade offs. Attack surface reduction may be an acceptable alternative to performance-impacting patches depending on mission and use case.
@@ -108,19 +112,36 @@ Windows operating systems and applications guidance in development:
 * [Spectre and Meltdown patches for Dell EMC products](https://www.dell.com/support/article/uk/en/ukbsdt1/sln308588/microprocessor-side-channel-vulnerabilities-cve-2017-5715-cve-2017-5753-cve-2017-5754-impact-on-dell-emc-servers-storage-and-networking?lang=en)
 * [Spectre and Meltdown patches for Dell business and consumer products](https://www.dell.com/support/article/us/en/04/sln308587/microprocessor-side-channel-vulnerabilities-cve-2017-5715-cve-2017-5753-cve-2017-5754-impact-on-dell-products?lang=en)
 * [Dell Spectre and Meltdown knowledge hub](https://www.dell.com/support/contents/us/en/04/article/product-support/self-support-knowledgebase/software-and-downloads/support-for-meltdown-and-spectre)
+* [Dell Side-Channel vulnerability information hub](https://www.dell.com/support/contents/us/en/04/article/product-support/self-support-knowledgebase/software-and-downloads/speculative-store-bypass)
 ### <a name="hp"/>5.2 HP
+* [HP Enterprise MDS vulnerability advisory](https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-hpesbhf03933en_us&docLocale=en_US)
+* [HP Consumer MDS vulnerability advisory](https://support.hp.com/us-en/document/c06330149)
+* [HPE Spectre and Meltdown advisory](https://support.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-a00039773en_us&withFrame)
+* [HPE Spectre and Meltdown patches and configuration instructions](http://h22208.www2.hpe.com/eginfolib/securityalerts/SCFM/Side_Channel_Downloads.html)
+* [HP Consumer Spectre and Meltdown advisory](https://support.hp.com/us-en/document/c05869091)
+* [HP Enterprise security vulnerability dashboard](https://www.hpe.com/us/en/services/security-vulnerability.html)
 
 ### <a name="intel"/>5.3 Intel
-#### Workstation Products (e.g. Core i7)
+* [MDS deep dive](https://software.intel.com/security-software-guidance/insights/deep-dive-intel-analysis-microarchitectural-data-sampling)
+* [MDS advisory](https://software.intel.com/security-software-guidance/software-guidance/microarchitectural-data-sampling)
+* [MDS overview](https://www.intel.com/content/www/us/en/architecture-and-technology/mds.html)
+* [Side-channel vulnerability information hub](https://www.intel.com/content/www/us/en/architecture-and-technology/facts-about-side-channel-analysis-and-intel-products.html)
+* [Side-channel mitigation performance impact analysis](https://www.intel.com/content/www/us/en/architecture-and-technology/l1tf.html)
 
-#### Server Products (e.g. Xeon Gold)
+As of May, 2019, NSA recommends disabling Intel Hyper-Threading on all systems handling sensitive data while able to execute arbitrary, user-acquired binaries and scripts. Endpoints with application and script whitelisting solutions may be exempt from MDS mitigations depending on mission need and data handled. Because of the wide variety of named side-channel vulnerabilities and differing impact, sometimes differing per stepping/revision in the same product generation, assume that all Core and Xeon Intel processors are vulnerable to one or more side-channel vulnerabilities.
+
+Ensure that Spectre mitigations are installed and activated on all Intel endpoints. Like MDS, Meltdown may impart a performance impact that can be counteracted with application and user permission lockdown solutions. For information relating to a specific infrastructure, e-mail the NSA Cybersecurity GitHub team at <a href="mailto:Cybersecurity_Requests@nsa.gov?subject=NSA Cyber GitHub infrastructure question">Cybersecurity_Requests@nsa.gov</a>.
 
 ### <a name="amd"/>5.4 AMD
-#### Workstation Products (e.g. Ryzen)
+* [AMD security hub](https://www.amd.com/en/corporate/product-security)
 
-#### Server Products (e.g. Epyc)
+As of May, 2019, NSA recommends installing Spectre mitigations on all AMD endpoints. Meltdown and MDS vulnerabilities do not appear to apply to AMD Zen products. Ensure that AMD-specific Spectre mitigations have been installed and remove erroneously applied Meltdown mitigations -- some early patches may have installed patches not intended for AMD platforms. For information relating to a specific infrastructure, e-mail the NSA Cybersecurity GitHub team at <a href="mailto:Cybersecurity_Requests@nsa.gov?subject=NSA Cyber GitHub infrastructure question">Cybersecurity_Requests@nsa.gov</a>.
 
 ### <a name="arm"/>5.5 ARM
+* [Spectre and Meltdown information hub](https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability/latest-updates/cache-speculation-issues-update)
+* [Developer security updates](https://developer.arm.com/support/arm-security-updates)
+
+Consult with the vendor of a specific ARM chip for details on side-channel vulnerability mitigations. Multiple vendors, e.g. Samsung and Qualcomm, produce ARM chips with variations that affect their vulnerability, if any.
 
 ## <a name="general"/>General information
 Informational pages:
