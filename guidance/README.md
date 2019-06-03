@@ -2,7 +2,7 @@
 Specific guidance is intended to focus on products and solutions **commonly** found in government and industry spaces.
 
 ## Table of Contents
-- 1\. [Attack Vectors](#vectors)
+- 1\. [Attack Vector Minimization](#vectors)
 - 2\. [Patching Priority](#patching)
 - 3\. [Operating Systems](#os)
 	- 3.1 [Windows](#win)
@@ -21,7 +21,7 @@ Specific guidance is intended to focus on products and solutions **commonly** fo
 	- 5.4 [AMD](#amd)
 - 6\. [General Information](#general)
 
-## <a name="vectors"/>1. Attack Vectors
+## <a name="vectors"/>1. Attack Vector Minimization
 Most exploits against Spectre, Meltdown, MDS, and other side-channel vulnerabilities originate from malicious code locally executed on a machine or virtual machine. Some variants require administrative privileges while others can be executed as user level, browser-downloaded JavaScript code. Machines that execute arbitrary code -- i.e. non-whitelisted user applications and scripts -- are at greatest risk. Side-channel attacks are likely to reveal credentials that enable lateral movement within an infrastructure.
 
 To minimize attack vectors, consider the following solutions:
