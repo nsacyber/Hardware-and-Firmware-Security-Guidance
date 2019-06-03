@@ -1,4 +1,5 @@
 
+  
 # Hardware and Firmware Security Guidance
 ## Table of Contents
 - 1\. [About this repository](#about)
@@ -7,7 +8,8 @@
 		- 2.1.1 [Firmware patches](#firmpatch)
 		- 2.1.2 [Software patches](#softpatch)
 		- 2.1.3 [Configuration changes](#config)
-		- 2.1.4 [Verification](#verify)
+		- 2.1.4 [Temporarily Disable Intel Hyper-Threading](#hyper)
+		- 2.1.5 [Verification](#verify)
 	- 2.2 [Resources and Affected products](#products)
 		- 2.2.1 [Hardware resources](#hardresources)
 		- 2.2.2 [Software resources](#softresources)
@@ -20,6 +22,7 @@
 		- 2.3.5 [TLBleed](#tlbleed)
 		- 2.3.6 [PortSmash](#portsmash)
 		- 2.3.7 [NetSpectre](#netspectre)
+		- 2.3.8 [Microarchitectural Data Sampling (MDS)](#MDS)
 - 3\. [Firmware and microcode vulnerabilities](#firmandmicro)
 	- 3.1 [LoJax](#lojax)
 	- 3.2 [Ryzenfall, Chimera, Fallout, and Masterkey](#amdflaws)
@@ -39,44 +42,63 @@ The following mitigations **generally** apply to all systems. For specific steps
 #### <a name="firmpatch"/>2.1.1 Firmware updates
 Apply firmware updates provided by system vendors. Updates may specifically refer to UEFI, BIOS, microcode, ucode, or individual hardware device firmware. Multiple separate firmware updates may be available for a given system, or all updates may be rolled up into a single package (no universal standard exists). Firmware updates may not be delivered through established patching services such as Windows Update and are easy to miss. Consult vendor resources such as those provided by Dell and HP.
 
+Ensure that firmware updates are allowed to execute uninterrupted. Firmware updates may have multiple phases. For example, firmware updates for Intel platforms typically have a distinct phase for updating the Management Engine (ME) that follows platform firmware update. Reboots may exist between phases.
+
 #### <a name="softpatch"/>2.1.2 Software patches
 Microsoft, Apple, Red Hat, and Google have all released patches for their respective operating systems. Some software vendors -- particularly web browsers, document readers, and development kits -- may also have side-channel attack mitigation updates. Apply all patches to software. Be sure to check software that use vendor-specific update services or patch files -- not all vendors provide patches for operating system vendors to utilize.
+
+VMware, Citrix, Xen Project, Amazon, Microsoft, and other virtualization and cloud providers have also provided side-channel attack mitigation patches. Some infrastructures require system administrators to apply patches, and others -- typically cloud infrastructures -- automatically apply patches without any input.
+
+**Some OS vendors have released patches with disabled mitigations due to performance impact concerns.** Perform a risk analysis to determine the infrastructure's exposure to arbitrary executable and script execution. Apply mitigations to endpoints most exposed and at risk. Check to ensure Spectre, Meltdown, MDS, and other mitigations are actually enforced. Application and script whitelisting combined with endpoint permissions lockdown may be sufficient alternatives to performance-impacting mitigations.
 
 #### <a name="config"/>2.1.3 Configuration changes
 Some updates may require configuration changes to enable the full benefit of side-channel attack mitigations. Development kits in particular may require re-compilation of binaries to enable new CPU instructions. Operating systems may need changes made to user and network policies. Consult vendor resources for guidance on applying the appropriate mitigations for your use case.
 
-#### <a name="verify"/>2.1.4 Verification
+#### <a name="hyper">2.1.4 Temporarily Disable Intel Hyper-Threading
+Temporarily disable Hyper-Threading on Intel systems handling sensitive information (e.g. classified, financial, medical). Prioritize systems that allow the execution of arbitrary programs and scripts, i.e. systems lacking application whitelisting, as these are at the greatest risk. All form factors are affected (e.g. desktops, servers, notebooks, tablets). Hyper-Threading should remain disabled until the effectiveness of MDS mitigation patches is understood and patches are fully deployed. Some delay between the disclosure of MDS vulnerabilities and deployment of patches on all endpoints is expected. Disabling Hyper-Threading may impart a significant performance penalty on some use cases.
+
+Virtual processor and Simultaneous MultiThreading (SMT) solutions from vendors other than Intel are not implicated as susceptible to MDS as of May, 2019.
+
+#### <a name="verify"/>2.1.5 Verification
 To test that patches are successful see the section named [Verification](./verification).
 
 ### <a name="products"/>2.2 Resources and Affected products
 Assume that all processor products from all processor manufacturers ([Intel](https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00088.html), AMD, [ARM](https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability), [IBM](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/), Apple, Samsung, [Nvidia](https://nvidia.custhelp.com/app/answers/detail/a_id/4611/~/security-bulletin%3A-nvidia-driver-security-updates-for-cpu-speculative-side), Qualcomm, etc.) are affected by one or more side-channel vulnerabilities. Attempts have been made to quantify which [specific processors](https://www.techarp.com/guides/complete-meltdown-spectre-cpu-list/) are affected by a given attack or its variations. However, the listing of products continues to grow as more researchers put resources towards expanding the scope of analyzed products. In general, the more market share a company has, the more likely their products have discovered side-channel attacks with names and CVEs.
 
-Processor vendor exposure to side-channel attacks varies. For example, Spectre affects nearly all processor products to some degree while Meltdown primarily affects Intel products.  As of January 23, 2018, no hardware vendor has confirmed general availability of in-silicon fixes to side-channel attacks their respective products are vulnerable to. Replacing older hardware with newer hardware does not guarantee mitigation of all vulnerabilities. However,  newer hardware features updated instructions that lessen the performance impact of patches.
+Processor vendor exposure to side-channel attacks varies. For example, Spectre affects nearly all processor products to some degree; Meltdown and Microarchitectural Data Sampling (MDS) primarily affect Intel products.  Replacing older hardware with newer hardware does not guarantee mitigation of all side-channel vulnerabilities. However, newer hardware features updated instructions that lessen the performance impact of patches.
+
+As of May, 2019, processor vendor exposure to side-channel attacks varies. Multiple generations of Intel products are known to be vulnerable to most side-channel attacks on this page. However, some Core 8000-series and 9000-series products have hardware mitigations for Spectre and Meltdown vulnerabilities. Xeon products launched since late 2018 may also have hardware mitigations -- carefully examine specification sheets. Newer MDS vulnerabilities still apply to most Intel products. AMD Ryzen 3000-series products launched in mid-2019 are expected to contain hardware Spectre mitigations, but Epyc products do not -- Meltdown and MDS do not apply due to architectural differences. Comparatively few IBM and ARM-derived products are affected by Spectre and Meltdown -- consult manufacturer resources.
+
+NSA does not have the resources to test every processor released. Researchers, product vendors, and [tech websites](https://www.techarp.com/guides/complete-meltdown-spectre-cpu-list/) have compiled lists of affected products.
 
 #### <a name="hardresources"/>2.2.1 Hardware resources
 - [AMD](https://www.amd.com/en/corporate/security-updates)
 - [ARM](https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability/latest-updates/cache-speculation-issues-update)
 - [Dell](https://www.dell.com/support/contents/us/en/04/article/product-support/self-support-knowledgebase/software-and-downloads/support-for-meltdown-and-spectre)
-- [Dell EMC](https://www.dell.com/support/article/us/en/04/sln308588/microprocessor-side-channel-vulnerabilities-cve-2017-5715-cve-2017-5753-cve-2017-5754-impact-on-dell-emc-servers-storage-and-networking?lang=en)
+- Dell EMC [Spectre, Meltdown](https://www.dell.com/support/article/us/en/04/sln308588/microprocessor-side-channel-vulnerabilities-cve-2017-5715-cve-2017-5753-cve-2017-5754-impact-on-dell-emc-servers-storage-and-networking?lang=en) and [MDS](https://www.dell.com/support/article/us/en/04/sln317156/dell-emc-server-security-notice-for-intel-sa-00233?lang=en)
 - [HP](https://support.hp.com/us-en/document/c05869091)
-- [HPE](https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-a00039267en_us)
+- HPE [Spectre, Meltdown](https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-a00039267en_us) and [MDS](https://support.hpe.com/hpsc/doc/public/display?docLocale=en_US&docId=emr_na-hpesbhf03933en_us)
 - IBM [Power Processors](https://www.ibm.com/blogs/psirt/potential-impact-processors-power-family/) and [Servers](https://www.ibm.com/blogs/psirt/ibm-storage-meltdownspectre/)
-- [Intel](https://www.intel.com/content/www/us/en/architecture-and-technology/facts-about-side-channel-analysis-and-intel-products.html)
+- Intel [Spectre, Meltdown, and more](https://www.intel.com/content/www/us/en/architecture-and-technology/facts-about-side-channel-analysis-and-intel-products.html) plus [MDS-specific update](https://www.intel.com/content/www/us/en/architecture-and-technology/mds.html)
 - [Nvidia](https://nvidia.custhelp.com/app/answers/detail/a_id/4611/~/security-bulletin%3A-nvidia-driver-security-updates-for-cpu-speculative-side)
 
 #### <a name="softresources"/>2.2.2 Software Resources
-- [Apple](https://support.apple.com/en-us/HT208394)
-- Google [Cloud](https://cloud.google.com/security/cpu-vulnerabilities/), [Developers](https://developers.google.com/web/updates/2018/02/meltdown-spectre), [Chrome OS](https://www.chromium.org/chromium-os/meltdown-spectre-vulnerability-status), and [Project Zero](https://googleprojectzero.blogspot.com/)
+- Apple [Spectre, Meltdown](https://support.apple.com/en-us/HT208394) and [MDS](https://support.apple.com/en-us/HT210107)
+- Google [Cloud](https://cloud.google.com/security/cpu-vulnerabilities/), [Developers](https://developers.google.com/web/updates/2018/02/meltdown-spectre), [Chrome OS](https://www.chromium.org/chromium-os/meltdown-spectre-vulnerability-status), [Project Zero](https://googleprojectzero.blogspot.com/), and [MDS update](https://support.google.com/faqs/answer/9330250)
 - [IBM Cloud](https://www.ibm.com/blogs/psirt/ibm-cloud-security-bulletin-spectre-meltdown-vulnerabilities/)
-- Microsoft [Windows](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) and [Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/mitigate-se)
-- [Red Hat](https://access.redhat.com/security/vulnerabilities/speculativeexecution)
+- Microsoft [Windows](https://support.microsoft.com/en-us/help/4073757/protect-your-windows-devices-against-spectre-meltdown) and [Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/mitigate-se) and [MDS update](https://portal.msrc.microsoft.com/en-us/security-guidance/advisory/ADV190013)
+- Red Hat [Spectre, Meltdown](https://access.redhat.com/security/vulnerabilities/speculativeexecution) and [MDS update](https://access.redhat.com/security/vulnerabilities/mds)
+- VMware [MDS update](https://kb.vmware.com/s/article/67577)
+- Xen Project [MDS Update](https://xenbits.xen.org/xsa/advisory-297.html)
 
 #### <a name="advisories"/>2.2.3 Advisory resources
 - [CERT/CC at Carnegie Mellon University](https://vuls.cert.org/confluence/display/Wiki/Vulnerabilities+Associated+with+CPU+Speculative+Execution)
-- [Graz University of Technology](https://meltdownattack.com/)
+- Graz University of Technology [Spectre, Meltdown](https://meltdownattack.com/) and [MDS, ZombieLoad](https://zombieloadattack.com/)
 - [NSA January 2018 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/csa-vulnerabilities-affecting-modern-processors.pdf?v=1)
 - [NSA January 2019 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/CSA_Updated_Guidance_For_Vulnerabilities_Affecting_Modern_Processors_20190130.pdf)
+- NSA May 2019 advisory
 - [US-CERT](https://www.us-cert.gov/ncas/alerts/TA18-004A)
+- Vrije Universiteit Amsterdam [MDS, Fallout, RIDL](https://mdsattacks.com/)
 
 ### <a name="attacks"/>2.3 Publicized attacks
 #### <a name="spectre"/>2.3.1 Spectre | CVE-2017-5715, CVE-2017-5753, CVE-2018-3639, and CVE-2018-3665
@@ -111,6 +133,9 @@ PortSmash is similar to TLBleed. However, the attack thread observes the timing,
 
 #### <a name="netspectre"/>2.3.7 NetSpectre | No CVE issued
 NetSpectre is the only side-channel vulnerability listed on this page that does not require local code execution on a target system. Attackers can target systems connected to a network and flood them with data -- particularly data that takes advantage of AVX instruction sets. Processing of that data can reveal electronic indicators that allow the leaking or duplication of system secrets. NetSpectre is a noisy and slow attack method due to the large amount of data that must be sent to the target machine. An exploitable network driver, network service, or network application, such as a web browser, is also required on the target machine.
+
+#### <a name="MDS"/>2.3.8 Microarchitectural Data Sampling (MDS) | CVE-2018-12130, CVE-2018-12127, CVE-2018-12126, and CVE-2019-11091
+Microarchitectural Data Sampling (MDS) vulnerabilities are also referred to as ZombieLoad, Fallout, and Rogue In-flight Data Load (RIDL). MDS vulnerabilities expand upon weaknesses identified in Meltdown and TLBleed. Mitigations have focused on controlling access and frequently clearing processor caches. However, processor cache data is staged in buffers when transiting into and out of cache memory space. MDS exploits target the buffers. Information can be leaked from or injected into buffers to manipulate processor execution and speculative behaviors.
 
 ## <a name="firmandmicro"/>3. Firmware and microcode vulnerabilities
 ### <a name="lojax"/>3.1 LoJax
