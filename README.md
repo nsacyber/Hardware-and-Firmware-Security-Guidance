@@ -69,7 +69,7 @@ Processor vendor exposure to side-channel attacks varies. For example, Spectre a
 
 As of May, 2019, processor vendor exposure to side-channel attacks varies. Multiple generations of Intel products are known to be vulnerable to most side-channel attacks on this page. However, some Core 8000-series and 9000-series products have hardware mitigations for Spectre and Meltdown vulnerabilities. Xeon products launched since late 2018 may also have hardware mitigations -- carefully examine specification sheets. Newer MDS vulnerabilities still apply to most Intel products. AMD Ryzen 3000-series products launched in mid-2019 are expected to contain hardware Spectre mitigations, but Epyc products do not -- Meltdown and MDS do not apply due to architectural differences. Comparatively few IBM and ARM-derived products are affected by Spectre and Meltdown -- consult manufacturer resources.
 
-NSA does not have the resources to test every processor released. Researchers, product vendors, and [tech websites](https://www.techarp.com/guides/complete-meltdown-spectre-cpu-list/) have compiled lists of affected products.
+NSA does not have the mission to test every processor released. Researchers, product vendors, and [tech websites](https://www.techarp.com/guides/complete-meltdown-spectre-cpu-list/) have compiled lists of affected products.
 
 #### <a name="hardresources"/>2.2.1 Hardware resources
 - [AMD](https://www.amd.com/en/corporate/security-updates)
