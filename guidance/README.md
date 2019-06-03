@@ -71,7 +71,7 @@ Windows operating systems and applications guidance in development:
 * [Ubuntu Wiki for MDS](https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/MDS)
 * [Ubuntu Spectre and Meltdown blog post](https://blog.ubuntu.com/2018/01/24/meltdown-spectre-and-ubuntu-what-you-need-to-know)
 * [Ubuntu Spectre and Meltdown patch notice](https://blog.ubuntu.com/2018/01/04/ubuntu-updates-for-the-meltdown-spectre-vulnerabilities)
-* [Ubuntu Wiki for Spectre and Meltdown](https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/SpectreAndMeltdown
+* [Ubuntu Wiki for Spectre and Meltdown](https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/SpectreAndMeltdown)
 * [Side-channel vulnerability detection in Linux](./linux/README.md) guidance
 * See the [Browser guidance](./windows/Browsers.md) in the Windows section (also applies to Linux)
 
