@@ -13,10 +13,10 @@ The information and opinions contained in this document are provided "as is" and
 	- 3.3 [Other Linux Distributions](#linux)
 	- 3.4 [MacOS](#mac)
 - 4\. [Hypervisors](#hyper)
-	- [Citrix](#citrix)
-	- [Microsoft Hyper-V](#hyperv)
-	- [VMware](#vmware)
-	- [Xen Project](#xen)
+	- 4.1 [Citrix](#citrix)
+	- 4.2 [Microsoft Hyper-V](#hyperv)
+	- 4.3 [VMware](#vmware)
+	- 4.4 [Xen Project](#xen)
 - 5\. [Hardware](#hard)
 	- 5.1 [Dell](#dell)
 	- 5.2 [HP](#hp)
@@ -69,7 +69,7 @@ Use the following variable values to enable mitigations. Registry keys may not e
 
 | Setting | Spectre, Meltdown, MDS | Spectre, Meltdown | Spectre-only |
 | --- | --- | --- | --- |
-| FeatureSettingsOverride | 72 | 0 | 8 |
+| FeatureSettingsOverride | 8264 | 0 | 8 |
 | FeatureSettingsOverrideMask | 3 | 3 | 3 |
 | MinVmVersionForCpuBasedMitigations | "1.0" | "1.0" | "1.0" |
 
@@ -110,16 +110,18 @@ Windows operating systems and applications guidance in development:
 * [Apple's Spectre and Meltdown notice](https://support.apple.com/en-us/HT208394)
 
 ## <a name="hyper">4. Hypervisors
-### <a name="citrix"/>Citrix
+### <a name="citrix"/>4.1 Citrix
 * [MDS statement](https://www.citrix.com/blogs/2019/05/14/microarchitectural-data-sampling-security-issues-and-mitigations/)
 * [Spectre and Meltdown statement](https://support.citrix.com/article/CTX231399)
 * [Performance impact guidance](https://www.citrix.com/blogs/2018/02/06/meltdown-and-spectre-understanding-the-performance-impact-current-state-whats-next/)
-### <a name="hyperv"/>Microsoft Hyper-V
+	
+### <a name="hyperv"/>4.2 Microsoft Hyper-V
 * [Side-channel vulnerability mitigations for multiple Microsoft platforms](https://support.microsoft.com/en-us/help/4457951/windows-guidance-to-protect-against-speculative-execution-side-channel)
 * [Hyper Clear mitigation](https://techcommunity.microsoft.com/t5/Virtualization/5-14-Hyper-V-HyperClear-Update/ba-p/566499)
 * [Configuration changes to mitigate side-channel vulnerabilities](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/CVE-2017-5715-and-hyper-v-vms)
 * [Server configuration changes to mitigate side-channel vulnerabilities](https://support.microsoft.com/en-us/help/4072698/windows-server-speculative-execution-side-channel-vulnerabilities-prot)
-### <a name="vmware"/>VMware
+
+### <a name="vmware"/>4.3 VMware
 * [MDS advisory](https://www.vmware.com/security/advisories/VMSA-2019-0008.html)
 * [Hypervisor mitigations for MDS](https://kb.vmware.com/s/article/67577)
 * [Guest mitigations for MDS](https://kb.vmware.com/s/article/68024)
@@ -127,7 +129,8 @@ Windows operating systems and applications guidance in development:
 * [Configuration changes and microcode mitigations for Spectre, Meltdown](https://kb.vmware.com/s/article/54951)
 * [VMware additional guidance on side-channel vulnerabilities](https://kb.vmware.com/s/article/52245)
 * [vSphere configuration guidance](https://blogs.vmware.com/feed-items/vulnerabilities-how-to-fix-meltdown-and-spectre-on-vmware-vsphere)
-### <a name="xen"/>Xen Project
+
+### <a name="xen"/>4.4 Xen Project
 * [MDS Guidance](https://www.citrix.com/blogs/2019/05/14/microarchitectural-data-sampling-security-issues-and-mitigations/)
 * [Spectre and Meltdown administrator guidance](https://wiki.xenproject.org/wiki/Respond_to_Meltdown_and_Spectre)
 * [Spectre and Meltdown Wiki FAQ](https://wiki.xenproject.org/wiki/Xen_Project_Meltdown_and_Spectre_Technical_FAQ)
