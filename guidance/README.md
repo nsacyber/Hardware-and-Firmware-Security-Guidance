@@ -55,6 +55,30 @@ Microsoft provides patches through the Windows Update service. Windows Update no
 * [Spectre patches are part of the June and November 2018 security updates](https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/ADV180012) and may also **require administrator action to enable** due to concerns regarding performance impacts
 * [Meltdown patches are part of the June and November 2018 security updates](https://support.microsoft.com/en-us/help/4072698/windows-server-speculative-execution-side-channel-vulnerabilities-prot) and may also **require administrator action to enable on server systems** due to concerns regarding performance impacts
 
+Spectre and Meltdown patches may not be activated when installed because of significant performance penalties or compatibility issues with some implementations of anti-malware solutions. The following registry keys control the behavior of mitigations:
+
+- - -
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\FeatureSettingsOverride
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\FeatureSettingsOverrideMask
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\MinVmVersionForCpuBasedMitigations
+- - -
+
+Use the following variable values to enable mitigations. Registry keys may not exist by default and may need to be added. Intel systems only (all variables are REG_DWORD):
+
+| Setting | Spectre, Meltdown, MDS | Spectre, Meltdown | Spectre-only |
+| --- | --- | --- | --- |
+| FeatureSettingsOverride | 72 | 0 | 8 |
+| FeatureSettingsOverrideMask | 3 | 3 | 3 |
+| MinVmVersionForCpuBasedMitigations | "1.0" | "1.0" | "1.0" |
+
+AMD systems only (all variables are REG_DWORD) -- Meltdown and MDS are not applicable to AMD:
+
+| Setting | Spectre-only |
+| --- | --- |
+| FeatureSettingsOverride | 72 |
+| FeatureSettingsOverrideMask | 3 |
+| MinVmVersionForCpuBasedMitigations | "1.0"|
+
 Windows operating systems and applications guidance in development:
 * [Operating system](./windows/OS.md) patch compatibility and enabling guidance
 * [Browser](./windows/Browsers.md) patching and configuration guidance
