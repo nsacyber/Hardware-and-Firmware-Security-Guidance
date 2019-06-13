@@ -59,11 +59,13 @@ Spectre and Meltdown patches may not be activated when installed because of sign
 
 - - -
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\FeatureSettingsOverride
+
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\FeatureSettingsOverrideMask
+
 HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\MinVmVersionForCpuBasedMitigations
 - - -
 
-Use the following variable values to enable mitigations. Registry keys may not exist by default and may need to be added. Intel systems only (all variables are REG_DWORD):
+Use the following variable values to enable mitigations. Registry keys may not exist by default and may need to be added. The tables below select settings most commonly advised to DOD administrators. For the full variation of settings, consult Microsoft's in-depth details in the second half of [Windows Server guidance to protect against speculative execution side-channel vulnerabilities](https://support.microsoft.com/en-us/help/4072698/windows-server-speculative-execution-side-channel-vulnerabilities-prot). Intel systems only (all variables are REG_DWORD):
 
 | Setting | Spectre, Meltdown, MDS | Spectre, Meltdown | Spectre-only |
 | --- | --- | --- | --- |
