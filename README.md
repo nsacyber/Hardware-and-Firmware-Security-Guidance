@@ -96,7 +96,7 @@ NSA does not have the mission to test every processor released. Researchers, pro
 - Graz University of Technology [Spectre, Meltdown](https://meltdownattack.com/) and [MDS, ZombieLoad](https://zombieloadattack.com/)
 - [NSA January 2018 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/csa-vulnerabilities-affecting-modern-processors.pdf?v=1)
 - [NSA January 2019 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/CSA_Updated_Guidance_For_Vulnerabilities_Affecting_Modern_Processors_20190130.pdf)
-- NSA May 2019 advisory
+- [NSA May 2019 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/CSA-Guidance_For_Vulnerabilities_Affecting_Modern_Processors_UPDATE2.pdf)
 - [US-CERT](https://www.us-cert.gov/ncas/alerts/TA18-004A)
 - Vrije Universiteit Amsterdam [MDS, Fallout, RIDL](https://mdsattacks.com/)
 
