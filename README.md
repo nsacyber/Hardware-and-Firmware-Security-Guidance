@@ -1,4 +1,3 @@
-
   
 # Hardware and Firmware Security Guidance
 ## Table of Contents
@@ -8,7 +7,7 @@
 		- 2.1.1 [Firmware patches](#firmpatch)
 		- 2.1.2 [Software patches](#softpatch)
 		- 2.1.3 [Configuration changes](#config)
-		- 2.1.4 [Temporarily Disable Intel Hyper-Threading](#hyper)
+		- 2.1.4 [Disable Intel Hyper-Threading](#hyper) (Updated!)
 		- 2.1.5 [Verification](#verify)
 	- 2.2 [Resources and Affected products](#products)
 		- 2.2.1 [Hardware resources](#hardresources)
@@ -23,15 +22,20 @@
 		- 2.3.6 [PortSmash](#portsmash)
 		- 2.3.7 [NetSpectre](#netspectre)
 		- 2.3.8 [Microarchitectural Data Sampling (MDS)](#MDS)
+		- 2.3.9 [CacheOut](#CacheOut) (New!)
+		- 2.3.10 [Take A Way](#TAW) (New!)
+		- 2.3.11 [Load Value Injection](#LVI) (New!)
 - 3\. [Firmware and microcode vulnerabilities](#firmandmicro)
 	- 3.1 [LoJax](#lojax)
 	- 3.2 [Ryzenfall, Chimera, Fallout, and Masterkey](#amdflaws)
+	- 3.3 [Microsoft Secure Boot Bypass](#MSFTSBB) (New!)
 - 4\. [Boot configuration](#bootconfig)
 	- 4.1 [UEFI Hardening](#uefihard)
-	- 4.2 [UEFI Secure Boot Customization](#sbcustom)
-- 5\. [License](#license)
-- 6\. [Contributing](#contributing)
-- 7\. [Disclaimer](#disclaimer)
+	- 4.2 [UEFI Secure Boot Customization](#sbcustom) (Updated!)
+- 5\. [Hardware Upgrade Guidance](#upgrade) (New!)
+- 6\. [License](#license)
+- 7\. [Contributing](#contributing)
+- 8\. [Disclaimer](#disclaimer)
 
 ## <a name="about"/>1. About this respository
 This repository provides content for aiding DoD administrators in verifying systems have applied and enabled mitigations for hardware and firmware vulnerabilities such as side-channel and UEFI vulnerabilities. The repository is a companion to NSA Cybersecurity Advisories such as [Vulnerabilities Affecting Modern Processors](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/csa-vulnerabilities-affecting-modern-processors.pdf). This repository is updated as new information, research, strategies, and guidance are developed.
@@ -54,10 +58,14 @@ VMware, Citrix, Xen Project, Amazon, Microsoft, and other virtualization and clo
 #### <a name="config"/>2.1.3 Configuration changes
 Some updates may require configuration changes to enable the full benefit of side-channel attack mitigations. Development kits in particular may require re-compilation of binaries to enable new CPU instructions. Operating systems may need changes made to user and network policies. Consult vendor resources for guidance on applying the appropriate mitigations for your use case.
 
-#### <a name="hyper">2.1.4 Temporarily Disable Intel Hyper-Threading
-Temporarily disable Hyper-Threading on Intel systems handling sensitive information (e.g. classified, financial, medical). Prioritize systems that allow the execution of arbitrary programs and scripts, i.e. systems lacking application whitelisting, as these are at the greatest risk. All form factors are affected (e.g. desktops, servers, notebooks, tablets). Hyper-Threading should remain disabled until the effectiveness of MDS mitigation patches is understood and patches are fully deployed. Some delay between the disclosure of MDS vulnerabilities and deployment of patches on all endpoints is expected. Disabling Hyper-Threading may impart a significant performance penalty on some use cases.
+#### <a name="hyper">2.1.4 Disable Intel Hyper-Threading on Sensitive Systems
+Disable Hyper-Threading on systems that match ALL of the following requirements:
 
-Virtual processor and Simultaneous MultiThreading (SMT) solutions from vendors other than Intel are not implicated as susceptible to MDS as of May, 2019.
+1. Intel systems handling sensitive information (e.g. classified, financial, medical)
+2. Intel systems that allow the execution of arbitrary programs and scripts (e.g. systems lacking application whitelisting)
+3. Intel systems that are part of the 9th generation or older
+
+All form factors are affected (e.g. desktops, servers, notebooks, tablets). Disabling Hyper-Threading may impart a significant performance penalty on some use cases. Virtual processor and Simultaneous MultiThreading (SMT) solutions from vendors other than Intel are not implicated as susceptible to MDS as of May, 2019.
 
 #### <a name="verify"/>2.1.5 Verification
 To test that patches are successful see the section named [Verification](./verification).
@@ -92,8 +100,9 @@ NSA does not have the mission to test every processor released. Researchers, pro
 - Xen Project [MDS Update](https://xenbits.xen.org/xsa/advisory-297.html)
 
 #### <a name="advisories"/>2.2.3 Advisory resources
+- [CacheOut vulnerability information](https://cacheoutattack.com/)
 - [CERT/CC at Carnegie Mellon University](https://vuls.cert.org/confluence/display/Wiki/Vulnerabilities+Associated+with+CPU+Speculative+Execution)
-- Graz University of Technology [Spectre, Meltdown](https://meltdownattack.com/) and [MDS, ZombieLoad](https://zombieloadattack.com/)
+- Graz University of Technology [Spectre, Meltdown](https://meltdownattack.com/) [MDS (AKA ZombieLoad)](https://zombieloadattack.com/), [Take A Way](https://mlq.me/download/takeaway.pdf), and [LVI](https://lviattack.eu/)
 - [NSA January 2018 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/csa-vulnerabilities-affecting-modern-processors.pdf?v=1)
 - [NSA January 2019 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/CSA_Updated_Guidance_For_Vulnerabilities_Affecting_Modern_Processors_20190130.pdf)
 - [NSA May 2019 advisory](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/CSA-Guidance_For_Vulnerabilities_Affecting_Modern_Processors_UPDATE2.pdf)
@@ -137,6 +146,17 @@ NetSpectre is the only side-channel vulnerability listed on this page that does 
 #### <a name="MDS"/>2.3.8 Microarchitectural Data Sampling (MDS) | CVE-2018-12130, CVE-2018-12127, CVE-2018-12126, and CVE-2019-11091
 Microarchitectural Data Sampling (MDS) vulnerabilities are also referred to as ZombieLoad, Fallout, and Rogue In-flight Data Load (RIDL). MDS vulnerabilities expand upon weaknesses identified in Meltdown and TLBleed. Mitigations have focused on controlling access and frequently clearing processor caches. However, processor cache data is staged in buffers when transiting into and out of cache memory space. MDS exploits target the buffers. Information can be leaked from or injected into buffers to manipulate processor execution and speculative behaviors.
 
+#### 2.3.9 <a name="CacheOut" />CacheOut | _CVE_-2020-0548 | _CVE_-2020-0549
+CacheOut expands upon MDS and RIDL vulnerabilities and targets Intel platforms. Researchers introduce new mechanisms for accessing data across all security boundaries and in the presence of recent mitigations. New microcode and kernel patches are expected in the first half of 2020 to address CacheOut vulnerabilities.
+
+#### 2.3.10 <a name="TAW" />Take A Way (TAW)
+Take A Way (TAW) targets AMD platforms with a new class of side-channel vulnerabilities. TAW involves manipulating power management features (specifically Cache Way Predictors), defeating Address Space Layout Layout Randomization (ASLR), and leveraging Spectre-like attacks to covertly access unauthorized memory. Successful attacks can be carried out via JavaScript found on a malicious website. However, the attack is slow to leak data, only captures incomplete snippets of data structures, and can readily be mitigated via software patches.
+
+#### 2.3.11 <a name="LVI" />Load Value Injection (LVI) | CVE-2020-0551
+Load Value Injection (LVI) expands upon concepts introduced by Spectre, Meltdown, and MDS. LVI targets Intel platforms. Instead of leaking data through side-effects, LVI takes a more direct approach by having the CPU volunteer data as a result of carefully placed instructions that are triggered in sequence by fault and load commands. The result is a type of undetectable, covert channel that bypasses existing side-channel mitigations and violates the boundaries of security enclaves -- specifically Intel SGX.
+
+Mitigation measures involve the recompilation and redeployment of SGX-enabled applications. Speculation and control flow are also more tightly controlled post-mitigation. A significant performance penalty is expected.
+
 ## <a name="firmandmicro"/>3. Firmware and microcode vulnerabilities
 ### <a name="lojax"/>3.1 LoJax
 LoJax is a malicious modification to the anti-theft solution known as Computrace or LoJack. Each of these applications exist as UEFI modules implanted into system firmware. Firmware does not get cleared when the operating system is reformatted or storage media is replaced. Such persistence enables anti-theft solutions to continue to function despite attempts to disable them.
@@ -148,7 +168,18 @@ LoJax mitigation depends on platform and configuration. Secure Boot is sufficien
 ### <a name="amdflaws"/>3.2 Ryzenfall, Chimera, Fallout, and Masterkey
 Together, these four named attacks constitute what is publicized as "AMD Flaws" and over a [dozen vulnerabilities](https://community.amd.com/community/amd-corporate/blog/2018/03/21/initial-amd-technical-assessment-of-cts-labs-research). Many vulnerabilities assume the compromise of administrator credentials or completely inept software-vetting processes. Some of the vulnerabilities are a direct result of debug features left enabled for use in advanced system tweaking common in the overclocking and gaming communities.
 
-To mitigate AMD Flaws, purchase business-class machines that lack "gamer" features such as overclocking, fan control, custom thermal management, RGB lighting, and firmware modding support. Also ensure that all firmware, microcode, and software updates are applied. Carefully analyze software before using it in conjunction with the AMD Secure Processor (SP) or Platform Security Processor (PSP) protected enclaves.
+To mitigate AMD Flaws, purchase business-class machines that lack or limit enthusiast features such as overclocking, fan control, custom thermal management, RGB lighting, and firmware modding support. Also ensure that all firmware, microcode, and software updates are applied. Carefully analyze software before using it in conjunction with the AMD Secure Processor (SP) or Platform Security Processor (PSP) protected enclaves.
+
+### <a name="MSFTSBB" />Microsoft Secure Boot Bypass | CVE-2020-0689
+Microsoft plays a prominent role in the assigning of UEFI Secure Boot signatures. Most modern machines ship with a Microsoft Windows Key Exchange Key (KEK) and a Microsoft Third-Party UEFI Marketplace KEK. Sometimes signatures are issued to bootable binaries by mistake. Rather than revoke the KEK and invalidate thousands of products, Microsoft can issue a Blacklist Database (DBX) hash for a specific signed binary.
+
+Microsoft's patch KB4524244 issues a DBX record for a bootloader with the ability to bypass UEFI Secure Boot Protections. Initial boot firmware begins the Secure Boot process. After the Boot Device Select (BDS) phase of UEFI boot, execution control and responsibility for Secure Boot enforcement transfers to the software environment -- specifically the bootloader. The bootloader identified by Microsoft's DBX update is known to ignore Secure Boot and break a chain of trust that should extend to Microsoft's kernel. However, some endpoints have had difficulty applying the DBX update record which has caused Microsoft to pull back KB4524244.
+
+To mitigate the threat of the dangerous bootloader, add the following SHA-256 hash to each system's DBX records if it is not already present:
+
+> 81d8fb4c9e2e7a8225656b4b8273b7cba4b03ef2e9eb20e0a0291624eca1ba86
+
+Future Microsoft software patches and system vendor firmware patches may also add the hash to the DBX. NSA is working to identify the ideal contents of DBX and share information to help partners maintain and customize UEFI Secure Boot. See [UEFI Secure Boot Customization](#sbcustom).
 
 ## <a name="bootconfig"/>4. Boot configuration
 
@@ -156,13 +187,21 @@ To mitigate AMD Flaws, purchase business-class machines that lack "gamer" featur
 See [UEFI Defensive Practices Guidance](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/ctr-uefi-defensive-practices-guidance.pdf?ver=2018-11-06-074836-090) technical report.
 
 ### <a name="sbcustom"/>4.2 UEFI Secure Boot Customization
-See UEFI Secure Boot Customization technical report.
+See the [UEFI Secure Boot Customization](./secureboot.md) section.
 
-## <a name="license"/>5. License
+## <a name="upgrade" />5. Hardware Upgrade Guidance
+
+NSA does not endorse or promote specific products. See the [National Information Assurance Partnership (NIAP)](https://www.niap-ccevs.org/) for specific products that have been vetted for compliance to protection profiles and applicable standards. NSA does have the following generic recommendations:
+1. [Refresh workstations every 3 to 4 years and servers every 5 to 7 years](https://media.defense.gov/2019/Sep/09/2002180345/-1/-1/0/LEVERAGE%20MODERN%20HARDWARE%20SECURITY%20FEATURES_20190821.PDF)
+2. Look for processors that carry Intel's vPro branding or AMD's PRO branding or that the ARM licensee advertises side-channel mitigations
+3. Upgrading to the latest generation reduces the impact of performance penalties incurred by some side-channel vulnerability mitigations. However, total protection from side-channel vulnerabilities is unlikely given the evolving threat landscape. Choose the vendor solution that provides the best protection at the time of purchase.
+4. Practice defense-in-depth by layering hardware, firmware, software, and run-time monitoring endpoint security solutions.
+
+## <a name="license"/>6. License
 See [LICENSE](./LICENSE.md).
 
-## <a name="contributing"/>6. Contributing
+## <a name="contributing"/>7. Contributing
 See [CONTRIBUTING](./CONTRIBUTING.md)
 
-## <a name="disclaimer"/>7. Disclaimer
+## <a name="disclaimer"/>8. Disclaimer
 See [DISCLAIMER](./DISCLAIMER.md).
