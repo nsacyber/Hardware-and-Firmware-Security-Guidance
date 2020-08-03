@@ -1,24 +1,24 @@
 # Linux Secure Boot Customization
-1. Recipes
-	1\.1. Trust a Kernel Module
-	1\.2. Revoke a Kernel Module
-	1\.3. Sign a Boot Component (Bootloader, Kernel)
-	1\.4. Hash a Boot Component (Bootloader, Kernel)
-	1\.5. Trust a Certificate via DB or MOK
-	1\.6. Trust a Hash via DB or MOK
-	1\.7. Distrust a Certificate via DBX or MOKX
-	1\.8. Distrust a Hash via DBX or MOKX
-2. Scripts and Commands
-	2\.1. Create Certificates and Keys
-	2\.2. Convert from PEM to DER
-	2\.3. Sign an EFI Binary or Bootloader
-	2\.4. Sign a Driver or Kernel Module
-	2\.5. Create Hashes
-	2\.6. Create EFI Signature List (ESL)
-	2\.7. Extract Certificates and Hashes from an ESL
-	2\.8. Backup Secure Boot Values
-	2\.9. Check a Signature
-	2\.10. Remove a Signature
+- 1\. Recipes
+	- 1.1. Trust a Kernel Module
+	- 1.2. Revoke a Kernel Module
+	- 1.3. Sign a Boot Component (Bootloader, Kernel)
+	- 1.4. Hash a Boot Component (Bootloader, Kernel)
+	- 1.5. Trust a Certificate via DB or MOK
+	- 1.6. Trust a Hash via DB or MOK
+	- 1.7. Distrust a Certificate via DBX or MOKX
+	- 1.8. Distrust a Hash via DBX or MOKX
+- 2\. Scripts and Commands
+	- 2.1. Create Certificates and Keys
+	- 2.2. Convert from PEM to DER
+	- 2.3. Sign an EFI Binary or Bootloader
+	- 2.4. Sign a Driver or Kernel Module
+	- 2.5. Create Hashes
+	- 2.6. Create EFI Signature List (ESL)
+	- 2.7. Extract Certificates and Hashes from an ESL
+	- 2.8. Backup Secure Boot Values
+	- 2.9. Check a Signature
+	- 2.10. Remove a Signature
 
 ## 1\. Recipes
 ### 1\.1. Trust a Kernel Module
