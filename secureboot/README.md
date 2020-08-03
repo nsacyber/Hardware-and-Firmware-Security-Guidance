@@ -5,9 +5,9 @@ Customization allows organizations to leverage boot time security mechanisms tha
 malware solutions are initialized.
 
 ### Important Definitions
-**Partial Customization** involves adding content to the DB, DBX, and/or KEK. Some or all of the Secure Boot values set at the factory will be retained. Influence from system and software vendors is retained. Useful for Windows, Linux, and hypervisors.
+**Partial Customization** involves adding content to the DB, DBX, and/or KEK. Some or all of the Secure Boot values set at the factory will be retained. Influence from system and software vendors is retained. Useful for Windows, Linux, and hypervisors. Great for adding support for unsigned drivers and custom kernels.
 
-***Full Customization*** involves replacing the PK, KEK, and DB records to those created by the infrastructure administrators. All influence from the system vendor and software vendors is removed. Useful for Linux and hypervisors.
+**Full Customization** involves replacing the PK, KEK, and DB records to those created by the infrastructure administrators. All influence from the system vendor and software vendors is removed. Useful for Linux and hypervisors. Best solution for sensitive organizations and the paranoid.
 
 ## Windows
 The Windows Secure Boot ecosystem is managed by Microsoft. Most machines feature a Microsoft KEK, Microsoft Windows Production
