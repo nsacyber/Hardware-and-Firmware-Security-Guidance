@@ -1,9 +1,10 @@
+
 # Linux Secure Boot Customization
 - 1\. Recipes
 	- 1.1. Trust a Kernel Module
-	- 1.2. Revoke a Kernel Module
-	- 1.3. Sign a Boot Component (Bootloader, Kernel)
-	- 1.4. Hash a Boot Component (Bootloader, Kernel)
+	- 1.2. Distrust a Kernel Module
+	- 1.3. Trust a Boot Component (Bootloader, Kernel)
+	- 1.4. Distrust a Boot Component (Bootloader, Kernel)
 	- 1.5. Trust a Certificate via DB or MOK
 	- 1.6. Trust a Hash via DB or MOK
 	- 1.7. Distrust a Certificate via DBX or MOKX
@@ -30,7 +31,7 @@ To add Secure Boot support for a kernel module that does not have a signature, f
 
 1. Create an RSA-2048 certificate and private key.
 1. Convert the certificate into DER/CER format for use with DB or MOK.
-1. Sign the kernel module using the private key.
+1. Sign the kernel module using kmodsign and the private key.
 1. Append the certificate to DB or MOK.
 
 To add Secure Boot support for a kernel module that is signed by the vendor:
@@ -45,7 +46,7 @@ To add Secure Boot support for a kernel module via hashing:
 2. Create an ESL file.
 3. Append the ESL hash record to the DB or MOK.
 
-### 1\.2. Revoke a Kernel Module
+### 1\.2. Distrust a Kernel Module
 Revocation of a previously trusted kernel module is normally handled via hashing. A SHA-256 hash of the revoked module is necessary and must be placed in the DBX or MOKX. Hashes are specific to a version or build of a given module to allow for targeted revocation.
 
 Alternatively, a certificate can be revoked. Revoking the certificate will distrust **all** content holding a signature that can be validated with the certificate. Revoking a certificate normally involves deleting it from the DB or MOK instead of moving it to the DBX or MOKX.
@@ -60,9 +61,20 @@ To distrust a certificate:
 
 1. Delete the certificate from the DB or MOK.
 
-### 1\.3. Sign a Boot Component (Bootloader, Kernel)
+### 1\.3. Trust a Boot Component (Bootloader, Kernel)
+Some operating systems and hypervisors ship without Secure Boot signatures -- especially older products. Custom compilations of Linux typically also do not support Secure Boot due to the lack of a distribution vendor signature. There are multiple ways to add trust.
 
-### 1\.4. Hash a Boot Component (Bootloader, Kernel)
+Is the object to be trusted going to change periodically? Does the object need to be distributed with minimal administrative engagement? A signature is normally the best bet. To use a signature to trust a boot component:
+
+1. Create an RSA-2048 certificate and private key.
+2. Convert the certificate into DER/CER format for use with DB or MOK.
+3. Sign the bootloader, kernel, or other boot executable using sbsign the private key.
+4. Append the certificate to DB or MOK.
+
+Is the object to be trusted relatively static? Kernels and complex, configuration-interpreting bootloaders like GRUB are likely to change. However, some boot components -- such as Shim and purpose-built EFI applications -- may stay static for months or years at a time. If the boot object is mostly static, consier hashing an option by following these steps:
+
+
+### 1\.4. Distrust a Boot Component (Bootloader, Kernel)
 
 ### 1\.5. Trust a Certificate via DB or MOK
 
