@@ -9,6 +9,9 @@
 	- 1.6. Trust a Hash via DB or MOK
 	- 1.7. Distrust a Certificate via DBX or MOKX
 	- 1.8. Distrust a Hash via DBX or MOKX
+	- 1.9. Interact with Command Prompt or Terminal
+	- 1.10. Interact with UEFI Configuration
+	- 1.11. Interact with KeyTool
 - 2\. Scripts and Commands
 	- 2.1. Create Certificates and Keys
 	- 2.2. Convert from PEM to DER
@@ -75,14 +78,54 @@ Is the object to be trusted relatively static? Kernels and complex, configuratio
 
 
 ### 1\.4. Distrust a Boot Component (Bootloader, Kernel)
+There are many reasons to distrust a boot component. Revocation can be used as a mechanism to prevent older versions of software from executing. Revocation can also be used to protect a system against compromised or defective boot components (e.g. [BootHole](https://eclypsium.com/2020/07/29/theres-a-hole-in-the-boot/)). The loss, misuse, retirement, or compromise of a private key may also necessitate distrusting a formerly trusted boot component.
+
+To revoke a specific boot component or small selection of boot components, consider using DBX or MOKX deny list hashes -- an approach most effective when the list of compromise signed-objects is known. Other objects signed by the same private key will not be affected. Using hashes to revoke individual signatures is a targeted way to revoke untrusted boot components. Carry out the following steps:
+
+1. Identify which components are to be distrusted.
+2. Create a SHA-256 hash of each component.
+3. Load each hash into the DBX if execution happens prior to Shim. Execution after Shim provides the option of leveraging MOKX.
+
+Sometimes the number of items to be revoked exceeds the amount of memory available to Secure Boot. Also, sometimes a private key is compromised meaning signatures from it can no longer be trusted. Both situations necessitate the revocation of a certificate associated with validating problematic signatures or associated with a compromised private key. To revoke a certificate:
+
+1. Create a replacement RSA-2048 certificate and private key if needed.
+2. Update signatures on trustworthy boot components if needed.
+3. Examine the full scope of certificate's revocation will have. Was the associated private key responsible for signing drivers, firmware binaries, or other components beyond the scope of a traditional bootloader or kernel? How old is the certificate and how many weeks, months, years, or decades of content could be disrupted?
+4. Remove the certificate from the DB/MOK allow list. Moving the certificate to the DBX/MOKX deny list is not necessary.
 
 ### 1\.5. Trust a Certificate via DB or MOK
+Systems with UEFI Secure Boot have access to the DB allow list at all times. Most firmware and software that relies upon Secure Boot can read the KEK, DB, and DBX. Some software -- such as the Shim bootloader -- extends Secure Boot to add MOK and MOKX. All existing Secure Boot values and value stores are retained. MOK and MOKX and the values contained within are added as an extension of the standard Secure Boot implementation.
+
+In general, use MOK when the following conditions are met:
+
+1. The bootloader Shim is in use.
+2. The certificate or hash is being used to validate a boot component that executes after Shim.
+3. The certificate or hash is associated with a boot component, module, or driver that is part of the same OS image or virtual machine as Shim.
+
+Secure Boot's DB allow list is stored within endpoint firmware. The value travels with the hardware, not the software image. In general, prefer use of the DB when the following is true:
+
+1. The boot component, module, or driver executes before Shim or before MOK and MOKX are initialized.
+2. The boot component relates to a piece of hardware or firmware that is specific to the endpoint.
+
+After determining the correct location to store the certificate, perform the following actions:
+
+1. Acquire or create an RSA-2048 certificate and private key.
+2. Add the certificate to the DB/MOK. Use the append option to add on to the existing values. Omitting append usually clears all values in the DB/MOK and installs only the new certificate.
+3. Sign content with the private key and test that the certificate can validate signed binaries while Secure Boot is enforcing.
 
 ### 1\.6. Trust a Hash via DB or MOK
+Trusting a hash is similar to trusting a certificate. See section 1.5 above for an explanation of when to choose DB or MOKX to store the hash. Then follow these steps:
+
+1. Calculate a SHA-256 hash of a boot component, firmware binary, module, driver, or other executable scrutinized by Secure Boot.
+2. Add the hash to the DB/MOK. Use the append option to extend the existing list of certificates and hashes. Omit the append option to wipe out the existing values.
 
 ### 1\.7. Distrust a Certificate via DBX or MOKX
 
 ### 1\.8. Distrust a Hash via DBX or MOKX
+
+### 1.9. Interact with Command Prompt or Terminal
+### 1.10. Interact with UEFI Configuration
+### 1.11. Interact with KeyTool
 
 ## 2\. Scripts and Commands
 ### 2\.1. Create Certificates and Keys
