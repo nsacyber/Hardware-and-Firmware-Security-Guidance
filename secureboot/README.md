@@ -9,6 +9,14 @@ malware solutions are initialized.
 
 **Full Customization** involves replacing the PK, KEK, and DB records to those created by the infrastructure administrators. All influence from the system vendor and software vendors is removed. Useful for Linux and hypervisors. Best solution for sensitive organizations and the paranoid.
 
+## Use Cases
+Default configurations of Secure Boot focus on securing the boot chain of components in the Microsoft ecosystem. However, Secure Boot can be leveraged to accompilsh many other mission objectives.
+
+- [Plug and play compatibility](uccompatibility.md)
+- [Custom live media, driver, and kernel support](uccompile.md)
+- [Role separation or license enforcement](ucroles.md)
+- [Hypothetical threat mitigation](uchypothetical.md)
+
 ## Windows
 The Windows Secure Boot ecosystem is managed by Microsoft. Most machines feature a Microsoft KEK, Microsoft Windows Production
 CA DB certificate, and UEFI Third Party Marketplace CA 2011 DB certificate. Most hardware and software intended for use with
