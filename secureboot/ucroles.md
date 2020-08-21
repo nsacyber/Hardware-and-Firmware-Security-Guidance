@@ -7,7 +7,7 @@ obeying license requirements; misconfiguration risks and the ability to boot to 
 
 Administrator, developer, and marketing roles are intended to be generic for this example. The same principles could be used for roles
 such as workstation, auditing, backup, firewall, and access control. For this role use case example to work, client endpoints are assumed
-to not move between locations or switch roles without administrative approval.
+to not move between networks or switch roles without administrative approval.
 
 To implement this use case, do the following steps:
 1. Create a KEK key and certificate.
