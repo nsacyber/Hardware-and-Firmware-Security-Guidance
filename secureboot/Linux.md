@@ -114,14 +114,26 @@ After determining the correct location to store the certificate, perform the fol
 3. Sign content with the private key and test that the certificate can validate signed binaries while Secure Boot is enforcing.
 
 ### 1\.6. Trust a Hash via DB or MOK
-Trusting a hash is similar to trusting a certificate. See section 1.5 above for an explanation of when to choose DB or MOKX to store the hash. Then follow these steps:
+Trusting a hash is similar to trusting a certificate. See section 1.5 above for an explanation of when to choose DB or MOKX to store the hash. In general, prefer the use of certificates for content that changes or updates frequently; prefer the use of hashes for comparatively static information. Follow these steps to trust a certificate:
 
 1. Calculate a SHA-256 hash of a boot component, firmware binary, module, driver, or other executable scrutinized by Secure Boot.
 2. Add the hash to the DB/MOK. Use the append option to extend the existing list of certificates and hashes. Omit the append option to wipe out the existing values.
 
 ### 1\.7. Distrust a Certificate via DBX or MOKX
+To distrust a certificate, simply remove the certificate from the DB or MOK. Moving the certificate to the DBX or MOKX isn't normally necessary. However, there are use cases in which moving a certificate to DBX or MOKX makes sense.
+
+Consider the scenario of a live media disc that needs to distrust a certificate loaded into firmware on a machine. The untrusted certificate would be placed in Shim's MOKX. During boot, MOKX is checked first followed by DBX, MOK, and then DB. MOKX can invalidate a certificate stored in the DB.
+
+1. Identify the certificate that is to be distrusted. Make sure it is in DER-encoded format (CER file).
+2. Append the certificate to MOKX using mok-util. Do not place the certificate in DBX if it is already present in the DB.
+
+Also consider the scenario of a machine that should not be used for a certain operating system or live media disc. The system would need to distrust the operating system distribution vendor certificate at the DBX level. DBX is checked prior to MOK and the DB.
+
+1. Identify the certificate that is to be distrusted. make sure it is in DER-encoded format (CER file).
+2. Append the certificate to DBX.
 
 ### 1\.8. Distrust a Hash via DBX or MOKX
+Using a hash to distrust a boot executable avoids the need to revoke a certificate and the entire history of things signed by that certificate.
 
 ### 1.9. Interact with Command Prompt or Terminal
 ### 1.10. Interact with UEFI Configuration
@@ -202,5 +214,15 @@ efi-readvar -v dbx -o dbx.old.esl
 ```
 
 ### 2\.9. Check a Signature
+Pesign is used to check signatures. The signer's common name provides insight into which specific certificate and key pair was used to attach a signature. Some executables may feature multiple signatures. To check a signature on shimx64.efi, use the example code:
+```
+pesign -S -i=shimx64.efi
+```
 
 ### 2\.10. Remove a Signature
+Removing a signature may be necessary when changes are made to the certificates trusted by Secure Boot. In the below example. shimx64.efi's Microsoft signature will be removed (assuming the shimx64.efi provided by a mainstream Linux distribution is used). Removing a different vendor's signature may also be necessary when implementing Secure Boot customization. Only the first signature -- in the event multiple signatures are present -- is utilized by Secure Boot.
+
+To remove a signature on the example shimx64.efi, use the following command:
+```
+pesign -r -i=shimx64.efi -o=shimx64.efi
+```
