@@ -9,9 +9,6 @@
 	- 1.6. Trust a Hash via DB or MOK
 	- 1.7. Distrust a Certificate via DBX or MOKX
 	- 1.8. Distrust a Hash via DBX or MOKX
-	- 1.9. Interact with Command Prompt or Terminal
-	- 1.10. Interact with UEFI Configuration
-	- 1.11. Interact with KeyTool
 - 2\. Scripts and Commands
 	- 2.1. Create Certificates and Keys
 	- 2.2. Convert from PEM to DER
@@ -23,6 +20,11 @@
 	- 2.8. Backup Secure Boot Values
 	- 2.9. Check a Signature
 	- 2.10. Remove a Signature
+- 3\. Examples
+	- 3.1. Trust McAfee Kernel Modules via MOK
+	- 3.2. Distrust CHIPSEC Kernel Module via DBX
+	- 3.3. Compile a Custom Linux Distribution with Secure Boot Support
+	- 3.4. Create Role Separation via the DB
 
 ## 1\. Recipes
 ### 1\.1. Trust a Kernel Module
@@ -133,11 +135,12 @@ Also consider the scenario of a machine that should not be used for a certain op
 2. Append the certificate to DBX.
 
 ### 1\.8. Distrust a Hash via DBX or MOKX
-Using a hash to distrust a boot executable avoids the need to revoke a certificate and the entire history of things signed by that certificate.
+Using a hash to distrust a boot executable avoids the need to revoke a certificate and the entire history of things signed by that certificate. Use distrusted hashes to selectively block exploitable binaries, disable risky drivers, stop older versions of software from executing, or to block unwanted boot services. To block a hash, follow these steps:
 
-### 1.9. Interact with Command Prompt or Terminal
-### 1.10. Interact with UEFI Configuration
-### 1.11. Interact with KeyTool
+1. Compute a SHA256 hash of the binary to be blocked.
+2. Append the hash to a Secure Boot deny list...
+	1. If the binary executes before Shim, utilize the DBX. Prefer the DBX for blocking bootloaders and UEFI firmware, OROMs, services, hardware, etc.
+	1. If the binary executes after Shim, utilize DBX or MOKX. Prefer MOKX when blocking kernels, kernel modules, and other highly privileged software.
 
 ## 2\. Scripts and Commands
 ### 2\.1. Create Certificates and Keys
@@ -226,3 +229,50 @@ To remove a signature on the example shimx64.efi, use the following command:
 ```
 pesign -r -i=shimx64.efi -o=shimx64.efi
 ```
+
+## 3\. Examples
+### 3.1. Trust McAfee Kernel Modules via MOK
+Assume that the organization is using McAfee anti-malware products that lack Secure Boot signatures. Two kernel modules are provided which require the addition of signatures.
+
+```
+#!/bin/bash
+if [ "$1" == "setup" ]; then
+	# Create a signing key (do this once)
+
+elif [ "$1" == "sign" ]; then
+	# Sign the kernel modules (do this on every update)
+	fileaccess_mod.ko
+	mfeaack.ko
+
+else
+	echo 'Use argument "setup" to create keys and certs, or "sign" to sign modules."
+fi
+```
+
+### 3.2. Distrust CHIPSEC Kernel Module via DBX
+```
+#!/bin/bash
+# Create a SHA256 hash of the CHIPSEC kernel module
+HASH=`sha256sum < chipsec.ko | awk '{ print $1 }'`
+
+# Create TXT file
+
+# Write an HSH file
+HSH=`xxd -r -p ${$HASH}`
+
+# Write an ESL file
+
+# Add the hash to MOKX
+```
+
+# Convert the hash into HEX/TXT format
+
+# Convert the hash into ESL format
+
+# Conver the hash into HSH format
+```
+
+### 3.3. Compile a Custom Linux Distribution with Secure Boot Support
+
+### 3.4. Create Role Separation via the DB
+Assume that the organization's machines fall into one of the following roles: workstation, appraiser, and storage. Each machine runs a version of Linux.
