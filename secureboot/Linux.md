@@ -270,7 +270,6 @@ HSH=`xxd -r -p ${$HASH}`
 # Convert the hash into ESL format
 
 # Conver the hash into HSH format
-```
 
 ### 3.3. Compile a Custom Linux Distribution with Secure Boot Support
 
