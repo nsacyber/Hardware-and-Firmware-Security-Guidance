@@ -232,20 +232,34 @@ pesign -r -i=shimx64.efi -o=shimx64.efi
 
 ## 3\. Examples
 ### 3.1. Trust McAfee Kernel Modules via MOK
-Assume that the organization is using McAfee anti-malware products that lack Secure Boot signatures. Two kernel modules are provided which require the addition of signatures.
+Assume that the organization is using McAfee anti-malware products that lack Secure Boot signatures. Two kernel modules are provided which require the addition of signatures. The following script generates a signing key, certificates for use with other scripts and UEFI configuration, and an ESL file for use with Keytool.efi. The signing function in the below script signs 2 McAfee kernel modules that may lack Secure Boot signatures.
 
 ```
 #!/bin/bash
 if [ "$1" == "setup" ]; then
 	# Create a signing key (do this once)
+	echo "Create private key and public key PEM certificate..."
+	openssl req -new -x509 -newkey rsa:2048 -subj "/CN=Custom DBK/" -keyout dbk.key -out dbk.crt -days 3650 -nodes -sha256
+
+	echo "Create DER certificate for use with UEFI Configuration..."
+	openssl x509 -outform der -in dbk.crt -out dbk.cer
+
+	echo "Create EFI Signature List for use with Keytool..."
+	UUID=$(uuidgen)
+	cert-to-efi-sig-list -g $UUID dbk.crt dbk.esl
 
 elif [ "$1" == "sign" ]; then
 	# Sign the kernel modules (do this on every update)
-	fileaccess_mod.ko
-	mfeaack.ko
+	echo "Sign fileaccess_mod.ko..."
+	kmodsign sha256 dbk.key dbk.cer fileaccess_mod.ko
+
+	echo "Sign mfeaack.ko..."
+	kmodsign sha256 dbk.key dbk.cer mfeaack.ko
 
 else
-	echo 'Use argument "setup" to create keys and certs, or "sign" to sign modules."
+	echo "Use argument 'setup' to create keys and certs, or 'sign' to sign McAfee modules."
+	echo "   setup results in dbk.key .crt .cer .esl"
+	echo "   sign results in signed copies of fileaccess_mod.ko and mfeaack.ko"
 fi
 ```
 
