@@ -1,4 +1,6 @@
 
+
+
 # Linux Secure Boot Customization
 - 1\. Recipes
 	- 1.1. Trust a Kernel Module
@@ -204,6 +206,9 @@ hash-to-efi-sig-list grubx64.efi grub.esl
 To insert certificates FIXME
 
 ### 2\.7. Extract Certificates and Hashes from an ESL
+```
+#fixme
+```
 
 ### 2\.8. Backup Secure Boot Values
 Always create a copy of Secure Boot values before engaging in customization. Some firmware implementations can restore the factory default values, and some do not. Likewise, not every firmware image provided by a system vendor has the complete listing of factory-provided Secure Boot values.
@@ -249,6 +254,9 @@ if [ "$1" == "setup" ]; then
 	cert-to-efi-sig-list -g $UUID dbk.crt dbk.esl
 
 elif [ "$1" == "mok" ]; then
+	# Adding the DBK to the DB should be done via UEFI configuration or Keytool. The following terminal command will probably fail
+	# efi-updatevar -e -f dbk.esl db -a
+
 	# Add the new DBK to the Shim MOK (do this once iff not using DB)
 	echo "Add certificate to MOK..."
 	sudo mokutil --import dbk.cer
@@ -278,29 +286,54 @@ HASH=`sha256sum < chipsec.ko | awk '{ print $1 }'`
 # Create TXT file
 echo $HASH >> chipsec.txt
 
-# Write an HSH file
+# Write an HSH file for use with UEFI or as a binary input
 echo $HASH | xxd -r -p - chipsec.hsh
 
-# Write an ESL file
+# Write an ESL file for use with Keytool
 EFI_GUID='2616C4C14C509240ACA941F936934328'
 ListSize='4C000000'
 HeaderSize='00000000'
 SignatureSize='30000000'
 UUID=$(uuidgen)
 ESL=$EFI_GUID$ListSize$HeaderSize$SignatureSize$UUID$HASH
-echo $ESL
+echo $ESL >> chipsec.esl
 
-# Add the hash to MOKX
+# Add the hash to DBX via UEFI configuration or Keytool because the following terminal command will probably fail
+# efi-updatevar -e -f chipsec.esl dbx -a
+# Alternatively, add the hash to MOKX
 mokutil --import-hash --mokx -f chipsec.hsh
 ```
 
-# Convert the hash into HEX/TXT format
-
-# Convert the hash into ESL format
-
-# Conver the hash into HSH format
-
 ### 3.3. Compile a Custom Linux Distribution with Secure Boot Support
+A custom Linux distribution or "spin" may involve 1) a custom bootloader, 2) a custom kernel, and 3) modified kernel modules/drivers. In some cases, the pre-bootloader Shim may also be modified or absent. To add Secure Boot support, consult the following steps:
+
+1. Identify the first bootloader. Some implementations use Shim, GRUB, Syslinux, isolinux, rEFInd, or a mixture of bootloaders -- usually Shim + a bootloader. Check the signature for the first bootloader. If the signature is validated by a certificate in the DB allow list, then no additional action is necessary. If not, then the bootloader must be signed by a key whose certificate is placed in the DB, or the bootloader must have its hash placed in the DB.
+2. Identify the second bootloader, if present. Shim + GRUB is the most common implementation. Shim sets up MOK and MOKX. A distribution vendor certificate is normally included with Shim as part of the MOK. The vendor cert may be able to validate signatures placed on the second bootloader (GRUB in this case), the kernel, and kernel modules. A distribution vendor certificate may also be placed in the DB, but this is uncommon.
+	- **How to choose between DB and MOK:** DB/DBX exists in an individual endpoint's firmware implementation. Endpoints must be individually configured to have the same DB/DBX configuration. MOK/MOKX exists as part of Shim software. This means that MOK/MOKX has an element of portability not present with DB/DBX. For example, MOK/MOKX values on a live media disc are the same regardless of endpoint configuration.
+3. Identify the kernel. Does the kernel have a signature? Kernels straight from distribution repositories usually have signatures that can be validated by the distribution vendor's certificate. Custom-compiled kernels usually lack signatures unless a key is provided at compile time. The same key certificate pair can be used to sign and validate both a bootloader(s) and kernel. The certificate can be placed in MOK (if using Shim) or DB.
+4. Identify kernel modules. Are the modules signed by a trusted key certificate pair? Kernel modules will need to be signed by a trusted key certificate pair. The key may be provided at compile time to automate the process.
+
+```
+#!/bin/bash
+# Create a signing key certificate pair
+
+# Automagic branch
+# Provide the key certificate pair to the compilation process
+
+# Manual branch
+# Sign GRUB (assume that Shim + GRUB is in use)
+
+# Sign kernel
+
+# Sign kernel modules
+```
 
 ### 3.4. Create Role Separation via the DB
 Assume that the organization's machines fall into one of the following roles: workstation, appraiser, and storage. Each machine runs a version of Linux.
+
+```
+#!/bin/bash
+# Create a signing key certificate pair for each role
+
+
+```
