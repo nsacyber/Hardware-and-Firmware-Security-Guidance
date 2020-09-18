@@ -291,7 +291,7 @@ ESL=$EFI_GUID$ListSize$HeaderSize$SignatureSize$UUID$HASH
 echo $ESL
 
 # Add the hash to MOKX
-mokutil --import-hash --mokx -f $HSH
+mokutil --import-hash --mokx -f chipsec.hsh
 ```
 
 # Convert the hash into HEX/TXT format
