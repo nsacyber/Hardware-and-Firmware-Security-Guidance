@@ -248,6 +248,11 @@ if [ "$1" == "setup" ]; then
 	UUID=$(uuidgen)
 	cert-to-efi-sig-list -g $UUID dbk.crt dbk.esl
 
+elif [ "$1" == "mok" ]; then
+	# Add the new DBK to the Shim MOK (do this once iff not using DB)
+	echo "Add certificate to MOK..."
+	sudo mokutil --import dbk.cer
+
 elif [ "$1" == "sign" ]; then
 	# Sign the kernel modules (do this on every update)
 	echo "Sign fileaccess_mod.ko..."
@@ -257,8 +262,9 @@ elif [ "$1" == "sign" ]; then
 	kmodsign sha256 dbk.key dbk.cer mfeaack.ko
 
 else
-	echo "Use argument 'setup' to create keys and certs, or 'sign' to sign McAfee modules."
+	echo "Use arguments setup (once), mok (once iff not using DB), or sign."
 	echo "   setup results in dbk.key .crt .cer .esl"
+	echo "   mok adds the dbk.cer to Shim's Machine Owner Key allow list (confirm next boot)"
 	echo "   sign results in signed copies of fileaccess_mod.ko and mfeaack.ko"
 fi
 ```
@@ -270,13 +276,22 @@ fi
 HASH=`sha256sum < chipsec.ko | awk '{ print $1 }'`
 
 # Create TXT file
+echo $HASH >> chipsec.txt
 
 # Write an HSH file
-HSH=`xxd -r -p ${$HASH}`
+echo $HASH | xxd -r -p - chipsec.hsh
 
 # Write an ESL file
+EFI_GUID='2616C4C14C509240ACA941F936934328'
+ListSize='4C000000'
+HeaderSize='00000000'
+SignatureSize='30000000'
+UUID=$(uuidgen)
+ESL=$EFI_GUID$ListSize$HeaderSize$SignatureSize$UUID$HASH
+echo $ESL
 
 # Add the hash to MOKX
+mokutil --import-hash --mokx -f $HSH
 ```
 
 # Convert the hash into HEX/TXT format
