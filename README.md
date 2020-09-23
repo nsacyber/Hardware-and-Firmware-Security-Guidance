@@ -187,7 +187,9 @@ Future Microsoft software patches and system vendor firmware patches may also ad
 See [UEFI Defensive Practices Guidance](https://www.nsa.gov/Portals/70/documents/what-we-do/cybersecurity/professional-resources/ctr-uefi-defensive-practices-guidance.pdf?ver=2018-11-06-074836-090) technical report.
 
 ### <a name="sbcustom"/>4.2 UEFI Secure Boot Customization
-See the [UEFI Secure Boot Customization](./secureboot.md) section.
+Check out our recent report on [UEFI Secure Boot Customization](https://www.nsa.gov/news-features/press-room/Article/2347822/nsa-releases-cybersecurity-technical-report-on-uefi-secure-boot-customization/). The report is the result of numerous prototypes and lessons learned. While not intended as a response to BootHole, the Customization report does provide commands and strategies to mitigate hypothetical boot-time threats of which BootHole is a real example.
+
+See the [UEFI Secure Boot Customization](./secureboot.md) section for similar info as the report, but presented in a manner more focused on researchers, administrators, and system integrators.
 
 ## <a name="upgrade" />5. Hardware Upgrade Guidance
 
