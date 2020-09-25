@@ -1,4 +1,4 @@
-# Role Separation or License Enforcement
+# Use Case: Role separation or license enforcement
 Assume that there are 3 roles within the organization: administrator, developer, and marketing. Each user is assigned to an endpoint (laptop,
 tablet, desktop, server, etc.) that network boots to an operating system (OS) image appropriate to their role. Some of the software used has
 per-user or per-seat licenses. There should be no crossover between roles. Secure Boot can be leveraged to validate that the appropriate
