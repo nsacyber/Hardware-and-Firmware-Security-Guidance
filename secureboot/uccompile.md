@@ -12,6 +12,6 @@ In general, to add support for custom live media:
 1. Generate or utilize the organization's RSA 2048 key pair and certificate
 1. Provide the private key to the kernel compilation and/or boot media creation process
 1. Ensure that the public key certificate is added to MOK or placed in an endpoint's DB
-  - Use MOK to have the certificate travel with the live media. A version of Shim that allows a custom MOK and has a Microsoft signature on shimx64.efi will be necessary.
-  - Use DB to have the certificate trusted on individual endpoint(s).
+    - Use MOK to have the certificate travel with the live media. A version of Shim that allows a custom MOK and has a Microsoft signature on shimx64.efi will be necessary.
+    - Use DB to have the certificate trusted on individual endpoint(s).
 1. Test the live media on a variety of endpoints
