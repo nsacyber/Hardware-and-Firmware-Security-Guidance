@@ -1,4 +1,4 @@
-# Custom Live Media, Driver, and Kernel Support
+# Use Case: Custom live media, driver, and kernel support
 Commercial operating systems (OS) that feature Secure Boot compatibility feature a Microsoft signature on the bootloader. The bootloader may -- particularly in the case of
 Linux and Hypervisors -- contain a Machine Owner Key (MOK) used to add an OS vendor's certificate and extend the number of trusted Secure Boot certificates. Any change to
 the bootloader, kernel, or driver would invalidate the Microsoft signature or the MOK signature thus resulting in Secure Boot policy violations.
