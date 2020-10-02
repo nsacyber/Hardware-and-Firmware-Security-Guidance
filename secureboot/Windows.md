@@ -39,20 +39,44 @@ Boot components that change frequently should be signed. The certificate used to
 
 ## 2\. Scripts and Commands
 ### 2.1. Create Certificates and Keys
+```
+makecert -n "CN=Custom KEK" -a sha256 -r -sv KEK.pvk KEK.cer
+makecert -n "CN=Custom DBK" -a sha256 -r -sv DBK.pvk DBK.cer
+```
 
-### 2.2. Convert from PEM to DER
+### 2.2. Convert from PVK to PFX
+```
+pvk2pfx -pvk KEK.pvk -spc KEK.cer -pfx KEK.pfx -f
+pvk2pfx -pvk DBK.pvk -spc DBK.cer -pfx DBK.pfx -f
+```
 
 ### 2.3. Sign an EFI Binary or Bootloader
+
 
 ### 2.4. Sign a Driver
 
 ### 2.5. Create Hashes
+```
+get-filehash -algorithm SHA256 shimx64.efi | select -ExpandProperty hash > shimx64.txt
+$hashString = get-filehash -algorithm SHA256 shimx64.efi | select -ExpandProperty hash
+$hashBytes = [byte[]]::new($hashString.length / 2)
+For($i=0; $i -lt $hashString.length; $i+=2) {
+	$hashBytes[$i/2] = [convert]::ToByte($hashString,Substring($i, 2), 16)
+	}
+$hashBytes | set-content shimx64.hsh -encoding byte
+```
 
 ### 2.6. Create EFI Signature List (ESL)
 
 ### 2.7. Extract Certificates and Hashes from an ESL
 
 ### 2.8. Backup Secure Boot Values
+```
+Get-SecureBootUEFI -Name PK -OutputFilePath PK.esl
+Get-SecureBootUEFI -Name KEK -OutputFilePath KEK.esl
+Get-SecureBootUEFI -Name DB -OutputFilePath DB.esl
+Get-SecureBootUEFI -Name DBX -OutputFilePath DBX.esl
+```
 
 ### 2.9. Check a Signature
 
