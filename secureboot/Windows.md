@@ -7,7 +7,7 @@
   - 1.5. Edit PK, KEK, DB, or DBX
 - 2\. Scripts and Commands
 	- 2.1. Create Certificates and Keys
-	- 2.2. Convert from PEM to DER
+	- 2.2. Convert from PVK to PFX
 	- 2.3. Sign an EFI Binary or Bootloader
 	- 2.4. Sign a Driver
 	- 2.5. Create Hashes
@@ -51,7 +51,9 @@ pvk2pfx -pvk DBK.pvk -spc DBK.cer -pfx DBK.pfx -f
 ```
 
 ### 2.3. Sign an EFI Binary or Bootloader
-
+```
+signtool sign /f DBK.pfx /fd sha256 shimx64.efi
+```
 
 ### 2.4. Sign a Driver
 
@@ -79,8 +81,14 @@ Get-SecureBootUEFI -Name DBX -OutputFilePath DBX.esl
 ```
 
 ### 2.9. Check a Signature
+```
+Get-AuthenticodeSignature -FilePath shimx64.efi
+```
 
 ### 2.10. Remove a Signature
+```
+signtool remove /s shimx64.efi
+```
 
 ## 3\. Examples
 ### 3.1. Trust or Distrust a Driver
