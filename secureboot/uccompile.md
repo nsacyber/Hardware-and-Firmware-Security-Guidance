@@ -15,3 +15,6 @@ In general, to add support for custom live media:
     - Use MOK to have the certificate travel with the live media. A version of Shim that allows a custom MOK and has a Microsoft signature on shimx64.efi will be necessary.
     - Use DB to have the certificate trusted on individual endpoint(s).
 1. Test the live media on a variety of endpoints
+
+## A note about cloud environments ##
+Cloud environments do not feature firmware or access to the Secure Boot DB, DBX, and KEK. Utilize the Shim bootloader as an alternative. Shim can boot multiple types of Linux bootloaders and the Windows bootloader (a name change to the EFI bootloader binary or symbolic link is sufficient -- no need to recompile Shim). Utilize Shim's MOK in place of DB and MOKX in place of DBX. There is no equivalent to KEK.
