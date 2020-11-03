@@ -1,6 +1,7 @@
 
 
 
+
 # Linux Secure Boot Customization
 - 1\. Recipes
 	- 1.1. Trust a Kernel Module
@@ -170,7 +171,7 @@ Second, remove a signature if one is present. Shim normally features a Microsoft
 ```
 pesign -r -i=shimx64.efi -o=shimx64.efi
 ```
-Third, sign the binary using your DBK. In this example, DBK.key is the key created in section FIXME and DBK.crt was created in section FIXME. The code below assumes that sbsigntool outputs the signed Shim as shimx64.efi.signed. UEFI will not recognize a .signed file extension so the mv commands chang extensions.
+Third, sign the binary using your DBK. In this example, DBK.key is the key created in section 2.1. The code below assumes that sbsigntool outputs the signed Shim as shimx64.efi.signed. UEFI will not recognize a .signed file extension so the mv commands chang extensions.
 ```
 sbsign --key DBK.key --cert DBK.crt shimx64.efi
 mv shimx64.efi shimx64.efi.unsigned
@@ -199,15 +200,36 @@ openssl dgst -sha256 -binary -out grubosl.hsh grubx64.efi
 Finally, hashes of EFI binaries can be immediately converted into single-hash ESL files. See the following section for details.
 
 ### 2\.6. Create EFI Signature List (ESL)
-To insert hashes FIXME
+To create an ESL made up of a single hash:
 ```
 hash-to-efi-sig-list grubx64.efi grub.esl
 ```
-To insert certificates FIXME
+To create an ESL made up of a single certificate:
+```
+cert-to-efi-sig-list DBK.crt dbk.esl
+```
+To sign an ESL with a KEK such that the ESL can authorize runtime DB, DBX, MOK, and MOKX updates:
+```
+sign-efi-sig-list -k KEK.key -c KEK.crt db dbk.esl dbupdate.auth
+```
+Multiple hashes or certificates may exist in a single ESL. However, tools to compile a list of hashes or certificates do not readily exist. Consider the anatomy of an ESL:
+* 16 byte EFI_GUID identifying if SHA-256 hashes or x509 certificates are used
+* 4 byte UINT32 overall file size (a file containing 1 hash results in 76 bytes of data, 2 hashes 124 bytes of data, 3 hashes 172 bytes of data, and so on)
+* An array of individual records matching the following structure:
+	* 4 byte UINT32 signature header size (normally zeroed out)
+	* 4 byte UINT32 signature + originator UUID size (set to 48 in the case of a SHA-256 hash)
+	* 16 byte originator UUID
+	* Payload
 
 ### 2\.7. Extract Certificates and Hashes from an ESL
+To extract certificates from an ESL:
 ```
-#fixme
+sig-list-to-certs db.backup.esl db
+```
+No tool or script exists in OS packages to readily extract hashes from an ESL. Consult the anatomy of an ESL outlined in section 2.6 above. Alternatively, try the following script:
+```
+#!/bin/bash
+# FIXME
 ```
 
 ### 2\.8. Backup Secure Boot Values
