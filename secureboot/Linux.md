@@ -62,7 +62,7 @@ Alternatively, a certificate can be revoked. Revoking the certificate will distr
 To distrust a kernel module via SHA-256 hash:
 
 1. Identify the specific build of kernel module to revoke.
-2. Perform a sha256sum or other hashing mechanism against the module.
+2. Perform a pesign hash calculation.
 3. Append the hash to the DBX or MOKX.
 
 To distrust a certificate:
@@ -191,7 +191,7 @@ There are multiple ways to create SHA-256 hashes in Linux. Hexadecimal hashes ar
 ```
 openssl dgst -sha256 -hex -out grubosl.txt grubx64.efi
 
-sha256sum grubx64.efi | cut -d " " -f 1 > grubs2s.txt
+pesign -h -i grubx64.efi | awk 'NF{print $NF}' > grubs2s.txt
 ```
 Binary hashes may also be created. Some UEFI Configuration implementations expect binary hashes. Use the following commands to create a binary hash of the GRUB bootloader:
 ```
