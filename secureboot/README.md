@@ -1,5 +1,3 @@
-Note 9/15: The Secure Boot section of our GitHub is not complete. Expect to see additional revisions, documents, scripts, and other info through September.
-
 # UEFI Secure Boot Customization
 Before disabling Secure Boot to make something compatible, consider customizing Secure Boot! Customization can be as simple as
 adding a new certificate to the DB Allow List, or as complex as purging all factory certificates and hashes to start fresh.
