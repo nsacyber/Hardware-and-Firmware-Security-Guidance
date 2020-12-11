@@ -13,7 +13,8 @@
 *  Output: binary ESL ready for use with Keytool, MokManager, and MokUtil
 *
 *  Code supports Linux and Windows.
-*  To compile: gcc hex-hashes-to-esl.c -o hex-hashes-to-esl -std=c99
+*  Linux compile: gcc hex-hashes-to-esl.c -o hex-hashes-to-esl -std=c99
+*  Windows compile: cl hex-hashes-to-esl.c
 */
 
 #define _CRT_SECURE_NO_DEPRECATE
