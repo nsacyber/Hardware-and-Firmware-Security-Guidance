@@ -5,15 +5,18 @@
 *  Take multiple externally-calculated SHA-256 hashes and compile them into a
 *    single EFI Signature List (ESL) file.
 *
-*  input: hex uuids and hex sha256 hashes representing precalculated EFI hashes
+*  Input: hex uuids and hex sha256 hashes representing precalculated EFI hashes
 *    Precalculated assumes that the hashes were produced by vendors, BIOS/UEFI
 *    config interface, or EFI hashing/signing tools. A simple sha256sum doesn't
 *    comply with the PECOFF authentication specs.
 *
-*  output: binary ESL ready for use with Keytool, MokManager, and MokUtil
+*  Output: binary ESL ready for use with Keytool, MokManager, and MokUtil
 *
-*  to compile: gcc hex-hashes-to-esl.c -o hex-hashes-to-esl
+*  Code supports Linux and Windows.
+*  To compile: gcc hex-hashes-to-esl.c -o hex-hashes-to-esl -std=c99
 */
+
+#define _CRT_SECURE_NO_DEPRECATE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,7 +103,7 @@ int main(int argc, char *argv[]) {
 //DO THE ACTUAL WORK BECAUSE OUR INPUT IS GOOD ENOUGH
   //construct the ESL data
   buflen = 16 + 4 + 4 + 4 + ((16 + 32) * (argc - 2));
-  buf = calloc(buflen, sizeof(char));
+  buf = (char*)calloc(buflen, sizeof(char));
 
   //insert EFI_GUID value for EFI_CERT_SHA256_GUID
   buf[0] = 38;
