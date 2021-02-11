@@ -292,7 +292,7 @@ int main(int argc, char *argv[]) {
   }
   
   //parse the infile
-  while(ftell(infile) < infilelen) {
+  while((ftell(infile) < infilelen) && (certcount < 1000)) {
     //read the EFI_GUID
     fread(efisigtype, 16, 1, infile);
 
