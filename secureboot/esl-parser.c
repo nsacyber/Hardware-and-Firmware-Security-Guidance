@@ -99,7 +99,7 @@ int parseHashes(bool debug, bool silent, FILE *infile, unsigned int hashcount, u
                 records = 0,
                 readcount = 0;
   unsigned char *buf = NULL,
-                outfilenameEX[strlen(outfilename + 4)];
+                outfilenameEX[MAX_FILENAME_LENGTH + 4] = "";
   FILE          *outfile = NULL;
 
   //read the structure sizing and record count info
@@ -111,7 +111,6 @@ int parseHashes(bool debug, bool silent, FILE *infile, unsigned int hashcount, u
   if(debug) printf("Parsing hash list\n  listsize %i, header %i, sigsize %i, records %i\n", listsize, headersize, sigsize, records);
   
   //add the txt extension to the filename
-  outfilenameEX[0] = '\0';
   strcat(outfilenameEX, outfilename);
   strcat(outfilenameEX, ".txt");
 
@@ -166,7 +165,7 @@ int parseCerts(bool debug, bool silent, FILE *infile, unsigned int certcount, un
                 records = 0,
                 readcount = 0;
   unsigned char *buf = NULL,
-                outfilenameEX[MAX_FILENAME_LENGTH + 7],
+                outfilenameEX[MAX_FILENAME_LENGTH + 7] = "",
                 temp[4];
   FILE          *outfile = NULL;
   
@@ -179,7 +178,6 @@ int parseCerts(bool debug, bool silent, FILE *infile, unsigned int certcount, un
   if(debug) printf("Parsing cert list\n  listsize %i, header %i, sigsize %i, records %i\n", listsize, headersize, sigsize, records);
 
   //null terminate the outfile name
-  outfilenameEX[0] = '\0';
   strcat(outfilenameEX, outfilename);
   
   //make a buffer big enough to contaiin each cert
