@@ -298,9 +298,9 @@ int main(int argc, char *argv[]) {
 
     //branch based off the first and last values of EFI_GUID (validate by values)
     if(efisigtype[0] == 38 && efisigtype[15] == 40)
-      hashcount = parseHashes(debug, infile, hashcount, outfilename);
+      hashcount = parseHashes(debug, silent, infile, hashcount, outfilename);
     else if(efisigtype[0] == 161 && efisigtype[15] == 114)
-      certcount = parseCerts(debug, infile, certcount, outfilename);
+      certcount = parseCerts(debug, silent, infile, certcount, outfilename);
     else {
       if(!silent) printf("Error: Malformed infile header structure.\n");
       fclose(infile);
