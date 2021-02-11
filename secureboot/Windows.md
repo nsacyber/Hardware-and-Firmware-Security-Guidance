@@ -72,10 +72,14 @@ $hashBytes | set-content shimx64.hsh -encoding byte
 ```
 
 ### 2.5. Create EFI Signature List (ESL)
+ESL files are particularly well-suited to storing multiple hashes. To create an ESL file containing multiple hashes, use this repository's [hex-hashes-to-esl.c](hex-hashes-to-esl.c) program. Not built-in utility within Windows is able to combine multiple SHA-256 hashes into an ESL. DER encoded certificates are normally recognized by EFI utilities and rarely need an ESL structure.
 
 ### 2.6. Extract Certificates and Hashes from an ESL
+No built-in utility for processing ESL files exists on Windows. We have created [esl-parser.c](esl-parser.c) to assist. The ESL parser is designed for minimal dependencies and to parse ESLs created on Windows, Linux, KeyTool, or other platforms. Hashes output from UEFI configuration (files with format HSH) may also be supported.
 
 ### 2.7. Backup Secure Boot Values
+Use PowerShell to extract the current Secure Boot values stored in the PK, KEK, DB, and DBX. The resulting files will be binary files in the EFI signature list (ESL) format.
+
 ```
 Get-SecureBootUEFI -Name PK -OutputFilePath PK.esl
 Get-SecureBootUEFI -Name KEK -OutputFilePath KEK.esl
@@ -84,11 +88,15 @@ Get-SecureBootUEFI -Name DBX -OutputFilePath DBX.esl
 ```
 
 ### 2.8. Check a Signature
+To see if an EFI binary has been signed, run the following command.
+
 ```
 Get-AuthenticodeSignature -FilePath shimx64.efi
 ```
 
 ### 2.9. Remove a Signature
+To remove an unwanted or unnecessary signature, run the following command. Removing an existing signature may be necessary prior to applying a new signature.
+
 ```
 signtool remove /s shimx64.efi
 ```
