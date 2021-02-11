@@ -27,7 +27,6 @@
 	- 3.1. Trust McAfee Kernel Modules via MOK
 	- 3.2. Distrust CHIPSEC Kernel Module via DBX
 	- 3.3. Compile a Custom Linux Distribution with Secure Boot Support
-	- 3.4. Create Role Separation via the DB
 
 ## 1\. Recipes
 ### 1\.1. Trust a Kernel Module
@@ -334,28 +333,3 @@ A custom Linux distribution or "spin" may involve 1) a custom bootloader, 2) a c
 	- **How to choose between DB and MOK:** DB/DBX exists in an individual endpoint's firmware implementation. Endpoints must be individually configured to have the same DB/DBX configuration. MOK/MOKX exists as part of Shim software. This means that MOK/MOKX has an element of portability not present with DB/DBX. For example, MOK/MOKX values on a live media disc are the same regardless of endpoint configuration.
 3. Identify the kernel. Does the kernel have a signature? Kernels straight from distribution repositories usually have signatures that can be validated by the distribution vendor's certificate. Custom-compiled kernels usually lack signatures unless a key is provided at compile time. The same key certificate pair can be used to sign and validate both a bootloader(s) and kernel. The certificate can be placed in MOK (if using Shim) or DB.
 4. Identify kernel modules. Are the modules signed by a trusted key certificate pair? Kernel modules will need to be signed by a trusted key certificate pair. The key may be provided at compile time to automate the process.
-
-```
-#!/bin/bash
-# Create a signing key certificate pair
-
-# Automagic branch
-# Provide the key certificate pair to the compilation process
-
-# Manual branch
-# Sign GRUB (assume that Shim + GRUB is in use)
-
-# Sign kernel
-
-# Sign kernel modules
-```
-
-### 3.4. Create Role Separation via the DB
-Assume that the organization's machines fall into one of the following roles: workstation, appraiser, and storage. Each machine runs a version of Linux.
-
-```
-#!/bin/bash
-# Create a signing key certificate pair for each role
-
-
-```
