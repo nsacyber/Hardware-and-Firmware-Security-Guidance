@@ -14,10 +14,6 @@
 	- 2.7. Backup Secure Boot Values
 	- 2.8. Check a Signature
 	- 2.9. Remove a Signature
-- 3\. Examples
-  - 3.1. Modify Hyper-V VM Secure Boot Values
-  - 3.2. Dual Boot a Custom Linux Distribution
-  - 3.3. Mitigate BootHole
   
 ## 1\. Recipes
 ### 1.1. Trust a Boot Component
