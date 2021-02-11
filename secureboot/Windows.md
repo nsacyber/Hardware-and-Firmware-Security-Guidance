@@ -100,10 +100,3 @@ To remove an unwanted or unnecessary signature, run the following command. Remov
 ```
 signtool remove /s shimx64.efi
 ```
-
-## 3\. Examples
-### 3.1. Modify Hyper-V VM Secure Boot Values
-
-### 3.2. Dual Boot a Custom Linux Distribution
-
-### 3.3. Mitigate BootHole
