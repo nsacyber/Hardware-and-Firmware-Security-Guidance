@@ -184,7 +184,7 @@ int parseCerts(bool debug, bool silent, FILE *infile, unsigned int certcount, un
   
   //make a buffer big enough to contaiin each cert
   buf = calloc(sigsize, sizeof(unsigned char));
-  for(int i = 0; i < records; i++) {
+  for(int i = 0; (i < records) && (certcount < 1000); i++) {
     //copy the entire originator UUID and cert into our buffer
     readcount = fread(buf, sigsize, 1, infile);
     if(debug) printf("  Parsing cert %i (%i bytes, %i read boolean)\n", certcount, sigsize, readcount);
