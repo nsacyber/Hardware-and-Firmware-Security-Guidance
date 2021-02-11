@@ -62,3 +62,10 @@ Secure Boot can be customized via the UEFI Configuration interfaces provided on 
 System vendors that do not support customization (or Secure Boot) include:
 - Apple
 - Microsoft
+
+## Helpful Scripts
+### [hex-hashes-to-esl](hex-hashes-to-esl.c)
+This hash handler differs from the utility offered in the efi-tools package by focusing on externally created hashes. Examples of hashes to input into this program include hashes produced by a UEFI configuration interface, hashes provided by a system vendor, and hashes copied from another machine. This program does not accept and hash EFI binariess -- all hashing operations must be done outside the program.
+
+### [esl-parser](esl-parser.c)
+Backing up Secure Boot values can result in lengthy ESL or binary files (that are probably already in ESL format) containing numerous hashes and/or certificates. Parsers primarily exist for Linux platforms. This parser differs from the offerings in efi-tools by being developed for use on Windows with Secure Boot binary files produced by PowerShell.
