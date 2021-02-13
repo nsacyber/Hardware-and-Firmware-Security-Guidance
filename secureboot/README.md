@@ -52,14 +52,14 @@ firmware DB Allow List. A corresponding extension of the DBX Deny List is known 
 Secure Boot can be customized via the UEFI Configuration interfaces provided on many systems today. System vendors that implement some level of customization support in firmware include:
 - Asus
 - [Dell EMC Servers](dellemc)
-- [Dell Workstations](dell)
+- Dell Workstations
 - [HPE Servers](hpe)
-- [HP Workstations](hp)
-- [Intel](intel)
+- HP Workstations
+- Intel
 - Lenovo
 - Toshiba
 
-System vendors that do not support customization (or Secure Boot) include:
+System vendors that do not support customization include:
 - Apple
 - Microsoft
 
