@@ -57,11 +57,8 @@ Secure Boot can be customized via the UEFI Configuration interfaces provided on 
 - HP Workstations
 - Intel
 - Lenovo
+- [Microsoft](surface)
 - Toshiba
-
-System vendors that do not support customization include:
-- Apple
-- Microsoft
 
 ## Helpful Scripts
 ### [hex-hashes-to-esl](hex-hashes-to-esl.c)
