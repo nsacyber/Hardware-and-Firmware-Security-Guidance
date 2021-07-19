@@ -78,7 +78,7 @@ Is the object to be trusted going to change periodically? Does the object need t
 3. Sign the bootloader, kernel, or other boot executable using sbsign the private key.
 4. Append the certificate to DB or MOK.
 
-Is the object to be trusted relatively static? Kernels and complex, configuration-interpreting bootloaders like GRUB are likely to change. However, some boot components -- such as Shim and purpose-built EFI applications -- may stay static for months or years at a time. If the boot object is mostly static, consier hashing an option by following these steps:
+Is the object to be trusted relatively static? Kernels and complex, configuration-interpreting bootloaders like GRUB are likely to change. However, some boot components -- such as Shim and purpose-built EFI applications -- may stay static for months or years at a time. If the boot object is mostly static, consider hashing an option by following these steps:
 
 
 ### 1\.4. Distrust a Boot Component (Bootloader, Kernel)
