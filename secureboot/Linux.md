@@ -188,13 +188,12 @@ Some drivers and installation packages have their own signing mechanism. A menti
 ### 2\.5. Create Hashes
 There are multiple ways to create SHA-256 hashes in Linux. Hexadecimal hashes are useful for use when creating ESL files. The following commands demonstrate two different ways to create a hex hash for the GRUB bootloader:
 ```
-openssl dgst -sha256 -hex -out grubosl.txt grubx64.efi
-
-pesign -h -i grubx64.efi | awk 'NF{print $NF}' > grubs2s.txt
+pesign -h -i grubx64.efi | cut -d " " -f 2 > grubs2s.txt
 ```
 Binary hashes may also be created. Some UEFI Configuration implementations expect binary hashes. Use the following commands to create a binary hash of the GRUB bootloader:
 ```
-openssl dgst -sha256 -binary -out grubosl.hsh grubx64.efi
+hash-to-efi-sig-list grubx64.efi grubx64.esl | cut -d " " -f 3 > grubx64.txt
+tail -c 32 grubx64.efi > grubx64.hsh
 ```
 Finally, hashes of EFI binaries can be immediately converted into single-hash ESL files. See the following section for details.
 
