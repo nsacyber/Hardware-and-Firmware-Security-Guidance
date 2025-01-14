@@ -64,7 +64,7 @@ $hashBytes = [byte[]]::new($hashString.length / 2)
 For($i=0; $i -lt $hashString.length; $i+=2) {
 	$hashBytes[$i/2] = [convert]::ToByte($hashString,Substring($i, 2), 16)
 	}
-$hashBytes | set-content shimx64.hsh -encoding byte
+[IO.File]::WriteAllBytes("$($pwd.Path)\shimx64.hsh",$hashBytes)
 ```
 
 ### 2.5. Create EFI Signature List (ESL)
