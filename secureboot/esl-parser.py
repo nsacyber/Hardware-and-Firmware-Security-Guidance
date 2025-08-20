@@ -99,7 +99,7 @@ def main():
             for i in range(total_hashes):
                 hash_name = f"{args.out_prefix}{hash_counter}.hsh"
                 out_hash = byte_array[head_index + 28 + sig_header_size + (i * sig_size) + 16:
-                                      head_index + 28 + sig_header_size + (i * sig_size) + 47]
+                                      head_index + 28 + sig_header_size + (i * sig_size) + 48]
                 write_bytes_to_file(hash_name, out_hash)
                 if args.debug:
                     print(f"Wrote hash {hash_name}")
