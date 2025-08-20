@@ -37,7 +37,7 @@ def main():
     hash_counter = 0
 
     if args.debug:
-        print("Input file size is {input_length}")
+        print(f"Input file size is {input_length}")
 
     #there may be multiple ESL structures concatenated together in the input file
     while head_index < input_length:
