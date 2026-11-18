@@ -34,10 +34,20 @@ Systems that already have a PK may perform runtime updates. Any changes to the K
 
 ## 2\. Scripts and Commands
 ### 2.1. Create Certificates and Keys
-The built-in makecert command can be used instead of OpenSSL. Use the following commands to create a KEK certificate and a DB certificate. CER denotes DER-encoded certificates. Keys are stored as PVK private keys.
+The makecert command can be used instead of OpenSSL. Makecert is not built into Windows; it is installed in the Bin folder of the [Windows SDK](https://developer.microsoft.com/windows/downloads/windows-sdk/) and is [deprecated](https://learn.microsoft.com/windows/win32/seccrypto/makecert). Use the following commands to create a KEK certificate and a DB certificate. CER denotes DER-encoded certificates. Keys are stored as PVK private keys.
 ```
 makecert -n "CN=Custom KEK" -a sha256 -r -sv KEK.pvk KEK.cer
 makecert -n "CN=Custom DBK" -a sha256 -r -sv DBK.pvk DBK.cer
+```
+Without the Windows SDK, use the PowerShell [New-SelfSignedCertificate](https://learn.microsoft.com/powershell/module/pki/new-selfsignedcertificate) cmdlet. The following commands create the same KEK and DB certificates in the current user's certificate store, export each certificate as a DER-encoded CER file and each private key with its certificate as a password-protected PFX file, then delete the certificate and key from the store. The PFX files take the place of the files created in section 2.2.
+```
+$password = Read-Host -AsSecureString -Prompt "PFX password"
+foreach ($name in "KEK", "DBK") {
+	$cert = New-SelfSignedCertificate -Subject "CN=Custom $name" -Type CodeSigningCert -KeyAlgorithm RSA -KeyLength 2048 -HashAlgorithm SHA256 -KeyExportPolicy Exportable -NotAfter (Get-Date).AddYears(10) -CertStoreLocation Cert:\CurrentUser\My
+	Export-Certificate -Cert $cert -FilePath "$name.cer" -Type CERT
+	Export-PfxCertificate -Cert $cert -FilePath "$name.pfx" -Password $password
+	Remove-Item "Cert:\CurrentUser\My\$($cert.Thumbprint)" -DeleteKey
+}
 ```
 
 ### 2.2. Convert from PVK to PFX
@@ -59,10 +69,11 @@ The alternative to signing bootable content is to create a hash. Hashes must be 
 Earlier versions of this repository and the UEFI Secure Boot Customization technical report erroneously advise the use of sha256sum, get-filehash, and other whole-file hashing mechanisms. Only use solutions that are aware of the PE COFF file format and Microsoft Authenticode signing paradigms.
 ```
 $hashString = Get-AppLockerFileInformation shimx64.efi | select -ExpandProperty hash | select -ExpandProperty HashDataString
-$hashString.Trim("0x") > shimx64.txt
+$hashString = $hashString -replace '^0x', ''
+$hashString > shimx64.txt
 $hashBytes = [byte[]]::new($hashString.length / 2)
 For($i=0; $i -lt $hashString.length; $i+=2) {
-	$hashBytes[$i/2] = [convert]::ToByte($hashString,Substring($i, 2), 16)
+	$hashBytes[$i/2] = [convert]::ToByte($hashString.Substring($i, 2), 16)
 	}
 $hashBytes | set-content shimx64.hsh -encoding byte
 ```

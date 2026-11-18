@@ -38,7 +38,7 @@ To add Secure Boot support for a kernel module that does not have a signature, f
 
 1. Create an RSA-2048 certificate and private key.
 1. Convert the certificate into DER/CER format for use with DB or MOK.
-1. Sign the kernel module using kmodsign and the private key.
+1. Sign the kernel module using kmodsign (Ubuntu) or sign-file (Fedora/RHEL) and the private key.
 1. Append the certificate to DB or MOK.
 
 To add Secure Boot support for a kernel module that is signed by the vendor:
@@ -162,13 +162,14 @@ openssl x509 -outform der -in DBK.crt -out DBK.cer
 
 ### 2\.3. Sign an EFI Binary or Bootloader
 
-First, check to see if a signature is already present. Some utilities and implementations allow for binaries to have multiple signatures, but testing revealed that UEFI only understands the first signature. Assume that we are checking the signature of the Shim bootloader.
+First, check to see if a signature is already present. Some utilities and implementations allow for binaries to have multiple signatures, but testing revealed that UEFI only understands the first signature. Assume that we are checking the signature of the Shim bootloader. The commands in this section expect shimx64.efi in the current directory. Shim is normally installed in a folder named after the distribution in the EFI System Partition, for example /boot/efi/EFI/fedora/shimx64.efi on Fedora; copy it to a working directory first.
 ```
-pesign -S -i=shimx64.efi
+pesign -S -i shimx64.efi
 ```
-Second, remove a signature if one is present. Shim normally features a Microsoft UEFI Third Party Marketplace CA 2011 signature. Another bootloader, GRUB, may feature a signature from Microsoft, Red Hat, Canonical, or another source. For this example we will continue using Shim.
+Second, remove a signature if one is present. Shim normally features a Microsoft UEFI Third Party Marketplace CA 2011 signature. Another bootloader, GRUB, may feature a signature from Microsoft, Red Hat, Canonical, or another source. For this example we will continue using Shim. Pesign cannot write to its input file, and -u 0 selects the first signature.
 ```
-pesign -r -i=shimx64.efi -o=shimx64.efi
+pesign -r -u 0 -i shimx64.efi -o shimx64-nosig.efi
+mv shimx64-nosig.efi shimx64.efi
 ```
 Third, sign the binary using your DBK. In this example, DBK.key is the key created in section 2.1. The code below assumes that sbsigntool outputs the signed Shim as shimx64.efi.signed. UEFI will not recognize a .signed file extension so the mv commands chang extensions.
 ```
@@ -182,6 +183,10 @@ mv shimx64.efi.signed shimx64.efi
 Signing a driver or kernel module is different than signing an EFI binary. In this example, a kernel module intended for use with an anti-malware product is to be signed. The same commands are commonly used for hypervisor drivers.
 ```
 kmodsign sha512 DBK.key DBK.der antimalware.ko
+```
+Kmodsign is only available on Ubuntu (package sbsigntool). On Fedora and RHEL, use the kernel's sign-file program, which is installed by the kernel-devel package for the matching kernel version and takes the same arguments. See the kernel's [module signing](https://docs.kernel.org/admin-guide/module-signing.html) documentation.
+```
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha512 DBK.key DBK.der antimalware.ko
 ```
 Some drivers and installation packages have their own signing mechanism. A mention of DKMS may be present. If so, use the DKB.key file where mentions of .priv or private key are found. Use the DBK.der file where certificate mentions are found.
 
@@ -244,15 +249,16 @@ efi-readvar -v dbx -o dbx.old.esl
 ### 2\.9. Check a Signature
 Pesign is used to check signatures. The signer's common name provides insight into which specific certificate and key pair was used to attach a signature. Some executables may feature multiple signatures. To check a signature on shimx64.efi, use the example code:
 ```
-pesign -S -i=shimx64.efi
+pesign -S -i shimx64.efi
 ```
 
 ### 2\.10. Remove a Signature
 Removing a signature may be necessary when changes are made to the certificates trusted by Secure Boot. In the below example. shimx64.efi's Microsoft signature will be removed (assuming the shimx64.efi provided by a mainstream Linux distribution is used). Removing a different vendor's signature may also be necessary when implementing Secure Boot customization. Only the first signature -- in the event multiple signatures are present -- is utilized by Secure Boot.
 
-To remove a signature on the example shimx64.efi, use the following command:
+To remove the first signature on the example shimx64.efi, use the following commands:
 ```
-pesign -r -i=shimx64.efi -o=shimx64.efi
+pesign -r -u 0 -i shimx64.efi -o shimx64-nosig.efi
+mv shimx64-nosig.efi shimx64.efi
 ```
 
 ## 3\. Examples
@@ -283,6 +289,7 @@ elif [ "$1" == "mok" ]; then
 
 elif [ "$1" == "sign" ]; then
 	# Sign the kernel modules (do this on every update)
+	# On Fedora/RHEL replace kmodsign with /usr/src/kernels/$(uname -r)/scripts/sign-file
 	echo "Sign fileaccess_mod.ko..."
 	kmodsign sha256 dbk.key dbk.cer fileaccess_mod.ko
 
